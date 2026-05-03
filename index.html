@@ -751,8 +751,118 @@
   </defs>
 </svg>
 
+<!-- ═════════ FONDO DE ALDEA DE MONTAÑA (fixed, detrás de todo) ═════════ -->
+<svg class="world-bg" viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <!-- montañas lejanas (silueta clara) -->
+  <polygon points="0,100 50,55 80,80 130,40 170,75 210,50 260,85 310,60 320,75 320,180 0,180" fill="#3e2f6e" opacity="0.85"/>
+  <!-- nieve en las puntas lejanas -->
+  <polygon points="125,42 130,40 135,46 130,48" fill="#f4e8d0" opacity="0.75"/>
+  <polygon points="208,52 210,50 213,55 211,57" fill="#f4e8d0" opacity="0.7"/>
+  <polygon points="307,62 310,60 314,68 311,70" fill="#f4e8d0" opacity="0.7"/>
+
+  <!-- montañas medias -->
+  <polygon points="0,120 30,90 60,110 100,75 140,105 180,80 220,110 260,85 320,115 320,180 0,180" fill="#2c1f44" opacity="0.95"/>
+  <polygon points="98,77 100,75 104,82 101,84" fill="#f4e8d0" opacity="0.85"/>
+  <polygon points="178,82 180,80 184,88 181,90" fill="#f4e8d0" opacity="0.85"/>
+  <polygon points="258,87 260,85 264,93 261,95" fill="#f4e8d0" opacity="0.85"/>
+
+  <!-- lago -->
+  <rect x="0" y="135" width="320" height="14" fill="#5b8dff" opacity="0.6"/>
+  <rect x="0" y="138" width="320" height="1" fill="#5fffec" opacity="0.4"/>
+  <rect x="20" y="142" width="40" height="1" fill="#fff" opacity="0.3"/>
+  <rect x="180" y="140" width="60" height="1" fill="#fff" opacity="0.25"/>
+
+  <!-- ribera y suelo -->
+  <rect x="0" y="149" width="320" height="31" fill="#1a1432" opacity="0.9"/>
+  <rect x="0" y="149" width="320" height="2" fill="#3e2f6e"/>
+
+  <!-- bosque pixel art (línea de pinos detrás) -->
+  <g fill="#0d8a73">
+    <polygon points="0,135 5,128 10,135"/>
+    <polygon points="8,135 14,124 20,135"/>
+    <polygon points="22,135 26,128 30,135"/>
+    <polygon points="32,135 38,122 44,135"/>
+    <polygon points="46,135 50,128 54,135"/>
+    <polygon points="58,135 64,125 70,135"/>
+    <polygon points="72,135 76,128 80,135"/>
+    <polygon points="218,135 224,124 230,135"/>
+    <polygon points="232,135 236,128 240,135"/>
+    <polygon points="244,135 250,123 256,135"/>
+    <polygon points="258,135 262,128 266,135"/>
+    <polygon points="270,135 276,125 282,135"/>
+    <polygon points="285,135 291,127 297,135"/>
+    <polygon points="300,135 304,129 308,135"/>
+    <polygon points="312,135 318,126 320,130 320,135"/>
+  </g>
+  <g fill="#2fb05a">
+    <polygon points="2,135 6,130 10,135"/>
+    <polygon points="34,135 38,127 42,135"/>
+    <polygon points="60,135 64,128 68,135"/>
+    <polygon points="220,135 224,128 228,135"/>
+    <polygon points="246,135 250,127 254,135"/>
+    <polygon points="272,135 276,129 280,135"/>
+    <polygon points="302,135 306,131 310,135"/>
+  </g>
+
+  <!-- casitas de aldea (3-4 dispersas con techos triangulares y ventana iluminada) -->
+  <g>
+    <!-- casa 1 -->
+    <rect x="92" y="138" width="14" height="11" fill="#5e3a1a"/>
+    <polygon points="90,138 99,131 108,138" fill="#a8531a"/>
+    <rect x="96" y="142" width="3" height="3" fill="#ffb13c"/>
+    <rect x="100" y="142" width="3" height="3" fill="#ffb13c"/>
+    <rect x="98" y="146" width="2" height="3" fill="#1a1432"/>
+
+    <!-- casa 2 -->
+    <rect x="120" y="140" width="11" height="9" fill="#9c2954"/>
+    <polygon points="118,140 125,134 132,140" fill="#c93b76"/>
+    <rect x="123" y="143" width="2" height="2" fill="#ffb13c"/>
+    <rect x="127" y="143" width="2" height="2" fill="#ffb13c"/>
+    <rect x="124" y="146" width="2" height="3" fill="#1a1432"/>
+
+    <!-- casa 3 (más grande, central) -->
+    <rect x="148" y="135" width="18" height="14" fill="#0d8a73"/>
+    <polygon points="146,135 157,127 168,135" fill="#5e3a1a"/>
+    <rect x="151" y="139" width="3" height="3" fill="#ffb13c"/>
+    <rect x="156" y="139" width="3" height="3" fill="#ffb13c"/>
+    <rect x="161" y="139" width="3" height="3" fill="#ffb13c"/>
+    <rect x="156" y="144" width="3" height="5" fill="#1a1432"/>
+    <!-- chimenea con humo -->
+    <rect x="162" y="129" width="2" height="4" fill="#5e3a1a"/>
+    <rect x="161" y="125" width="3" height="3" fill="#cccccc" opacity="0.5"/>
+    <rect x="160" y="121" width="4" height="3" fill="#cccccc" opacity="0.35"/>
+
+    <!-- casa 4 -->
+    <rect x="185" y="139" width="12" height="10" fill="#5b41a3"/>
+    <polygon points="183,139 191,133 199,139" fill="#3e2f6e"/>
+    <rect x="188" y="142" width="2" height="2" fill="#ffb13c"/>
+    <rect x="192" y="142" width="2" height="2" fill="#ffb13c"/>
+    <rect x="189" y="145" width="2" height="4" fill="#1a1432"/>
+  </g>
+
+  <!-- estrellas en el cielo -->
+  <g fill="#f4e8d0">
+    <rect x="40" y="20" width="1" height="1"/>
+    <rect x="80" y="15" width="1" height="1"/>
+    <rect x="140" y="25" width="1" height="1"/>
+    <rect x="200" y="18" width="1" height="1"/>
+    <rect x="270" y="30" width="1" height="1"/>
+    <rect x="60" y="35" width="1" height="1" opacity="0.7"/>
+    <rect x="180" y="8" width="1" height="1" opacity="0.6"/>
+    <rect x="240" y="22" width="1" height="1" opacity="0.7"/>
+  </g>
+  <!-- luna pixel -->
+  <g>
+    <rect x="40" y="22" width="6" height="6" fill="#f4e8d0" opacity="0.85"/>
+    <rect x="42" y="20" width="2" height="2" fill="#f4e8d0" opacity="0.85"/>
+    <rect x="46" y="24" width="2" height="2" fill="#f4e8d0" opacity="0.85"/>
+    <rect x="42" y="28" width="2" height="2" fill="#f4e8d0" opacity="0.7"/>
+    <rect x="38" y="24" width="2" height="2" fill="#f4e8d0" opacity="0.7"/>
+  </g>
+</svg>
+
 <button class="audio-mute" id="audio-toggle" aria-label="Música" title="Música">🎵</button>
-<button class="skip-mini" id="restart-btn" style="bottom: 3rem;" hidden>↺ EMPEZAR DE NUEVO</button>
+<button class="skip-mini" id="restart-btn" style="left: 1rem; right: auto;" hidden>↺ DE NUEVO</button>
 <button class="skip-mini" id="skip-btn" hidden>SKIP ▶</button>
 
 <main class="stage" id="stage"></main>
