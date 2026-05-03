@@ -1390,6 +1390,33 @@ document.getElementById('skip-btn').addEventListener('click', () => {
   if (confirm('¿Saltar al final?')) setScene('victory');
 });
 
+/* atajos de teclado: Enter / Espacio / → avanzan al botón primario visible */
+document.addEventListener('keydown', (e) => {
+  // ignorar si está escribiendo en un input
+  if (e.target.matches('input, textarea')) return;
+
+  if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    // 1) press-start si está activo
+    const ps = document.getElementById('press-start');
+    if (ps && ps.offsetParent !== null) { ps.click(); return; }
+    // 2) botón primario visible
+    const primary = document.querySelector('.btn-arcade.primary, .btn-arcade.danger, .btn-arcade.warn');
+    if (primary && primary.offsetParent !== null) { primary.click(); return; }
+    // 3) cualquier btn-arcade visible (continuar)
+    const any = document.querySelector('.btn-arcade');
+    if (any && any.offsetParent !== null) { any.click(); return; }
+    // 4) en boss fight: tirar primer papel disponible
+    const paper = document.querySelector('.paper-btn:not(:disabled)');
+    if (paper) { paper.click(); return; }
+  }
+
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    document.getElementById('skip-btn')?.click();
+  }
+});
+
 /* ═══════════════════════════════════════════════════════════════════════
    AUDIO · chiptune + sfx
    ═══════════════════════════════════════════════════════════════════════ */
