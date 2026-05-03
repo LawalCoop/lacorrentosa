@@ -162,11 +162,13 @@ body::after {
 }
 
 .dialog {
-  font-family: var(--f-jp);
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.55;
+  font-family: var(--f-mono);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.4;
   color: var(--cream);
+  letter-spacing: 0.02em;
+  min-height: 7.5em;
 }
 
 /* ═════════════════════════════════════════════════════════════════════════
@@ -198,9 +200,11 @@ body::after {
 .dialog-box {
   background: rgba(15, 13, 35, 0.95);
   border: 4px solid var(--cream);
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 1.25rem 1.25rem 1.5rem;
   box-shadow: inset 0 0 0 2px var(--sky-2);
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .dialog-box::after {
@@ -718,7 +722,7 @@ body::after {
   body { font-size: 16px; }
   .title-arcade { font-size: 1.4rem !important; }
   .subtitle-mono { font-size: 1.1rem; }
-  .dialog { font-size: 1.05rem; }
+  .dialog { font-size: 1.3rem; min-height: 8em; }
   .panel { padding: 1.1rem 0.9rem; }
   .villain-sprite { width: 110px; height: 110px; }
   .sprite { width: 56px; height: 56px; }
