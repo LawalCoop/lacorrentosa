@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1f1d3a">
+<title>La Correntosa · Una historia mutualista</title>
+<meta name="description" content="Conocé la primera mutual de Villa La Angostura jugando esta historia interactiva. Una visual novel pixel art de 5-10 minutos.">
+
+<meta property="og:title" content="La Correntosa · Una historia mutualista">
+<meta property="og:description" content="Una visual novel pixel art para conocer la primera mutual de Villa La Angostura.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og-image.png">
+<meta property="og:locale" content="es_AR">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="La Correntosa · Una historia mutualista">
+<meta name="twitter:description" content="Una visual novel pixel art para conocer la primera mutual de Villa La Angostura.">
+<meta name="twitter:image" content="og-image.png">
+
+<link rel="stylesheet" href="arcade.css">
+
+<style>
+  /* layout específico del juego */
+  .stage {
+    position: relative;
+    z-index: 5;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1rem;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  @media (min-width: 1024px) { .stage { max-width: 1100px; padding: 1.5rem; } }
+
+  .scene { display: none; animation: fade-in 0.4s ease-out; }
+  .scene.active { display: block; }
+  @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* layout de personajes en escena 1: dos vecines en mesa */
+  .escena-pandemia {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    min-height: 140px;
+  }
+  .mesa-pixel {
+    width: 80px; height: 16px;
+    background: linear-gradient(180deg, var(--cream-2) 0%, #8a6c3a 100%);
+    border: 2px solid var(--ink);
+    margin: 0 -8px;
+    align-self: flex-end;
+    position: relative;
+  }
+
+  /* sumar asociados — grilla animada */
+  .asociadxs-stage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    margin: 1rem 0;
+    min-height: 100px;
+  }
+  .asociadxs-stage .actor {
+    animation: drop-in 0.3s ease-out;
+  }
+  @keyframes drop-in {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* productores aparecen en grupo */
+  .productores-stage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .productores-stage .actor svg { width: 56px; height: 56px; }
+
+  /* contador grande con label */
+  .counter-block {
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .counter-label {
+    font-family: var(--f-mono);
+    font-size: 1rem;
+    color: var(--cream-2);
+    letter-spacing: 0.05em;
+    margin-top: 0.4rem;
+  }
+
+  /* niño/a comiendo */
+  .nino-comiendo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 1rem 0;
+  }
+  .nino-comiendo .heart-burst {
+    font-size: 1.4rem;
+    color: var(--neon-pink);
+    animation: pulse 1s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+</style>
+
+</head>
+<body>
+
+<!-- ═════════ SPRITES SVG (defs reusables) ═════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- Mesa · líder rosa con pañuelo (reusa del herramienta interna) -->
+    <symbol id="sp-mesa" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="6" fill="#c93b76"/>
+      <rect x="6" y="5" width="20" height="6" fill="#ff6b9d"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="10" width="6" height="1" fill="#fff"/>
+      <rect x="13" y="11" width="6" height="1" fill="#ff6b9d"/>
+      <rect x="14" y="16" width="4" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#ff6b9d"/>
+      <rect x="9" y="19" width="14" height="1" fill="#c93b76"/>
+      <rect x="14" y="22" width="4" height="3" fill="#fff"/>
+      <rect x="15" y="21" width="2" height="5" fill="#fff"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1f1d3a"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1f1d3a"/>
+    </symbol>
+
+    <!-- Institucional · azul -->
+    <symbol id="sp-instit" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="6" fill="#1c3380"/>
+      <rect x="7" y="5" width="18" height="5" fill="#3656b8"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="10" y="13" width="4" height="3" fill="#fff"/>
+      <rect x="18" y="13" width="4" height="3" fill="#fff"/>
+      <rect x="14" y="14" width="4" height="1" fill="#5b8dff"/>
+      <rect x="11" y="14" width="2" height="2" fill="#1a1432"/>
+      <rect x="19" y="14" width="2" height="2" fill="#1a1432"/>
+      <rect x="14" y="16" width="4" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#5b8dff"/>
+      <rect x="9" y="19" width="14" height="1" fill="#1c3380"/>
+      <rect x="13" y="20" width="6" height="6" fill="#fff"/>
+      <rect x="14" y="22" width="4" height="1" fill="#5b8dff"/>
+      <rect x="14" y="24" width="4" height="1" fill="#5b8dff"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1f1d3a"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1f1d3a"/>
+    </symbol>
+
+    <!-- Comunicación · naranja con megáfono -->
+    <symbol id="sp-comu" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="6" fill="#a8531a"/>
+      <rect x="7" y="5" width="18" height="5" fill="#ff9446"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="16" width="6" height="2" fill="#9c2954"/>
+      <rect x="14" y="17" width="4" height="1" fill="#ff6b9d"/>
+      <rect x="9" y="18" width="14" height="10" fill="#ff9446"/>
+      <rect x="9" y="19" width="14" height="1" fill="#a8531a"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="14" width="6" height="3" fill="#ffb13c"/>
+      <rect x="22" y="15" width="2" height="1" fill="#fdd7b3"/>
+      <rect x="29" y="13" width="1" height="5" fill="#ffb13c"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1f1d3a"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1f1d3a"/>
+    </symbol>
+
+    <!-- Territorio · teal con bandera -->
+    <symbol id="sp-terr" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="6" fill="#0d8a73"/>
+      <rect x="7" y="5" width="18" height="5" fill="#45dec0"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#45dec0"/>
+      <rect x="9" y="19" width="14" height="1" fill="#0d8a73"/>
+      <rect x="3" y="18" width="6" height="8" fill="#a8531a"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="25" y="2" width="1" height="14" fill="#fff"/>
+      <rect x="26" y="3" width="5" height="4" fill="#ff6b9d"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1f1d3a"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1f1d3a"/>
+    </symbol>
+
+    <!-- Vecino/a 1: pelo negro, remera verde, normal -->
+    <symbol id="sp-v1" viewBox="0 0 32 32">
+      <rect x="9" y="4" width="14" height="6" fill="#1a1432"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="9" y="9" width="1" height="6" fill="#1a1432"/>
+      <rect x="22" y="9" width="1" height="6" fill="#1a1432"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#2fb05a"/>
+      <rect x="9" y="19" width="14" height="1" fill="#1a6b39"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Vecino/a 2: pelo castaño, vincha amarilla -->
+    <symbol id="sp-v2" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="3" fill="#5e3a1a"/>
+      <rect x="7" y="6" width="18" height="2" fill="#ffb13c"/>
+      <rect x="9" y="8" width="14" height="2" fill="#8a5224"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="9" y="11" width="1" height="6" fill="#5e3a1a"/>
+      <rect x="22" y="11" width="1" height="6" fill="#5e3a1a"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="16" width="6" height="2" fill="#9c2954"/>
+      <rect x="14" y="17" width="4" height="1" fill="#fff"/>
+      <rect x="9" y="18" width="14" height="10" fill="#ff6b9d"/>
+      <rect x="9" y="19" width="14" height="1" fill="#c93b76"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Vecino/a 3: con boina y barba -->
+    <symbol id="sp-v3" viewBox="0 0 32 32">
+      <rect x="6" y="4" width="20" height="3" fill="#3e2f6e"/>
+      <rect x="6" y="7" width="20" height="2" fill="#5b41a3"/>
+      <rect x="20" y="3" width="3" height="2" fill="#ff6b9d"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="11" y="17" width="10" height="2" fill="#3a2a1a"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#a8531a"/>
+      <rect x="9" y="19" width="14" height="1" fill="#5e3416"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1a1432"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1a1432"/>
+    </symbol>
+
+    <!-- Vecino/a 4: pelo lacio largo, remera celeste -->
+    <symbol id="sp-v4" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="6" fill="#5b41a3"/>
+      <rect x="7" y="6" width="2" height="14" fill="#5b41a3"/>
+      <rect x="23" y="6" width="2" height="14" fill="#5b41a3"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#5fffec"/>
+      <rect x="9" y="19" width="14" height="1" fill="#0d8a73"/>
+      <rect x="14" y="22" width="4" height="2" fill="#fff"/>
+      <rect x="15" y="21" width="2" height="4" fill="#fff"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Vecino/a 5: gorra y campera -->
+    <symbol id="sp-v5" viewBox="0 0 32 32">
+      <rect x="6" y="4" width="20" height="3" fill="#ff4757"/>
+      <rect x="3" y="6" width="6" height="2" fill="#ff4757"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#ffb13c"/>
+      <rect x="9" y="19" width="14" height="1" fill="#a87216"/>
+      <rect x="14" y="20" width="4" height="6" fill="#5e3a1a"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1a1432"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1a1432"/>
+    </symbol>
+
+    <!-- Productor con tomates -->
+    <symbol id="sp-prod-tomate" viewBox="0 0 32 32">
+      <rect x="9" y="4" width="14" height="6" fill="#5e3a1a"/>
+      <rect x="10" y="9" width="12" height="9" fill="#e8a87c"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#2fb05a"/>
+      <rect x="9" y="19" width="14" height="1" fill="#1a6b39"/>
+      <!-- canasta con tomates -->
+      <rect x="11" y="22" width="10" height="5" fill="#a8531a"/>
+      <rect x="11" y="22" width="10" height="1" fill="#5e3416"/>
+      <rect x="12" y="21" width="2" height="2" fill="#ff4757"/>
+      <rect x="15" y="20" width="2" height="3" fill="#ff4757"/>
+      <rect x="18" y="21" width="2" height="2" fill="#ff4757"/>
+      <rect x="13" y="20" width="1" height="1" fill="#2fb05a"/>
+      <rect x="16" y="19" width="1" height="1" fill="#2fb05a"/>
+      <rect x="6" y="20" width="3" height="6" fill="#e8a87c"/>
+      <rect x="23" y="20" width="3" height="6" fill="#e8a87c"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Productor con miel -->
+    <symbol id="sp-prod-miel" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="6" fill="#ffb13c"/>
+      <rect x="7" y="6" width="18" height="2" fill="#a87216"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#ffb13c"/>
+      <rect x="9" y="19" width="14" height="1" fill="#a87216"/>
+      <!-- frasco de miel -->
+      <rect x="13" y="20" width="6" height="6" fill="#a87216"/>
+      <rect x="13" y="20" width="6" height="1" fill="#5e3a1a"/>
+      <rect x="14" y="22" width="4" height="3" fill="#ffb13c"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Productor con verdura de hoja -->
+    <symbol id="sp-prod-hoja" viewBox="0 0 32 32">
+      <rect x="9" y="4" width="14" height="6" fill="#0d8a73"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="9" y="18" width="14" height="10" fill="#45dec0"/>
+      <rect x="9" y="19" width="14" height="1" fill="#0d8a73"/>
+      <!-- canasta con verdura de hoja -->
+      <rect x="11" y="22" width="10" height="5" fill="#a8531a"/>
+      <rect x="12" y="20" width="2" height="2" fill="#2fb05a"/>
+      <rect x="14" y="18" width="3" height="4" fill="#2fb05a"/>
+      <rect x="17" y="19" width="3" height="3" fill="#2fb05a"/>
+      <rect x="18" y="20" width="2" height="2" fill="#58e87e"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1a1432"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1a1432"/>
+    </symbol>
+
+    <!-- Niño/a comiendo verdura -->
+    <symbol id="sp-nino" viewBox="0 0 32 32">
+      <rect x="10" y="6" width="12" height="5" fill="#a8531a"/>
+      <rect x="11" y="11" width="10" height="8" fill="#fdd7b3"/>
+      <rect x="12" y="14" width="2" height="3" fill="#1a1432"/>
+      <rect x="18" y="14" width="2" height="3" fill="#1a1432"/>
+      <rect x="13" y="16" width="6" height="1" fill="#9c2954"/>
+      <rect x="13" y="17" width="6" height="2" fill="#9c2954"/>
+      <rect x="14" y="18" width="4" height="1" fill="#fff"/>
+      <!-- bocadito de verdura -->
+      <rect x="20" y="14" width="3" height="3" fill="#2fb05a"/>
+      <rect x="22" y="13" width="2" height="2" fill="#58e87e"/>
+      <rect x="10" y="19" width="12" height="9" fill="#5b8dff"/>
+      <rect x="10" y="20" width="12" height="1" fill="#1c3380"/>
+      <rect x="7" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="22" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="11" y="28" width="4" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="4" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Despensa etapa 1: 2 containers -->
+    <symbol id="sp-desp-1" viewBox="0 0 64 32">
+      <rect x="2" y="14" width="28" height="14" fill="#3656b8"/>
+      <rect x="2" y="14" width="28" height="2" fill="#1c3380"/>
+      <rect x="2" y="26" width="28" height="2" fill="#1c3380"/>
+      <rect x="6" y="18" width="2" height="6" fill="#1c3380"/>
+      <rect x="11" y="18" width="2" height="6" fill="#1c3380"/>
+      <rect x="16" y="18" width="2" height="6" fill="#1c3380"/>
+      <rect x="21" y="18" width="2" height="6" fill="#1c3380"/>
+      <rect x="34" y="14" width="28" height="14" fill="#ff9446"/>
+      <rect x="34" y="14" width="28" height="2" fill="#a8531a"/>
+      <rect x="34" y="26" width="28" height="2" fill="#a8531a"/>
+      <rect x="38" y="18" width="2" height="6" fill="#a8531a"/>
+      <rect x="43" y="18" width="2" height="6" fill="#a8531a"/>
+      <rect x="48" y="18" width="2" height="6" fill="#a8531a"/>
+      <rect x="53" y="18" width="2" height="6" fill="#a8531a"/>
+      <rect x="0" y="28" width="64" height="2" fill="#5e3a1a"/>
+      <rect x="0" y="30" width="64" height="2" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Despensa etapa 2: containers + techo -->
+    <symbol id="sp-desp-2" viewBox="0 0 64 32">
+      <!-- techo a dos aguas -->
+      <polygon points="2,12 32,4 62,12 62,14 2,14" fill="#a8531a"/>
+      <polygon points="2,12 32,4 62,12" fill="#c47230"/>
+      <rect x="30" y="6" width="4" height="2" fill="#5e3416"/>
+      <!-- containers debajo -->
+      <rect x="2" y="14" width="28" height="14" fill="#3656b8"/>
+      <rect x="2" y="14" width="28" height="2" fill="#1c3380"/>
+      <rect x="2" y="26" width="28" height="2" fill="#1c3380"/>
+      <rect x="34" y="14" width="28" height="14" fill="#ff9446"/>
+      <rect x="34" y="14" width="28" height="2" fill="#a8531a"/>
+      <rect x="34" y="26" width="28" height="2" fill="#a8531a"/>
+      <rect x="0" y="28" width="64" height="2" fill="#5e3a1a"/>
+      <rect x="0" y="30" width="64" height="2" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Despensa etapa 3: containers + techo + paredes cerradas -->
+    <symbol id="sp-desp-3" viewBox="0 0 64 32">
+      <polygon points="2,12 32,4 62,12 62,14 2,14" fill="#a8531a"/>
+      <polygon points="2,12 32,4 62,12" fill="#c47230"/>
+      <rect x="30" y="6" width="4" height="2" fill="#5e3416"/>
+      <rect x="2" y="14" width="60" height="14" fill="#fdd7b3"/>
+      <rect x="2" y="14" width="60" height="2" fill="#a87216"/>
+      <rect x="2" y="26" width="60" height="2" fill="#a87216"/>
+      <!-- ventanas -->
+      <rect x="8" y="17" width="6" height="4" fill="#5fffec"/>
+      <rect x="8" y="17" width="6" height="1" fill="#5b8dff"/>
+      <rect x="11" y="17" width="1" height="4" fill="#5b8dff"/>
+      <rect x="20" y="17" width="6" height="4" fill="#5fffec"/>
+      <rect x="20" y="17" width="6" height="1" fill="#5b8dff"/>
+      <rect x="23" y="17" width="1" height="4" fill="#5b8dff"/>
+      <rect x="38" y="17" width="6" height="4" fill="#5fffec"/>
+      <rect x="38" y="17" width="6" height="1" fill="#5b8dff"/>
+      <rect x="41" y="17" width="1" height="4" fill="#5b8dff"/>
+      <rect x="50" y="17" width="6" height="4" fill="#5fffec"/>
+      <rect x="50" y="17" width="6" height="1" fill="#5b8dff"/>
+      <rect x="53" y="17" width="1" height="4" fill="#5b8dff"/>
+      <!-- puerta -->
+      <rect x="29" y="20" width="6" height="8" fill="#5e3416"/>
+      <rect x="29" y="20" width="6" height="1" fill="#3a200d"/>
+      <rect x="32" y="24" width="1" height="1" fill="#ffb13c"/>
+      <rect x="0" y="28" width="64" height="2" fill="#5e3a1a"/>
+      <rect x="0" y="30" width="64" height="2" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Despensa etapa 4: ampliada con cartel y deck -->
+    <symbol id="sp-desp-4" viewBox="0 0 64 32">
+      <polygon points="0,12 32,2 64,12 64,14 0,14" fill="#a8531a"/>
+      <polygon points="0,12 32,2 64,12" fill="#c47230"/>
+      <rect x="30" y="4" width="4" height="2" fill="#5e3416"/>
+      <rect x="0" y="14" width="64" height="14" fill="#fdd7b3"/>
+      <rect x="0" y="14" width="64" height="2" fill="#a87216"/>
+      <rect x="0" y="26" width="64" height="2" fill="#a87216"/>
+      <!-- ventanas más amplias -->
+      <rect x="4" y="17" width="8" height="5" fill="#5fffec"/>
+      <rect x="4" y="17" width="8" height="1" fill="#5b8dff"/>
+      <rect x="7" y="17" width="1" height="5" fill="#5b8dff"/>
+      <rect x="14" y="17" width="8" height="5" fill="#5fffec"/>
+      <rect x="14" y="17" width="8" height="1" fill="#5b8dff"/>
+      <rect x="17" y="17" width="1" height="5" fill="#5b8dff"/>
+      <rect x="42" y="17" width="8" height="5" fill="#5fffec"/>
+      <rect x="42" y="17" width="8" height="1" fill="#5b8dff"/>
+      <rect x="45" y="17" width="1" height="5" fill="#5b8dff"/>
+      <rect x="52" y="17" width="8" height="5" fill="#5fffec"/>
+      <rect x="52" y="17" width="8" height="1" fill="#5b8dff"/>
+      <rect x="55" y="17" width="1" height="5" fill="#5b8dff"/>
+      <!-- puerta abierta -->
+      <rect x="28" y="18" width="8" height="10" fill="#5e3416"/>
+      <rect x="29" y="19" width="6" height="9" fill="#1f1d3a"/>
+      <rect x="34" y="22" width="1" height="2" fill="#ffb13c"/>
+      <!-- cartel "LA CORRENTOSA" arriba -->
+      <rect x="22" y="9" width="20" height="3" fill="#ff6b9d"/>
+      <rect x="22" y="9" width="20" height="1" fill="#c93b76"/>
+      <rect x="24" y="10" width="2" height="1" fill="#fff"/>
+      <rect x="27" y="10" width="2" height="1" fill="#fff"/>
+      <rect x="30" y="10" width="2" height="1" fill="#fff"/>
+      <rect x="33" y="10" width="2" height="1" fill="#fff"/>
+      <rect x="36" y="10" width="2" height="1" fill="#fff"/>
+      <rect x="39" y="10" width="2" height="1" fill="#fff"/>
+      <!-- planta verde al lado -->
+      <rect x="60" y="22" width="3" height="6" fill="#a8531a"/>
+      <rect x="59" y="20" width="5" height="2" fill="#2fb05a"/>
+      <rect x="58" y="18" width="7" height="2" fill="#2fb05a"/>
+      <rect x="0" y="28" width="64" height="2" fill="#5e3a1a"/>
+      <rect x="0" y="30" width="64" height="2" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Boss · villana malvada (similar al index original) -->
+    <symbol id="sp-boss" viewBox="0 0 32 32">
+      <rect x="6" y="2" width="20" height="6" fill="#1a1432"/>
+      <rect x="4" y="4" width="24" height="6" fill="#3a2a55"/>
+      <rect x="2" y="6" width="28" height="4" fill="#1a1432"/>
+      <rect x="9" y="9" width="14" height="10" fill="#5e4882"/>
+      <rect x="11" y="13" width="3" height="3" fill="#ff4757"/>
+      <rect x="18" y="13" width="3" height="3" fill="#ff4757"/>
+      <rect x="12" y="14" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="14" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="17" width="6" height="1" fill="#1a1432"/>
+      <rect x="6" y="19" width="20" height="11" fill="#2c1f44"/>
+      <rect x="6" y="20" width="20" height="1" fill="#1a1432"/>
+      <rect x="14" y="22" width="4" height="6" fill="#ff4757"/>
+      <rect x="13" y="23" width="6" height="2" fill="#ff4757"/>
+      <rect x="3" y="21" width="3" height="6" fill="#5e4882"/>
+      <rect x="26" y="21" width="3" height="6" fill="#5e4882"/>
+    </symbol>
+
+    <!-- Boss redimida · paleta clara con flor -->
+    <symbol id="sp-boss-good" viewBox="0 0 32 32">
+      <rect x="6" y="2" width="20" height="6" fill="#9c2954"/>
+      <rect x="4" y="4" width="24" height="6" fill="#ff6b9d"/>
+      <rect x="2" y="6" width="28" height="4" fill="#9c2954"/>
+      <rect x="9" y="9" width="14" height="10" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="3" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="13" y="16" width="6" height="2" fill="#9c2954"/>
+      <rect x="14" y="17" width="4" height="1" fill="#fff"/>
+      <rect x="6" y="19" width="20" height="11" fill="#fdd7b3"/>
+      <rect x="6" y="20" width="20" height="1" fill="#a87216"/>
+      <!-- flor en el pelo -->
+      <rect x="20" y="6" width="3" height="3" fill="#ffb13c"/>
+      <rect x="21" y="5" width="1" height="5" fill="#ff6b9d"/>
+      <rect x="19" y="7" width="5" height="1" fill="#ff6b9d"/>
+      <rect x="14" y="22" width="4" height="6" fill="#58e87e"/>
+      <rect x="13" y="23" width="6" height="2" fill="#58e87e"/>
+      <rect x="3" y="21" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="26" y="21" width="3" height="6" fill="#fdd7b3"/>
+    </symbol>
+
+    <!-- Aceitunas rellenas (super item) -->
+    <symbol id="sp-aceitunas" viewBox="0 0 32 32">
+      <ellipse cx="10" cy="14" rx="5" ry="6" fill="#0d8a73"/>
+      <ellipse cx="10" cy="13" rx="3" ry="4" fill="#2fb05a"/>
+      <ellipse cx="10" cy="12" rx="1.5" ry="2" fill="#58e87e"/>
+      <rect x="9" y="11" width="2" height="3" fill="#ff4757"/>
+      <ellipse cx="22" cy="18" rx="5" ry="6" fill="#0d8a73"/>
+      <ellipse cx="22" cy="17" rx="3" ry="4" fill="#2fb05a"/>
+      <ellipse cx="22" cy="16" rx="1.5" ry="2" fill="#58e87e"/>
+      <rect x="21" y="15" width="2" height="3" fill="#ff4757"/>
+      <ellipse cx="16" cy="22" rx="4" ry="5" fill="#0d8a73"/>
+      <ellipse cx="16" cy="21" rx="2.5" ry="3" fill="#2fb05a"/>
+      <rect x="15" y="20" width="2" height="2" fill="#ff4757"/>
+    </symbol>
+
+    <!-- Escudo PETITORIO -->
+    <symbol id="sp-escudo" viewBox="0 0 32 32">
+      <polygon points="16,2 28,8 28,18 16,30 4,18 4,8" fill="#3656b8" stroke="#1c3380" stroke-width="1"/>
+      <polygon points="16,4 26,9 26,17 16,28 6,17 6,9" fill="#5b8dff"/>
+      <rect x="14" y="10" width="4" height="3" fill="#fdd7b3"/>
+      <rect x="14" y="14" width="4" height="3" fill="#fdd7b3"/>
+      <rect x="14" y="18" width="4" height="3" fill="#fdd7b3"/>
+      <rect x="13" y="11" width="6" height="1" fill="#1a1432"/>
+      <rect x="13" y="15" width="6" height="1" fill="#1a1432"/>
+      <rect x="13" y="19" width="6" height="1" fill="#1a1432"/>
+    </symbol>
+
+  </defs>
+</svg>
+
+<button class="audio-mute" id="audio-toggle" aria-label="Música" title="Música">🎵</button>
+<button class="skip-mini" id="skip-btn" hidden>SKIP ▶</button>
+
+<main class="stage" id="stage"></main>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ESTADO DEL JUEGO
+   ═══════════════════════════════════════════════════════════════════════ */
+
+const SAVE_KEY = 'correntosa-juego-v1';
+const MUSIC_KEY = 'correntosa-juego-music';
+
+const game = {
+  scene: 'title',
+  asociadxs: 0,
+  productores: 0,
+  despensa: 0,
+  bossHp: 100,
+  bossPhase: 1,         // 1: combate inicial, 2: oleada, 3: aceitunas
+  papelesUsados: 0,
+  oleadaActivada: false,
+  bossRedimido: false,
+  finalAceptado: null,
+};
+
+function saveGame() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(game)); } catch (e) {} }
+function loadGame() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) Object.assign(game, JSON.parse(raw));
+  } catch (e) {}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DIÁLOGOS — escenas con texto y typewriter
+   ═══════════════════════════════════════════════════════════════════════ */
+
+const SCENES = {
+  title: {
+    type: 'title',
+  },
+  prologo: {
+    type: 'dialog',
+    chapter: 'CAPÍTULO 1 · La semilla',
+    speaker: '★ NARRADOR',
+    text: 'Año 2020. Pandemia.\n\nEn las costas del Nahuel Huapi, dos vecines se juntan en una mesa.\n\nNo se conocen mucho. Pero comparten algo: las verduras llegan caras y de lejos.',
+    actors: 'pandemia',
+    next: 'pandemia-conv',
+  },
+  'pandemia-conv': {
+    type: 'dialog',
+    speaker: '👤 VECINA',
+    text: '¿Y si nos juntamos un grupito y conseguimos verdura agroecológica directo del productor?',
+    actors: 'pandemia',
+    next: 'pandemia-conv2',
+  },
+  'pandemia-conv2': {
+    type: 'dialog',
+    speaker: '👤 VECINO',
+    text: 'Más barato, más sano, y conocemos al que produce.\n\n¿Cómo se llama eso?',
+    actors: 'pandemia',
+    next: 'pandemia-conv3',
+  },
+  'pandemia-conv3': {
+    type: 'dialog',
+    speaker: '★ NARRADOR',
+    text: 'Eso, en Argentina, se llama MUTUAL.\n\nUna organización sin fines de lucro, donde la gente se asocia para ayudarse entre sí.',
+    actors: 'pandemia',
+    choice: {
+      pregunta: '¿Arrancamos?',
+      opciones: [
+        { label: '✓ Sí, juntémonos', next: 'crece-intro' }
+      ]
+    },
+  },
+  'crece-intro': {
+    type: 'dialog',
+    chapter: 'CAPÍTULO 2 · La mutual crece',
+    speaker: '★ NARRADOR',
+    text: 'Empezaron siendo dos.\n\nDespués cinco. Después diez.\n\nLa noticia se corre: hay un grupo que consigue alimento sano a precio justo.',
+    next: 'crece-anim',
+  },
+  'crece-anim': {
+    type: 'crecimiento',
+  },
+  'crece-decision': {
+    type: 'choice',
+    speaker: '★ DECISIÓN',
+    text: 'Empiezan a aparecer EXCEDENTES.\n\nUn poco de plata extra al final del mes.\n\n¿Qué hacemos con eso?',
+    opciones: [
+      { label: 'A) Repartirla como ganancia', mal: true, feedback: 'Eso sería un comercio. Una mutual NO reparte ganancias entre socios.' },
+      { label: 'B) Reinvertir en el proyecto colectivo', bueno: true, next: 'crece-feedback' },
+    ],
+  },
+  'crece-feedback': {
+    type: 'dialog',
+    speaker: '★ NARRADOR',
+    text: '¡Eso! Una mutual REINVIERTE.\n\nLos excedentes se quedan en el proyecto: más capital, mejores precios, más asociadxs.\n\nLa fuerza está en lo común.',
+    next: 'productores',
+  },
+  productores: {
+    type: 'productores',
+  },
+  'despensa-intro': {
+    type: 'dialog',
+    chapter: 'CAPÍTULO 3 · La despensa se construye',
+    speaker: '★ NARRADOR',
+    text: 'En 2023, el Estado nacional eligió a La Correntosa como uno de 59 sitios del Programa de Entramados Productivos.\n\nLlegan los CONTAINERS.',
+    next: 'construccion',
+  },
+  construccion: {
+    type: 'construccion',
+  },
+  'construccion-fin': {
+    type: 'dialog',
+    speaker: '★ NARRADOR',
+    text: 'La despensa creció paso a paso, gracias a:\n\n• Créditos del Estado provincial (IADEP) por $42 millones.\n• Créditos que la mutual DEVUELVE EN CUOTAS, garantizados con prendas sobre los autos de las y los asociados.\n\nNo es un regalo. Es una inversión colectiva.',
+    next: 'sanos',
+  },
+  sanos: {
+    type: 'sanos',
+  },
+  'amenaza-intro': {
+    type: 'dialog',
+    chapter: 'CAPÍTULO 4 · La amenaza',
+    speaker: '★ NARRADOR',
+    text: 'Pero entonces...\n\nUna sombra apareció sobre el pueblo.',
+    flicker: true,
+    next: 'boss-aparece',
+  },
+  'boss-aparece': {
+    type: 'boss-intro',
+  },
+  'boss-fight': {
+    type: 'boss-fight',
+  },
+  'boss-redimido': {
+    type: 'boss-redimido',
+  },
+  'final-decision': {
+    type: 'final-decision',
+  },
+  victory: {
+    type: 'victory',
+  }
+};
+
+const VECINES = ['sp-v1', 'sp-v2', 'sp-v3', 'sp-v4', 'sp-v5'];
+const PRODUCTORES = ['sp-prod-tomate', 'sp-prod-miel', 'sp-prod-hoja'];
+const PAPELES = [
+  { id: 'comodato', short: 'COMODATO', edu: 'Ord. 4124/2024 · aprobada por el Concejo' },
+  { id: 'decreto',  short: 'DECRETO',  edu: 'Decreto 911/2024 · firmado por Murer' },
+  { id: 'permiso',  short: 'PERMISO',  edu: 'NOTA 090/2025 · obra autorizada' },
+  { id: 'ley',      short: 'LEY 20.321', edu: 'régimen legal de mutuales · sin fines de lucro' },
+  { id: 'carta',    short: 'CARTA ORG.', edu: 'art. 22 · el municipio fomenta mutuales' },
+];
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RENDER · cada tipo de escena tiene su renderer
+   ═══════════════════════════════════════════════════════════════════════ */
+
+function setScene(name) {
+  game.scene = name;
+  saveGame();
+  render();
+  window.scrollTo(0, 0);
+}
+
+function render() {
+  const stage = document.getElementById('stage');
+  const sc = SCENES[game.scene];
+  if (!sc) { stage.innerHTML = '<div class="panel">Escena no encontrada.</div>'; return; }
+
+  if (sc.type === 'title') stage.innerHTML = renderTitle();
+  else if (sc.type === 'dialog') stage.innerHTML = renderDialog(sc);
+  else if (sc.type === 'crecimiento') { stage.innerHTML = renderCrecimiento(); animateCrecimiento(); }
+  else if (sc.type === 'choice') stage.innerHTML = renderChoice(sc);
+  else if (sc.type === 'productores') { stage.innerHTML = renderProductores(); }
+  else if (sc.type === 'construccion') { stage.innerHTML = renderConstruccion(); }
+  else if (sc.type === 'sanos') { stage.innerHTML = renderSanos(); }
+  else if (sc.type === 'boss-intro') { stage.innerHTML = renderBossIntro(); }
+  else if (sc.type === 'boss-fight') { stage.innerHTML = renderBossFight(); }
+  else if (sc.type === 'boss-redimido') { stage.innerHTML = renderBossRedimido(); }
+  else if (sc.type === 'final-decision') { stage.innerHTML = renderFinalDecision(); }
+  else if (sc.type === 'victory') { stage.innerHTML = renderVictory(); }
+
+  attachHandlers();
+
+  // typewriter en escenas con texto
+  document.querySelectorAll('.tw').forEach(el => runTypewriter(el));
+
+  // skip btn
+  document.getElementById('skip-btn').hidden = (game.scene === 'title' || game.scene === 'victory');
+  if (sc.flicker) flickerScreen();
+}
+
+function renderTitle() {
+  return `
+    <div style="text-align:center;">
+      <div class="chapter-label">★ ★ ★ ★ ★ ★ ★ ★ ★</div>
+      <h1 class="title-arcade" style="font-size: 2rem; margin: 1.5rem 0 0.5rem;">
+        <span class="glitch" data-text="LA CORRENTOSA">LA CORRENTOSA</span>
+      </h1>
+      <div class="subtitle-mono" style="margin-bottom: 1.5rem;">~ una historia mutualista ~</div>
+
+      <div style="display:flex; justify-content:center; gap:.6rem; margin: 2rem 0; flex-wrap:wrap;">
+        <div class="actor idle"><svg width="64" height="64"><use href="#sp-mesa"/></svg></div>
+        <div class="actor idle idle-fast"><svg width="64" height="64"><use href="#sp-instit"/></svg></div>
+        <div class="actor idle idle-slow"><svg width="64" height="64"><use href="#sp-comu"/></svg></div>
+        <div class="actor idle"><svg width="64" height="64"><use href="#sp-terr"/></svg></div>
+      </div>
+
+      <div class="chapter-label">★ ★ ★ ★ ★ ★ ★ ★ ★</div>
+
+      <div style="max-width: 540px; margin: 1.5rem auto; padding: 0 1rem; font-family: var(--f-mono); font-size: 1.15rem; color: var(--cream-2); line-height: 1.5;">
+        Una visual novel pixel art<br>
+        para conocer la primera mutual<br>
+        de Villa La Angostura.<br>
+        <span style="color: var(--neon-amber);">~ 5-10 minutos · una sentada ~</span>
+      </div>
+
+      <div class="press-start" id="press-start" data-next="prologo">▼ PRESS START ▼</div>
+    </div>
+  `;
+}
+
+function renderDialog(sc) {
+  return `
+    ${sc.chapter ? `<div class="chapter-label">${sc.chapter}</div>` : ''}
+    ${sc.actors === 'pandemia' ? renderPandemia() : ''}
+    <div class="dialog-box">
+      <div class="dialog-name">${sc.speaker || ''}</div>
+      <div class="dialog tw" data-text="${escAttr(sc.text)}"></div>
+    </div>
+    ${sc.choice ? renderChoiceInline(sc.choice) : `
+      <div class="btn-row">
+        <button class="btn-arcade primary" data-next="${sc.next}">▶ Continuar</button>
+      </div>
+    `}
+  `;
+}
+
+function renderPandemia() {
+  return `
+    <div class="escena-pandemia">
+      <div class="actor idle"><svg width="80" height="80"><use href="#sp-v1"/></svg></div>
+      <div class="mesa-pixel"></div>
+      <div class="actor idle idle-fast"><svg width="80" height="80"><use href="#sp-v2"/></svg></div>
+    </div>
+  `;
+}
+
+function renderChoiceInline(choice) {
+  return `
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ TU TURNO</div>
+      <div class="dialog">${choice.pregunta}</div>
+    </div>
+    <div class="choice-grid">
+      ${choice.opciones.map(o => `<button class="choice-btn" data-next="${o.next || ''}">${o.label}</button>`).join('')}
+    </div>
+  `;
+}
+
+function renderCrecimiento() {
+  return `
+    <div class="chapter-label">CAPÍTULO 2 · La mutual crece</div>
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ NARRADOR</div>
+      <div class="dialog">Mirá cómo se suman...</div>
+    </div>
+    <div class="counter-block">
+      <div class="big-counter pop" id="contador">2</div>
+      <div class="counter-label">asociadxs</div>
+    </div>
+    <div class="asociadxs-stage" id="asoc-stage"></div>
+    <div class="btn-row" id="crece-next" hidden>
+      <button class="btn-arcade primary" data-next="crece-decision">▶ Continuar</button>
+    </div>
+  `;
+}
+
+function renderChoice(sc) {
+  return `
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">${sc.speaker}</div>
+      <div class="dialog tw" data-text="${escAttr(sc.text)}"></div>
+    </div>
+    <div class="choice-grid" id="choice-grid">
+      ${sc.opciones.map((o, i) => `<button class="choice-btn" data-choice-idx="${i}">${o.label}</button>`).join('')}
+    </div>
+    <div id="choice-feedback"></div>
+  `;
+}
+
+function renderProductores() {
+  return `
+    <div class="chapter-label">CAPÍTULO 2 · La mutual crece</div>
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ NARRADOR</div>
+      <div class="dialog tw" data-text="Llegan las y los productores. 27 en total. Cada uno con lo suyo: tomates, miel, harina, verduras de hoja."></div>
+    </div>
+    <div class="productores-stage">
+      <div class="actor idle"><svg width="80" height="80"><use href="#sp-prod-tomate"/></svg></div>
+      <div class="actor idle idle-fast"><svg width="80" height="80"><use href="#sp-prod-miel"/></svg></div>
+      <div class="actor idle idle-slow"><svg width="80" height="80"><use href="#sp-prod-hoja"/></svg></div>
+    </div>
+    <div class="dialog-box">
+      <div class="dialog">Acortamos la distancia entre quien produce y quien come.\n\nEso también es mutualismo.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-arcade primary" data-next="despensa-intro">▶ Continuar</button>
+    </div>
+  `;
+}
+
+function renderConstruccion() {
+  const etapas = ['sp-desp-1', 'sp-desp-2', 'sp-desp-3', 'sp-desp-4'];
+  const labels = [
+    '2 containers (donados por el Estado nacional)',
+    '... le sumamos el techo',
+    '... cerramos las paredes',
+    '... ampliamos a 90 m². Con cartel y todo.'
+  ];
+  const stage = etapas[game.despensa];
+  return `
+    <div class="chapter-label">CAPÍTULO 3 · La despensa</div>
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ ETAPA ${game.despensa + 1} / 4</div>
+      <div class="dialog">${labels[game.despensa]}</div>
+    </div>
+    <div class="despensa-stage">
+      <svg viewBox="0 0 64 32" width="100%" style="max-width: 480px;"><use href="#${stage}"/></svg>
+    </div>
+    <div class="btn-row">
+      ${game.despensa < 3
+        ? `<button class="btn-arcade warn" id="construir-btn">🔨 Construir siguiente etapa</button>`
+        : `<button class="btn-arcade primary" data-next="construccion-fin">▶ Continuar</button>`}
+    </div>
+  `;
+}
+
+function renderSanos() {
+  return `
+    <div class="chapter-label">CAPÍTULO 3 · Por qué importa</div>
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ NARRADOR</div>
+      <div class="dialog tw" data-text="900 vecinas y vecinos asociados. 5 toneladas de alimento por mes. A precio justo, sano, agroecológico.\n\nLa gente se acerca por algo simple: comer mejor."></div>
+    </div>
+    <div class="nino-comiendo">
+      <div class="actor idle"><svg width="72" height="72"><use href="#sp-nino"/></svg></div>
+      <div class="heart-burst">♥</div>
+      <div class="actor idle idle-fast happy"><svg width="72" height="72"><use href="#sp-v2"/></svg></div>
+      <div class="actor idle idle-slow happy"><svg width="72" height="72"><use href="#sp-v4"/></svg></div>
+    </div>
+    <div class="dialog-box">
+      <div class="dialog">Alimento sano = mejor vida.\n\nEsa es la razón profunda. Lo demás es organización.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-arcade primary" data-next="amenaza-intro">▶ Continuar</button>
+    </div>
+  `;
+}
+
+function renderBossIntro() {
+  return `
+    <div class="chapter-label" style="color: var(--neon-red);">CAPÍTULO 4 · La amenaza</div>
+    <div class="villain-stage">
+      <div class="actor"><svg class="villain-sprite" width="144" height="144"><use href="#sp-boss"/></svg></div>
+      <div class="villain-tag">⚠ AMENAZA ⚠</div>
+      <div class="villain-name">— LA OPOSICIÓN —</div>
+    </div>
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ ???</div>
+      <div class="dialog tw" data-text="¡ESTA MUTUAL DEBE DESAPARECER!\n\n¡Voy a presentar PAPELES y BUROCRACIA hasta que cierren!\n\n...porque yo planeo REINAR este pueblo. MUAJAJAJA."></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-arcade danger" data-next="boss-fight">⚔ ¡A defenderla!</button>
+    </div>
+  `;
+}
+
+function renderBossFight() {
+  const hpPct = Math.max(0, game.bossHp);
+  const lowCls = game.bossHp <= 20 ? ' super-low' : (game.bossHp <= 60 ? ' low' : '');
+  const mostrarLlamado = game.bossHp <= 60 && !game.oleadaActivada;
+  const mostrarAceitunas = game.bossHp <= 20;
+  const teamSprites = game.oleadaActivada ?
+    [...VECINES, 'sp-mesa', 'sp-instit', 'sp-comu', 'sp-terr', ...VECINES.slice(0,3)] :
+    ['sp-mesa', 'sp-instit', 'sp-comu', 'sp-terr'];
+
+  return `
+    <div class="chapter-label" style="color: var(--neon-red);">⚔ BOSS FIGHT ⚔</div>
+    <div class="hp-boss" style="margin-bottom: 0.5rem;">
+      <div class="hp-boss-label">JEFE BUROCRÁTICX · HP ${hpPct}/100</div>
+      <div class="hp-boss-bar"><div class="hp-boss-fill${lowCls}" style="width:${hpPct}%;"></div></div>
+    </div>
+
+    <div class="boss-stage" id="boss-stage">
+      <div class="battle-area">
+        <div class="team-side" id="team-side">
+          ${teamSprites.map((s, i) => `<div class="actor idle" style="animation-delay: ${i*0.1}s;"><svg width="48" height="48"><use href="#${s}"/></svg></div>`).join('')}
+        </div>
+        <div class="boss-side">
+          <div class="actor idle" id="boss-actor"><svg class="villain-sprite" width="120" height="120" style="filter: drop-shadow(0 0 16px rgba(255, 71, 87, 0.6));"><use href="#sp-boss"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    ${mostrarAceitunas ? `
+      <div style="text-align:center; margin: 1rem 0;">
+        <div style="font-family: var(--f-pixel); font-size: 0.7rem; color: var(--neon-amber); margin-bottom: 0.5rem; animation: blink 0.6s steps(2) infinite;">¡SUPER ITEM! Tirale las aceitunas →</div>
+        <button class="super-item" id="aceitunas-btn">🫒</button>
+      </div>
+    ` : mostrarLlamado ? `
+      <button class="call-btn" id="call-btn">📢 LLAMAR A LXS ASOCIADXS</button>
+    ` : ''}
+
+    <div class="paper-inventory" id="paper-inv">
+      ${PAPELES.map(p => `
+        <button class="paper-btn" data-paper="${p.id}">
+          <span class="ico">📜</span>
+          <span>${p.short}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div style="font-family: var(--f-mono); font-size: 0.95rem; color: var(--cream-2); text-align: center; margin-top: 0.5rem;">
+      Tappeá cualquier papel para tirarlo al boss.
+    </div>
+  `;
+}
+
+function renderBossRedimido() {
+  return `
+    <div class="chapter-label" style="color: var(--neon-amber);">CAPÍTULO 4 · El cambio</div>
+    <div class="villain-stage">
+      <div class="actor idle"><svg class="villain-sprite" width="144" height="144" style="filter: drop-shadow(0 0 12px rgba(88, 232, 126, 0.5));"><use href="#sp-boss-good"/></svg></div>
+      <div class="villain-tag" style="color: var(--neon-green);">✓ TRANSFORMADX</div>
+      <div class="villain-name" style="color: var(--neon-amber);">— CON UNA FLOR —</div>
+    </div>
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ EX-VILLANX</div>
+      <div class="dialog tw" data-text="...mmm... están riquísimas...\n\nHace tanto que no como algo hecho con cariño...\n\n¿Esto lo hacen ustedes?"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-arcade primary" data-next="final-decision">▶ Continuar</button>
+    </div>
+  `;
+}
+
+function renderFinalDecision() {
+  return `
+    <div class="chapter-label" style="color: var(--neon-amber);">CAPÍTULO 4 · La pregunta</div>
+    <div class="villain-stage">
+      <div class="actor idle"><svg class="villain-sprite" width="120" height="120"><use href="#sp-boss-good"/></svg></div>
+    </div>
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ EX-VILLANX</div>
+      <div class="dialog tw" data-text="Yo... yo también quiero ser parte.\n\n¿Puedo asociarme?"></div>
+    </div>
+    <div class="choice-grid">
+      <button class="choice-btn" data-final="si">✓ Sí, bienvenidx</button>
+      <button class="choice-btn" data-final="no">✗ No, sos peligrosx</button>
+    </div>
+    <div id="final-feedback"></div>
+  `;
+}
+
+function renderVictory() {
+  const todxs = ['sp-mesa', 'sp-instit', 'sp-comu', 'sp-terr', ...VECINES, 'sp-prod-tomate', 'sp-prod-miel', 'sp-prod-hoja', 'sp-nino', 'sp-boss-good'];
+  return `
+    <div class="chapter-label" style="color: var(--neon-green);">★ ★ ★ VICTORY ★ ★ ★</div>
+
+    <h1 class="title-arcade" style="font-size: 1.6rem; text-align:center; margin: 1.5rem 0 0.5rem;">LA MUTUAL NO DERROTA: INCLUYE</h1>
+
+    <div class="group-photo">
+      ${todxs.map((s, i) => `<div class="actor idle" style="animation-delay: ${(i*0.07).toFixed(2)}s;"><svg><use href="#${s}"/></svg></div>`).join('')}
+    </div>
+
+    <div class="dialog-box">
+      <div class="dialog-name">★ FIN</div>
+      <div class="dialog">
+        Lo que jugaste es real. <strong style="color: var(--neon-green);">La Correntosa existe.</strong><br><br>
+        ★ <strong>900+</strong> asociadas y asociados<br>
+        ★ <strong>27</strong> productoras y productores<br>
+        ★ <strong>5</strong> toneladas de alimento por mes<br>
+        ★ <strong>4</strong> años de trabajo colectivo<br><br>
+        Es una mutual. Sin fines de lucro. Matrícula INAES #136.<br>
+        Ley 20.321. Excedentes que vuelven al proyecto colectivo.
+      </div>
+    </div>
+
+    <a href="https://instagram.com/la_correntosa" target="_blank" class="cta-final">
+      🌱 SUMATE COMO ASOCIADX →
+    </a>
+
+    <div class="dialog-box no-arrow">
+      <div class="dialog-name">★ DESPENSA COMUNITARIA</div>
+      <div class="dialog">
+        📍 Cerro Inacayal 333, Villa La Angostura<br>
+        🕐 Lunes, miércoles y viernes de 12 a 18 hs<br>
+        📷 @la_correntosa<br>
+        ✉️ lacorrentosa@gmail.com
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-arcade" id="share-btn">📤 Compartir</button>
+      <button class="btn-arcade" data-restart>↺ Jugar de nuevo</button>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ANIMACIONES y MECÁNICAS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+function animateCrecimiento() {
+  const stage = document.getElementById('asoc-stage');
+  const counter = document.getElementById('contador');
+  const next = document.getElementById('crece-next');
+  const targets = [10, 50, 200, 500, 900];
+  let cur = 2, idx = 0;
+
+  function step() {
+    if (idx >= targets.length) { next.hidden = false; return; }
+    const target = targets[idx];
+    const diff = target - cur;
+    const sprites = Math.min(diff, 6);
+    for (let i = 0; i < sprites; i++) {
+      const s = VECINES[Math.floor(Math.random() * VECINES.length)];
+      const div = document.createElement('div');
+      div.className = 'actor';
+      div.innerHTML = `<svg width="40" height="40"><use href="#${s}"/></svg>`;
+      stage.appendChild(div);
+    }
+    cur = target;
+    counter.textContent = cur;
+    counter.classList.remove('pop'); void counter.offsetWidth; counter.classList.add('pop');
+    playSfx('pop');
+    idx++;
+    setTimeout(step, 700);
+  }
+  setTimeout(step, 500);
+}
+
+function flickerScreen() {
+  document.body.classList.add('flicker');
+  setTimeout(() => document.body.classList.remove('flicker'), 800);
+}
+
+/* boss fight */
+function tirarPapel(papelId) {
+  const papel = PAPELES.find(p => p.id === papelId);
+  if (!papel) return;
+  const stage = document.getElementById('boss-stage');
+  const boss = document.getElementById('boss-actor');
+  if (!stage || !boss) return;
+
+  // proyectil
+  const fly = document.createElement('div');
+  fly.className = 'paper-fly';
+  fly.textContent = papel.short;
+  fly.style.left = '20%';
+  fly.style.top = '50%';
+  const dx = (boss.getBoundingClientRect().left - stage.getBoundingClientRect().left) - 40;
+  fly.style.setProperty('--dx', dx + 'px');
+  fly.style.setProperty('--dy', '-20px');
+  stage.appendChild(fly);
+  setTimeout(() => fly.remove(), 700);
+
+  // popup educativo
+  setTimeout(() => {
+    const pop = document.createElement('div');
+    pop.className = 'edu-popup';
+    pop.textContent = papel.edu;
+    boss.appendChild(pop);
+    setTimeout(() => pop.remove(), 1500);
+  }, 400);
+
+  setTimeout(() => {
+    boss.classList.remove('shake'); void boss.offsetWidth; boss.classList.add('shake');
+    playSfx('hit');
+
+    const damageBase = 6;
+    const multiplier = game.oleadaActivada ? 3 : 1;
+    game.bossHp = Math.max(0, game.bossHp - damageBase * multiplier);
+    game.papelesUsados++;
+    saveGame();
+
+    // si llega a 20% y aún no estaba aceitunas: re-render para que aparezcan
+    // si llega a 0: ir a redención
+    if (game.bossHp === 0) {
+      // forzar a abrir aceitunas si no se tiraron
+      setTimeout(() => render(), 500);
+    } else if (game.bossHp <= 20 || game.bossHp <= 60) {
+      setTimeout(() => render(), 500);
+    } else {
+      // actualizar HP visualmente sin re-render completo
+      const fill = document.querySelector('.hp-boss-fill');
+      if (fill) fill.style.width = game.bossHp + '%';
+      const lbl = document.querySelector('.hp-boss-label');
+      if (lbl) lbl.textContent = `JEFE BUROCRÁTICX · HP ${game.bossHp}/100`;
+    }
+  }, 700);
+}
+
+function activarOleada() {
+  game.oleadaActivada = true;
+  saveGame();
+  playSfx('crowd');
+  render();
+}
+
+function tirarAceitunas() {
+  const stage = document.getElementById('boss-stage');
+  const boss = document.getElementById('boss-actor');
+  if (!stage || !boss) return;
+
+  // animación: aceitunas vuelan al boss
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      const fly = document.createElement('div');
+      fly.style.position = 'absolute';
+      fly.style.fontSize = '2rem';
+      fly.style.left = '50%';
+      fly.style.bottom = '0';
+      fly.style.zIndex = '10';
+      fly.style.transition = 'all 0.6s ease-out';
+      fly.style.pointerEvents = 'none';
+      fly.textContent = '🫒';
+      stage.appendChild(fly);
+      requestAnimationFrame(() => {
+        fly.style.transform = 'translate(120px, -120px) rotate(720deg)';
+        fly.style.opacity = '0.3';
+      });
+      setTimeout(() => fly.remove(), 700);
+    }, i * 200);
+  }
+
+  playSfx('victory');
+  setTimeout(() => {
+    game.bossHp = 0;
+    game.bossRedimido = true;
+    saveGame();
+    setScene('boss-redimido');
+  }, 1500);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TYPEWRITER
+   ═══════════════════════════════════════════════════════════════════════ */
+
+function escAttr(s) { return s.replace(/"/g, '&quot;'); }
+
+function runTypewriter(el) {
+  if (el.dataset.played) return;
+  el.dataset.played = '1';
+  const text = el.dataset.text || '';
+  el.textContent = '';
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.style.cssText = 'display:inline-block; width:0.5em; background:var(--neon-amber); margin-left:2px; animation: blink 0.8s steps(2) infinite;';
+  cursor.textContent = '_';
+  el.appendChild(cursor);
+  const t = setInterval(() => {
+    if (i >= text.length) { clearInterval(t); cursor.remove(); return; }
+    cursor.before(document.createTextNode(text[i]));
+    i++;
+  }, 22);
+  // skip on click
+  el.addEventListener('click', () => {
+    clearInterval(t);
+    el.textContent = text;
+  }, { once: true });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HANDLERS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+function attachHandlers() {
+  const stage = document.getElementById('stage');
+
+  stage.querySelectorAll('[data-next]').forEach(el => {
+    el.addEventListener('click', () => {
+      const next = el.dataset.next;
+      if (next) { setScene(next); playSfx('click'); }
+    });
+  });
+
+  // press start
+  const ps = document.getElementById('press-start');
+  if (ps) ps.addEventListener('click', () => { setScene('prologo'); playSfx('click'); });
+
+  // construir despensa
+  const ctrBtn = document.getElementById('construir-btn');
+  if (ctrBtn) {
+    ctrBtn.addEventListener('click', () => {
+      game.despensa = Math.min(3, game.despensa + 1);
+      saveGame();
+      playSfx('build');
+      render();
+    });
+  }
+
+  // choice (mini-decisión pedagógica)
+  stage.querySelectorAll('[data-choice-idx]').forEach(el => {
+    el.addEventListener('click', () => {
+      const sc = SCENES[game.scene];
+      const idx = parseInt(el.dataset.choiceIdx);
+      const op = sc.opciones[idx];
+      const fb = document.getElementById('choice-feedback');
+      if (op.bueno) {
+        fb.innerHTML = `
+          <div class="dialog-box no-arrow" style="background: rgba(88, 232, 126, 0.15); border-color: var(--neon-green);">
+            <div class="dialog-name" style="background: var(--neon-green);">✓ EXACTO</div>
+            <div class="dialog">${op.feedback || '¡Eso!'}</div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-arcade primary" data-next="${op.next}">▶ Continuar</button>
+          </div>
+        `;
+        playSfx('correct');
+      } else {
+        fb.innerHTML = `
+          <div class="dialog-box no-arrow" style="background: rgba(255, 71, 87, 0.15); border-color: var(--neon-red);">
+            <div class="dialog-name" style="background: var(--neon-red); color: var(--cream);">✗ NO TANTO</div>
+            <div class="dialog">${op.feedback}</div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-arcade" id="reintentar">↺ Probá de nuevo</button>
+          </div>
+        `;
+        playSfx('wrong');
+        setTimeout(() => {
+          document.getElementById('reintentar')?.addEventListener('click', () => render());
+        }, 100);
+      }
+      attachHandlers();
+    });
+  });
+
+  // boss fight: papeles
+  stage.querySelectorAll('[data-paper]').forEach(el => {
+    el.addEventListener('click', () => tirarPapel(el.dataset.paper));
+  });
+
+  // call to associates
+  document.getElementById('call-btn')?.addEventListener('click', activarOleada);
+
+  // aceitunas
+  document.getElementById('aceitunas-btn')?.addEventListener('click', tirarAceitunas);
+
+  // final decision
+  stage.querySelectorAll('[data-final]').forEach(el => {
+    el.addEventListener('click', () => {
+      const v = el.dataset.final;
+      const fb = document.getElementById('final-feedback');
+      if (v === 'no') {
+        fb.innerHTML = `
+          <div class="dialog-box no-arrow" style="background: rgba(255, 177, 60, 0.15); border-color: var(--neon-amber);">
+            <div class="dialog-name" style="background: var(--neon-amber); color: var(--ink);">⚠ ESPERÁ</div>
+            <div class="dialog">Una mutual no se cierra a quien quiere sumarse de buena fe. La mutual incluye, no excluye.</div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-arcade" data-final="si">✓ Bueno, dale</button>
+          </div>
+        `;
+        attachHandlers();
+      } else {
+        game.finalAceptado = true;
+        saveGame();
+        playSfx('victory');
+        setScene('victory');
+      }
+    });
+  });
+
+  // share
+  document.getElementById('share-btn')?.addEventListener('click', share);
+
+  // restart
+  stage.querySelectorAll('[data-restart]').forEach(el => {
+    el.addEventListener('click', () => {
+      // reset
+      Object.assign(game, {
+        scene: 'title', asociadxs: 0, productores: 0, despensa: 0,
+        bossHp: 100, bossPhase: 1, papelesUsados: 0,
+        oleadaActivada: false, bossRedimido: false, finalAceptado: null,
+      });
+      saveGame();
+      setScene('title');
+    });
+  });
+}
+
+async function share() {
+  const url = window.location.href;
+  const title = 'La Correntosa · Una historia mutualista';
+  const text = 'Conocé a la primera mutual de Villa La Angostura jugando esta historia interactiva.';
+  if (navigator.share) {
+    try { await navigator.share({ title, text, url }); } catch(e) {}
+  } else {
+    try {
+      await navigator.clipboard.writeText(url);
+      alert('Link copiado al portapapeles.');
+    } catch (e) { alert(url); }
+  }
+}
+
+document.getElementById('skip-btn').addEventListener('click', () => {
+  if (confirm('¿Saltar al final?')) setScene('victory');
+});
+
+/* ═══════════════════════════════════════════════════════════════════════
+   AUDIO · chiptune + sfx
+   ═══════════════════════════════════════════════════════════════════════ */
+
+let audioCtx = null, masterGain = null, musicaRunning = false, nextLoopTime = 0, schedId = null;
+const BPM = 124, BEAT = 60/BPM, SIXTEENTH = BEAT/2, COMPAS = BEAT*4, LOOP_LEN = COMPAS*4;
+const N = { A2:110,F2:87.31,C3:130.81,G2:98,A3:220,C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,B4:493.88,C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880 };
+const BASS = [N.A2, N.F2, N.C3, N.G2];
+const MELODY = [
+  [N.A4,N.A4,N.C5,N.E5,N.A5,N.E5,N.C5,N.A4],
+  [N.F4,N.F4,N.A4,N.C5,N.F5,N.C5,N.A4,N.F4],
+  [N.E4,N.E4,N.G4,N.C5,N.E5,N.C5,N.G4,N.E4],
+  [N.G4,N.G4,N.B4,N.D5,N.G5,N.D5,N.B4,N.G4]
+];
+const HARM = [[N.E4,N.A4,N.E4,N.C5],[N.C4,N.F4,N.C4,N.A4],[N.G4,N.C5,N.G4,N.E4],[N.D4,N.G4,N.D4,N.B4]];
+
+function musN(t,f,d,type,v){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+0.005);g.gain.linearRampToValueAtTime(v*0.85,t+d*0.5);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g).connect(masterGain);o.start(t);o.stop(t+d+0.02);}
+function musK(t){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(40,t+0.12);g.gain.setValueAtTime(0.25,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.12);o.connect(g).connect(masterGain);o.start(t);o.stop(t+0.13);}
+function musH(t){const buf=audioCtx.createBuffer(1,0.04*audioCtx.sampleRate,audioCtx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*0.3;const s=audioCtx.createBufferSource(),g=audioCtx.createGain();s.buffer=buf;g.gain.setValueAtTime(0.05,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.04);s.connect(g).connect(masterGain);s.start(t);}
+function musLoop(start){for(let c=0;c<4;c++){const cs=start+c*COMPAS;musN(cs,BASS[c],COMPAS*0.95,'triangle',0.16);for(let n=0;n<8;n++)musN(cs+n*SIXTEENTH,MELODY[c][n],SIXTEENTH*0.85,'square',0.07);for(let n=0;n<4;n++)musN(cs+n*BEAT,HARM[c][n],BEAT*0.85,'square',0.04);for(let n=0;n<4;n++){if(n===0||n===2)musK(cs+n*BEAT);musH(cs+n*BEAT+BEAT*0.5);}}}
+function musTick(){if(!musicaRunning)return;while(nextLoopTime<audioCtx.currentTime+0.1){musLoop(nextLoopTime);nextLoopTime+=LOOP_LEN;}schedId=setTimeout(musTick,80);}
+async function startMusic(){if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)();masterGain=audioCtx.createGain();masterGain.gain.value=0.2;masterGain.connect(audioCtx.destination);}if(audioCtx.state==='suspended')await audioCtx.resume();musicaRunning=true;masterGain.gain.cancelScheduledValues(audioCtx.currentTime);masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);masterGain.gain.linearRampToValueAtTime(0.2,audioCtx.currentTime+0.4);nextLoopTime=audioCtx.currentTime+0.05;musTick();refreshAudio();}
+function stopMusic(){musicaRunning=false;if(schedId)clearTimeout(schedId);if(masterGain){masterGain.gain.cancelScheduledValues(audioCtx.currentTime);masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.3);}refreshAudio();}
+function refreshAudio(){const b=document.getElementById('audio-toggle');if(musicaRunning){b.classList.add('playing');b.textContent='♪';}else{b.classList.remove('playing');b.textContent='🎵';}}
+document.getElementById('audio-toggle').addEventListener('click',async()=>{if(musicaRunning){stopMusic();try{localStorage.setItem(MUSIC_KEY,'off');}catch(e){}}else{await startMusic();try{localStorage.setItem(MUSIC_KEY,'on');}catch(e){}}});
+(function(){let pref=null;try{pref=localStorage.getItem(MUSIC_KEY);}catch(e){}if(pref!=='on')return;const trigger=async()=>{document.removeEventListener('click',trigger,true);document.removeEventListener('keydown',trigger,true);try{await startMusic();}catch(e){}};document.addEventListener('click',trigger,true);document.addEventListener('keydown',trigger,true);})();
+
+/* SFX cortos */
+let sfxCtx = null;
+function getSfx() { if (!sfxCtx) sfxCtx = new (window.AudioContext || window.webkitAudioContext)(); if (sfxCtx.state === 'suspended') sfxCtx.resume(); return sfxCtx; }
+function tone(f, d=0.08, type='square', v=0.05) {
+  const ctx = getSfx();
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(v, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + d);
+  o.connect(g).connect(ctx.destination);
+  o.start(); o.stop(ctx.currentTime + d);
+}
+function playSfx(kind) {
+  if (kind === 'click') tone(420, 0.04);
+  if (kind === 'pop') tone(660, 0.1);
+  if (kind === 'correct') { tone(523, 0.08); setTimeout(() => tone(659, 0.12), 80); }
+  if (kind === 'wrong') tone(220, 0.18, 'sawtooth', 0.04);
+  if (kind === 'build') { tone(330, 0.05); setTimeout(() => tone(440, 0.08), 60); }
+  if (kind === 'hit') { tone(180, 0.06, 'sawtooth', 0.06); }
+  if (kind === 'crowd') { [220, 330, 440, 550].forEach((f, i) => setTimeout(() => tone(f, 0.15, 'square', 0.05), i * 60)); }
+  if (kind === 'victory') [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.15), i * 100));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════════════════ */
+
+(function init() {
+  loadGame();
+  // si reanuda en una escena rara que no es coherente, volver a title
+  if (!SCENES[game.scene]) game.scene = 'title';
+  render();
+})();
+</script>
+
+</body>
+</html>
