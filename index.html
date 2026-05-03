@@ -766,6 +766,10 @@ function render() {
   // typewriter en escenas con texto
   document.querySelectorAll('.tw').forEach(el => runTypewriter(el));
 
+  // padding-bottom dinámico si hay dialog anclado
+  if (stage.querySelector('.dialog-box.anchor')) stage.classList.add('has-anchored-dialog');
+  else stage.classList.remove('has-anchored-dialog');
+
   // skip btn
   document.getElementById('skip-btn').hidden = (game.scene === 'title' || game.scene === 'victory');
   if (sc.flicker) flickerScreen();
@@ -805,15 +809,20 @@ function renderDialog(sc) {
   return `
     ${sc.chapter ? `<div class="chapter-label">${sc.chapter}</div>` : ''}
     ${sc.actors === 'pandemia' ? renderPandemia() : ''}
-    <div class="dialog-box">
+    <div class="dialog-box anchor">
       <div class="dialog-name">${sc.speaker || ''}</div>
       <div class="dialog tw" data-text="${escAttr(sc.text)}"></div>
+      ${sc.choice ? `
+        <div class="dialog-actions" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
+          <div style="font-family: var(--f-mono); font-size: 1.1rem; color: var(--neon-amber); text-align: center; margin-bottom: 0.25rem;">${sc.choice.pregunta}</div>
+          ${sc.choice.opciones.map(o => `<button class="btn-arcade primary" data-next="${o.next || ''}">${o.label}</button>`).join('')}
+        </div>
+      ` : `
+        <div class="dialog-actions">
+          <button class="btn-arcade primary" data-next="${sc.next}">▶ Continuar</button>
+        </div>
+      `}
     </div>
-    ${sc.choice ? renderChoiceInline(sc.choice) : `
-      <div class="btn-row">
-        <button class="btn-arcade primary" data-next="${sc.next}">▶ Continuar</button>
-      </div>
-    `}
   `;
 }
 
@@ -859,34 +868,31 @@ function renderCrecimiento() {
 
 function renderChoice(sc) {
   return `
-    <div class="dialog-box no-arrow">
+    <div id="choice-feedback"></div>
+    <div class="dialog-box anchor no-arrow">
       <div class="dialog-name">${sc.speaker}</div>
       <div class="dialog tw" data-text="${escAttr(sc.text)}"></div>
+      <div class="dialog-actions" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
+        ${sc.opciones.map((o, i) => `<button class="btn-arcade" data-choice-idx="${i}" style="text-align:left; justify-content:flex-start;">${o.label}</button>`).join('')}
+      </div>
     </div>
-    <div class="choice-grid" id="choice-grid">
-      ${sc.opciones.map((o, i) => `<button class="choice-btn" data-choice-idx="${i}">${o.label}</button>`).join('')}
-    </div>
-    <div id="choice-feedback"></div>
   `;
 }
 
 function renderProductores() {
   return `
     <div class="chapter-label">CAPÍTULO 2 · La mutual crece</div>
-    <div class="dialog-box no-arrow">
-      <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog tw" data-text="Llegan las y los productores. 27 en total. Cada uno con lo suyo: tomates, miel, harina, verduras de hoja."></div>
-    </div>
     <div class="productores-stage">
       <div class="actor idle"><svg width="80" height="80"><use href="#sp-prod-tomate"/></svg></div>
       <div class="actor idle idle-fast"><svg width="80" height="80"><use href="#sp-prod-miel"/></svg></div>
       <div class="actor idle idle-slow"><svg width="80" height="80"><use href="#sp-prod-hoja"/></svg></div>
     </div>
-    <div class="dialog-box">
-      <div class="dialog">Acortamos la distancia entre quien produce y quien come.\n\nEso también es mutualismo.</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-arcade primary" data-next="despensa-intro">▶ Continuar</button>
+    <div class="dialog-box anchor">
+      <div class="dialog-name">★ NARRADOR</div>
+      <div class="dialog tw" data-text="Llegan las y los productores: 27 en total. Cada uno con lo suyo: tomates, miel, harina, verduras de hoja.\n\nAcortamos la distancia entre quien produce y quien come. Eso también es mutualismo."></div>
+      <div class="dialog-actions">
+        <button class="btn-arcade primary" data-next="despensa-intro">▶ Continuar</button>
+      </div>
     </div>
   `;
 }
@@ -920,21 +926,18 @@ function renderConstruccion() {
 function renderSanos() {
   return `
     <div class="chapter-label">CAPÍTULO 3 · Por qué importa</div>
-    <div class="dialog-box no-arrow">
-      <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog tw" data-text="900 vecinas y vecinos asociados. 5 toneladas de alimento por mes. A precio justo, sano, agroecológico.\n\nLa gente se acerca por algo simple: comer mejor."></div>
-    </div>
     <div class="nino-comiendo">
       <div class="actor idle"><svg width="72" height="72"><use href="#sp-nino"/></svg></div>
       <div class="heart-burst">♥</div>
       <div class="actor idle idle-fast happy"><svg width="72" height="72"><use href="#sp-v2"/></svg></div>
       <div class="actor idle idle-slow happy"><svg width="72" height="72"><use href="#sp-v4"/></svg></div>
     </div>
-    <div class="dialog-box">
-      <div class="dialog">Alimento sano = mejor vida.\n\nEsa es la razón profunda. Lo demás es organización.</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-arcade primary" data-next="amenaza-intro">▶ Continuar</button>
+    <div class="dialog-box anchor">
+      <div class="dialog-name">★ NARRADOR</div>
+      <div class="dialog tw" data-text="900 vecinas y vecinos asociados. 5 toneladas de alimento por mes. A precio justo, sano, agroecológico.\n\nLa gente se acerca por algo simple: comer mejor.\n\nAlimento sano = mejor vida. Esa es la razón profunda."></div>
+      <div class="dialog-actions">
+        <button class="btn-arcade primary" data-next="amenaza-intro">▶ Continuar</button>
+      </div>
     </div>
   `;
 }
@@ -947,12 +950,12 @@ function renderBossIntro() {
       <div class="villain-tag">⚠ AMENAZA ⚠</div>
       <div class="villain-name">— LA OPOSICIÓN —</div>
     </div>
-    <div class="dialog-box no-arrow">
+    <div class="dialog-box anchor">
       <div class="dialog-name">★ ???</div>
       <div class="dialog tw" data-text="¡ESTA MUTUAL DEBE DESAPARECER!\n\n¡Voy a presentar PAPELES y BUROCRACIA hasta que cierren!\n\n...porque yo planeo REINAR este pueblo. MUAJAJAJA."></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-arcade danger" data-next="boss-fight">⚔ ¡A defenderla!</button>
+      <div class="dialog-actions">
+        <button class="btn-arcade danger" data-next="boss-fight">⚔ ¡A defenderla!</button>
+      </div>
     </div>
   `;
 }
@@ -1015,12 +1018,12 @@ function renderBossRedimido() {
       <div class="villain-tag" style="color: var(--neon-green);">✓ TRANSFORMADX</div>
       <div class="villain-name" style="color: var(--neon-amber);">— CON UNA FLOR —</div>
     </div>
-    <div class="dialog-box no-arrow">
+    <div class="dialog-box anchor">
       <div class="dialog-name">★ EX-VILLANX</div>
       <div class="dialog tw" data-text="...mmm... están riquísimas...\n\nHace tanto que no como algo hecho con cariño...\n\n¿Esto lo hacen ustedes?"></div>
-    </div>
-    <div class="btn-row">
-      <button class="btn-arcade primary" data-next="final-decision">▶ Continuar</button>
+      <div class="dialog-actions">
+        <button class="btn-arcade primary" data-next="final-decision">▶ Continuar</button>
+      </div>
     </div>
   `;
 }
@@ -1031,15 +1034,15 @@ function renderFinalDecision() {
     <div class="villain-stage">
       <div class="actor idle"><svg class="villain-sprite" width="120" height="120"><use href="#sp-boss-good"/></svg></div>
     </div>
-    <div class="dialog-box no-arrow">
+    <div id="final-feedback"></div>
+    <div class="dialog-box anchor">
       <div class="dialog-name">★ EX-VILLANX</div>
       <div class="dialog tw" data-text="Yo... yo también quiero ser parte.\n\n¿Puedo asociarme?"></div>
+      <div class="dialog-actions" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
+        <button class="btn-arcade primary" data-final="si">✓ Sí, bienvenidx</button>
+        <button class="btn-arcade" data-final="no">✗ No, sos peligrosx</button>
+      </div>
     </div>
-    <div class="choice-grid">
-      <button class="choice-btn" data-final="si">✓ Sí, bienvenidx</button>
-      <button class="choice-btn" data-final="no">✗ No, sos peligrosx</button>
-    </div>
-    <div id="final-feedback"></div>
   `;
 }
 
@@ -1287,34 +1290,34 @@ function attachHandlers() {
       const sc = SCENES[game.scene];
       const idx = parseInt(el.dataset.choiceIdx);
       const op = sc.opciones[idx];
-      const fb = document.getElementById('choice-feedback');
+      const dlgBox = stage.querySelector('.dialog-box.anchor');
+      if (!dlgBox) return;
+
       if (op.bueno) {
-        fb.innerHTML = `
-          <div class="dialog-box no-arrow" style="background: rgba(88, 232, 126, 0.15); border-color: var(--neon-green);">
-            <div class="dialog-name" style="background: var(--neon-green);">✓ EXACTO</div>
-            <div class="dialog">${op.feedback || '¡Eso!'}</div>
-          </div>
-          <div class="btn-row">
+        dlgBox.style.borderColor = 'var(--neon-green)';
+        dlgBox.style.background = 'rgba(15, 13, 35, 0.95)';
+        dlgBox.innerHTML = `
+          <div class="dialog-name" style="background: var(--neon-green); color: var(--ink);">✓ EXACTO</div>
+          <div class="dialog">${op.feedback || '¡Eso!'}</div>
+          <div class="dialog-actions">
             <button class="btn-arcade primary" data-next="${op.next}">▶ Continuar</button>
           </div>
         `;
         playSfx('correct');
       } else {
-        fb.innerHTML = `
-          <div class="dialog-box no-arrow" style="background: rgba(255, 71, 87, 0.15); border-color: var(--neon-red);">
-            <div class="dialog-name" style="background: var(--neon-red); color: var(--cream);">✗ NO TANTO</div>
-            <div class="dialog">${op.feedback}</div>
-          </div>
-          <div class="btn-row">
-            <button class="btn-arcade" id="reintentar">↺ Probá de nuevo</button>
+        dlgBox.style.borderColor = 'var(--neon-red)';
+        dlgBox.innerHTML = `
+          <div class="dialog-name" style="background: var(--neon-red); color: var(--cream);">✗ NO TANTO</div>
+          <div class="dialog">${op.feedback}</div>
+          <div class="dialog-actions">
+            <button class="btn-arcade" data-action="reintentar">↺ Probá de nuevo</button>
           </div>
         `;
         playSfx('wrong');
-        setTimeout(() => {
-          document.getElementById('reintentar')?.addEventListener('click', () => render());
-        }, 100);
       }
+      // re-attach handlers para el nuevo HTML
       attachHandlers();
+      stage.querySelectorAll('[data-action="reintentar"]').forEach(b => b.addEventListener('click', () => render()));
     });
   });
 
@@ -1333,15 +1336,14 @@ function attachHandlers() {
   stage.querySelectorAll('[data-final]').forEach(el => {
     el.addEventListener('click', () => {
       const v = el.dataset.final;
-      const fb = document.getElementById('final-feedback');
-      if (v === 'no') {
-        fb.innerHTML = `
-          <div class="dialog-box no-arrow" style="background: rgba(255, 177, 60, 0.15); border-color: var(--neon-amber);">
-            <div class="dialog-name" style="background: var(--neon-amber); color: var(--ink);">⚠ ESPERÁ</div>
-            <div class="dialog">Una mutual no se cierra a quien quiere sumarse de buena fe. La mutual incluye, no excluye.</div>
-          </div>
-          <div class="btn-row">
-            <button class="btn-arcade" data-final="si">✓ Bueno, dale</button>
+      const dlgBox = stage.querySelector('.dialog-box.anchor');
+      if (v === 'no' && dlgBox) {
+        dlgBox.style.borderColor = 'var(--neon-amber)';
+        dlgBox.innerHTML = `
+          <div class="dialog-name" style="background: var(--neon-amber); color: var(--ink);">⚠ ESPERÁ</div>
+          <div class="dialog">Una mutual no se cierra a quien quiere sumarse de buena fe. La mutual incluye, no excluye.</div>
+          <div class="dialog-actions">
+            <button class="btn-arcade primary" data-final="si">✓ Bueno, dale</button>
           </div>
         `;
         attachHandlers();

@@ -207,6 +207,48 @@ body::after {
   flex-direction: column;
 }
 
+/* dialog box anclado al bottom (estilo RPG clásico) */
+.dialog-box.anchor {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 760px;
+  margin: 0 auto;
+  border-bottom: none;
+  z-index: 20;
+  padding: 1rem 1.25rem 1.25rem;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+@media (min-width: 1024px) {
+  .dialog-box.anchor { max-width: 1080px; padding: 1.25rem 1.75rem 1.5rem; }
+}
+
+/* footer dentro del dialog-box: botones de "▶ Continuar" o de choices */
+.dialog-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.dialog-actions .btn-arcade {
+  font-size: 0.6rem;
+  padding: 0.6rem 1rem;
+  min-height: 42px;
+}
+
+/* cuando hay dialog anchored, el contenedor scrollable tiene padding-bottom */
+.has-anchored-dialog {
+  padding-bottom: 280px !important;
+}
+@media (min-width: 768px) {
+  .has-anchored-dialog { padding-bottom: 240px !important; }
+}
+
 .dialog-box::after {
   content: '▼';
   position: absolute;
