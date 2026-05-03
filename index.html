@@ -39,22 +39,78 @@
   .scene.active { display: block; }
   @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* layout de personajes en escena 1: dos vecines en mesa */
+  /* layout de personajes en escena 1: vecines en mesa con virus dando vueltas */
   .escena-pandemia {
+    position: relative;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.4rem;
     margin: 1.5rem 0 0.5rem;
-    min-height: 140px;
+    min-height: 180px;
+    padding: 0 1rem;
+    flex-wrap: wrap;
   }
   .mesa-pixel {
-    width: 80px; height: 16px;
+    width: 100%;
+    max-width: 360px;
+    height: 18px;
     background: linear-gradient(180deg, var(--cream-2) 0%, #8a6c3a 100%);
     border: 2px solid var(--ink);
-    margin: 0 -8px;
-    align-self: flex-end;
+    box-shadow: inset 0 -4px 0 #5e3a1a;
+    margin-top: -12px;
+    align-self: stretch;
     position: relative;
+    flex-basis: 100%;
+  }
+
+  /* virus flotando alrededor */
+  .virus-cloud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .virus-bug {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 4px rgba(255, 71, 87, 0.5));
+  }
+  .virus-bug.v-a { top: 5%;  left: 8%;  animation: virus-float-a 5s ease-in-out infinite; }
+  .virus-bug.v-b { top: 12%; right: 10%; animation: virus-float-b 6s ease-in-out infinite; }
+  .virus-bug.v-c { top: 35%; left: 22%; animation: virus-float-c 4.5s ease-in-out infinite; }
+  .virus-bug.v-d { top: 28%; right: 22%; animation: virus-float-d 5.5s ease-in-out infinite; }
+  .virus-bug.v-e { top: 2%;  left: 45%; animation: virus-float-e 4s ease-in-out infinite; }
+
+  @keyframes virus-float-a {
+    0%,100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(20px, -8px) rotate(90deg); }
+    50% { transform: translate(8px, 16px) rotate(180deg); }
+    75% { transform: translate(-12px, 4px) rotate(270deg); }
+  }
+  @keyframes virus-float-b {
+    0%,100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-16px, 12px) rotate(-120deg); }
+    66% { transform: translate(8px, -10px) rotate(-240deg); }
+  }
+  @keyframes virus-float-c {
+    0%,100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(14px, -18px) rotate(360deg); }
+  }
+  @keyframes virus-float-d {
+    0%,100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-10px, -14px) rotate(90deg); }
+    75% { transform: translate(14px, 8px) rotate(-90deg); }
+  }
+  @keyframes virus-float-e {
+    0%,100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-22px, 24px) rotate(-180deg); }
+  }
+
+  @media (max-width: 540px) {
+    .virus-bug { width: 24px; height: 24px; }
   }
 
   /* sumar asociados — grilla animada */
@@ -305,6 +361,129 @@
       <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
       <rect x="9" y="28" width="6" height="3" fill="#1a1432"/>
       <rect x="17" y="28" width="6" height="3" fill="#1a1432"/>
+    </symbol>
+
+    <!-- Vecines con barbijo (versión pandemia) -->
+    <symbol id="sp-v1-bb" viewBox="0 0 32 32">
+      <rect x="9" y="4" width="14" height="6" fill="#1a1432"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <!-- barbijo celeste -->
+      <rect x="9" y="16" width="14" height="4" fill="#5fffec"/>
+      <rect x="9" y="16" width="14" height="1" fill="#0d8a73"/>
+      <rect x="9" y="19" width="14" height="1" fill="#0d8a73"/>
+      <rect x="9" y="17" width="2" height="2" fill="#0d8a73"/>
+      <rect x="21" y="17" width="2" height="2" fill="#0d8a73"/>
+      <rect x="8" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="23" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="9" y="20" width="14" height="8" fill="#2fb05a"/>
+      <rect x="9" y="20" width="14" height="1" fill="#1a6b39"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <symbol id="sp-v2-bb" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="3" fill="#5e3a1a"/>
+      <rect x="7" y="6" width="18" height="2" fill="#ffb13c"/>
+      <rect x="9" y="8" width="14" height="2" fill="#8a5224"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <!-- barbijo blanco -->
+      <rect x="9" y="16" width="14" height="4" fill="#f4e8d0"/>
+      <rect x="9" y="16" width="14" height="1" fill="#a87216"/>
+      <rect x="9" y="19" width="14" height="1" fill="#a87216"/>
+      <rect x="13" y="17" width="6" height="1" fill="#a87216"/>
+      <rect x="8" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="23" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="9" y="20" width="14" height="8" fill="#ff6b9d"/>
+      <rect x="9" y="20" width="14" height="1" fill="#c93b76"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <symbol id="sp-v3-bb" viewBox="0 0 32 32">
+      <rect x="6" y="4" width="20" height="3" fill="#3e2f6e"/>
+      <rect x="6" y="7" width="20" height="2" fill="#5b41a3"/>
+      <rect x="20" y="3" width="3" height="2" fill="#ff6b9d"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <!-- barbijo verde -->
+      <rect x="9" y="16" width="14" height="4" fill="#58e87e"/>
+      <rect x="9" y="16" width="14" height="1" fill="#2fb05a"/>
+      <rect x="9" y="19" width="14" height="1" fill="#2fb05a"/>
+      <rect x="13" y="17" width="6" height="1" fill="#2fb05a"/>
+      <rect x="8" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="23" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="9" y="20" width="14" height="8" fill="#a8531a"/>
+      <rect x="9" y="20" width="14" height="1" fill="#5e3416"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#1a1432"/>
+      <rect x="17" y="28" width="6" height="3" fill="#1a1432"/>
+    </symbol>
+
+    <symbol id="sp-v4-bb" viewBox="0 0 32 32">
+      <rect x="8" y="3" width="16" height="6" fill="#5b41a3"/>
+      <rect x="7" y="6" width="2" height="14" fill="#5b41a3"/>
+      <rect x="23" y="6" width="2" height="14" fill="#5b41a3"/>
+      <rect x="10" y="9" width="12" height="9" fill="#fdd7b3"/>
+      <rect x="11" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="19" y="13" width="2" height="2" fill="#1a1432"/>
+      <rect x="11" y="13" width="1" height="1" fill="#fff"/>
+      <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+      <!-- barbijo rosa estampado -->
+      <rect x="9" y="16" width="14" height="4" fill="#ff6b9d"/>
+      <rect x="9" y="16" width="14" height="1" fill="#9c2954"/>
+      <rect x="9" y="19" width="14" height="1" fill="#9c2954"/>
+      <rect x="11" y="18" width="2" height="1" fill="#fff"/>
+      <rect x="15" y="17" width="2" height="1" fill="#fff"/>
+      <rect x="19" y="18" width="2" height="1" fill="#fff"/>
+      <rect x="8" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="23" y="14" width="1" height="3" fill="#1a1432"/>
+      <rect x="9" y="20" width="14" height="8" fill="#5fffec"/>
+      <rect x="9" y="20" width="14" height="1" fill="#0d8a73"/>
+      <rect x="6" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="23" y="20" width="3" height="6" fill="#fdd7b3"/>
+      <rect x="9" y="28" width="6" height="3" fill="#3e2f6e"/>
+      <rect x="17" y="28" width="6" height="3" fill="#3e2f6e"/>
+    </symbol>
+
+    <!-- Virus pixelado (covid pixel art) -->
+    <symbol id="sp-virus" viewBox="0 0 24 24">
+      <!-- coronas exteriores -->
+      <rect x="11" y="0" width="2" height="3" fill="#ff4757"/>
+      <rect x="10" y="2" width="4" height="2" fill="#ff4757"/>
+      <rect x="11" y="21" width="2" height="3" fill="#ff4757"/>
+      <rect x="10" y="20" width="4" height="2" fill="#ff4757"/>
+      <rect x="0" y="11" width="3" height="2" fill="#ff4757"/>
+      <rect x="2" y="10" width="2" height="4" fill="#ff4757"/>
+      <rect x="21" y="11" width="3" height="2" fill="#ff4757"/>
+      <rect x="20" y="10" width="2" height="4" fill="#ff4757"/>
+      <rect x="3" y="3" width="2" height="2" fill="#ff4757"/>
+      <rect x="19" y="3" width="2" height="2" fill="#ff4757"/>
+      <rect x="3" y="19" width="2" height="2" fill="#ff4757"/>
+      <rect x="19" y="19" width="2" height="2" fill="#ff4757"/>
+      <!-- núcleo -->
+      <rect x="6" y="6" width="12" height="12" fill="#9c2954"/>
+      <rect x="7" y="7" width="10" height="10" fill="#ff6b9d"/>
+      <rect x="8" y="9" width="2" height="2" fill="#9c2954"/>
+      <rect x="14" y="9" width="2" height="2" fill="#9c2954"/>
+      <rect x="9" y="13" width="6" height="2" fill="#9c2954"/>
+      <!-- highlight -->
+      <rect x="8" y="8" width="2" height="1" fill="#fdd7b3"/>
     </symbol>
 
     <!-- Productor con tomates -->
@@ -573,6 +752,7 @@
 </svg>
 
 <button class="audio-mute" id="audio-toggle" aria-label="Música" title="Música">🎵</button>
+<button class="skip-mini" id="restart-btn" style="bottom: 3rem;" hidden>↺ EMPEZAR DE NUEVO</button>
 <button class="skip-mini" id="skip-btn" hidden>SKIP ▶</button>
 
 <main class="stage" id="stage"></main>
@@ -770,8 +950,9 @@ function render() {
   if (stage.querySelector('.dialog-box.anchor')) stage.classList.add('has-anchored-dialog');
   else stage.classList.remove('has-anchored-dialog');
 
-  // skip btn
+  // skip btn + restart btn
   document.getElementById('skip-btn').hidden = (game.scene === 'title' || game.scene === 'victory');
+  document.getElementById('restart-btn').hidden = (game.scene === 'title');
   if (sc.flicker) flickerScreen();
 }
 
@@ -829,9 +1010,18 @@ function renderDialog(sc) {
 function renderPandemia() {
   return `
     <div class="escena-pandemia">
-      <div class="actor idle"><svg width="80" height="80"><use href="#sp-v1"/></svg></div>
+      <div class="virus-cloud" aria-hidden="true">
+        <svg class="virus-bug v-a"><use href="#sp-virus"/></svg>
+        <svg class="virus-bug v-b"><use href="#sp-virus"/></svg>
+        <svg class="virus-bug v-c"><use href="#sp-virus"/></svg>
+        <svg class="virus-bug v-d"><use href="#sp-virus"/></svg>
+        <svg class="virus-bug v-e"><use href="#sp-virus"/></svg>
+      </div>
+      <div class="actor idle"><svg width="72" height="72"><use href="#sp-v1-bb"/></svg></div>
+      <div class="actor idle idle-fast"><svg width="72" height="72"><use href="#sp-v2-bb"/></svg></div>
+      <div class="actor idle idle-slow"><svg width="72" height="72"><use href="#sp-v3-bb"/></svg></div>
+      <div class="actor idle"><svg width="72" height="72"><use href="#sp-v4-bb"/></svg></div>
       <div class="mesa-pixel"></div>
-      <div class="actor idle idle-fast"><svg width="80" height="80"><use href="#sp-v2"/></svg></div>
     </div>
   `;
 }
@@ -1390,6 +1580,17 @@ async function share() {
 
 document.getElementById('skip-btn').addEventListener('click', () => {
   if (confirm('¿Saltar al final?')) setScene('victory');
+});
+
+document.getElementById('restart-btn').addEventListener('click', () => {
+  if (!confirm('¿Empezar de nuevo? Se borra tu progreso.')) return;
+  Object.assign(game, {
+    scene: 'title', asociadxs: 0, productores: 0, despensa: 0,
+    bossHp: 100, bossPhase: 1, papelesUsados: 0,
+    oleadaActivada: false, bossRedimido: false, finalAceptado: null,
+  });
+  saveGame();
+  setScene('title');
 });
 
 /* atajos de teclado: Enter / Espacio / → avanzan al botón primario visible */
