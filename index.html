@@ -4443,11 +4443,21 @@ function render() {
 
 function renderTitle() {
   return `
-    <!-- hint apuntando al botón de música arriba a la izquierda · solo si la música está apagada -->
+    <!-- hint apuntando al botón de música arriba a la derecha · solo si la música está apagada -->
     ${musicaRunning ? '' : `
       <div class="audio-hint" id="audio-hint">
-        <div class="audio-hint-arrow">↖</div>
         <div class="audio-hint-text">¡prendé<br>la música!</div>
+        <svg class="audio-hint-arrow" width="32" height="32" viewBox="-16 -16 32 32" aria-hidden="true">
+          <g transform="rotate(-135)">
+            <polygon points="-5,-16 5,-16 5,0 11,0 0,16 -11,0 -5,0" fill="#1a1432"/>
+            <polygon points="-4,-15 4,-15 4,1 9,1 0,14 -9,1 -4,1" fill="#ffd97a"/>
+            <rect x="-4" y="-15" width="8" height="2" fill="#fff5d0"/>
+            <rect x="-4" y="-15" width="2" height="14" fill="#fff5d0" opacity="0.85"/>
+            <polygon points="4,1 9,1 0,14 0,12 6,2 4,2" fill="#c08842"/>
+            <rect x="2" y="-13" width="2" height="14" fill="#c08842" opacity="0.7"/>
+            <rect x="-1" y="-2" width="2" height="2" fill="#ff8fb1"/>
+          </g>
+        </svg>
       </div>
     `}
     <div style="text-align:center;">
