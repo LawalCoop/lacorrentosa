@@ -4533,6 +4533,26 @@ body.scene-bossredimido::before { display: none !important; }
   color: var(--cream-2);
 }
 
+/* firma del desarrollo · home y final · sin copyright */
+.dev-credit {
+  font-family: var(--f-mono);
+  font-size: 0.85rem;
+  color: var(--cream-2);
+  text-align: center;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  opacity: 0.8;
+}
+.dev-credit a {
+  color: var(--neon-green);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(88, 232, 126, 0.5);
+  font-weight: 600;
+}
+.dev-credit a:hover { color: var(--neon-amber); border-bottom-color: var(--neon-amber); }
+.dev-credit-title { margin: 1.25rem auto 0; opacity: 0.7; }
+.dev-credit-end { margin: 1.5rem auto 0.5rem; }
+
 /* prevenir scroll horizontal accidental en cualquier viewport */
 html, body { overflow-x: hidden; max-width: 100vw; }
 
