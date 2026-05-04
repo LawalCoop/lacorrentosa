@@ -6986,9 +6986,9 @@ function renderBossIntro() {
 function renderBossFight() {
   const hpPct = Math.max(0, game.bossHp);
   const lowCls = game.bossHp <= 20 ? ' super-low' : (game.bossHp <= 60 ? ' low' : '');
-  // el botón "Llamar a lxs asociadxs" está disponible desde el inicio del fight
-  // (antes estaba condicionado a HP ≤ 60, ahora aparece siempre que no haya oleada todavía)
-  const mostrarLlamado = !game.oleadaActivada;
+  // el botón "Llamar a lxs asociadxs" aparece después de tirar algunos papeles
+  // (no de entrada · queremos que el user pruebe primero solx con su núcleo)
+  const mostrarLlamado = game.papelesUsados >= 3 && !game.oleadaActivada;
   const mostrarAceitunas = game.bossHp <= 20;
   const teamSprites = game.oleadaActivada ?
     [...VECINES, 'sp-mesa', 'sp-instit', 'sp-comu', 'sp-terr', ...VECINES.slice(0,3)] :
