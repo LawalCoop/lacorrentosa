@@ -4208,25 +4208,17 @@ body.scene-bossredimido .dialog-box.anchor .dialog {
   80% { transform: translate(2px, -4px); }
 }
 
-/* boss reacciona al impacto del papel · se ladea al lado contrario */
-.boss-arena-boss.boss-hit-izq {
-  animation: boss-hit-izq 0.45s ease-out !important;
+/* boss reacciona al impacto · la animación se aplica al SVG hijo, no al div padre,
+   así el div padre mantiene su translateX(-50%) constante y nunca se desplaza. */
+.boss-arena-boss.boss-hit-izq svg.villain-sprite {
+  animation: boss-hit-shake 0.45s ease-out !important;
+  transform-origin: 50% 100%;
 }
-.boss-arena-boss.boss-hit-der {
-  animation: boss-hit-der 0.45s ease-out !important;
-}
-/* el primer "shake" es rotación + saltito (sin desplazarse horizontal · vuelve siempre al centro) */
-@keyframes boss-hit-izq {
-  0%   { transform: translateX(-50%) rotate(0deg) translateY(0); }
-  30%  { transform: translateX(-50%) rotate(-14deg) translateY(-6px); }
-  55%  { transform: translateX(-50%) rotate(7deg) translateY(-3px); }
-  100% { transform: translateX(-50%) rotate(0deg) translateY(0); }
-}
-@keyframes boss-hit-der {
-  0%   { transform: translateX(-50%) rotate(0deg) translateY(0); }
-  30%  { transform: translateX(-50%) rotate(14deg) translateY(-6px); }
-  55%  { transform: translateX(-50%) rotate(-7deg) translateY(-3px); }
-  100% { transform: translateX(-50%) rotate(0deg) translateY(0); }
+@keyframes boss-hit-shake {
+  0%   { transform: rotate(0deg) translateY(0); }
+  30%  { transform: rotate(-14deg) translateY(-6px); }
+  55%  { transform: rotate(7deg) translateY(-3px); }
+  100% { transform: rotate(0deg) translateY(0); }
 }
 
 /* tembleque del boss tras probar el mate · sostenido, vibración intensa */
