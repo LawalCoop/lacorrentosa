@@ -4314,6 +4314,7 @@ function render() {
   document.body.classList.toggle('scene-bossredimido', game.scene === 'boss-redimido');
   document.body.classList.toggle('scene-municipio', game.scene === 'despensa-municipio');
   document.body.classList.toggle('scene-cosecha', game.scene === 'crece-excedente' && !game.excedenteStarted);
+  document.body.classList.toggle('scene-llegada', game.scene === 'crece-reinversion' && !game.reinvStarted);
   document.body.classList.remove('compras-ready', 'compras-started');
 
   if (sc.type === 'title') stage.innerHTML = renderTitle();
