@@ -1789,14 +1789,14 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
   background: rgba(15, 13, 35, 0.92);
   border: 3px solid var(--cream-2);
   border-radius: 5px;
-  padding: 0.55rem 0.4rem 0.5rem;
+  padding: 0.4rem 0.4rem 0.4rem;
   font-family: var(--f-mono); color: var(--cream);
   cursor: pointer;
   transition: transform 0.18s, border-color 0.25s, opacity 0.25s, background 0.25s, box-shadow 0.25s;
   box-shadow: inset 0 0 0 1px var(--ink), 0 3px 0 rgba(0,0,0,0.45);
   -webkit-tap-highlight-color: transparent;
-  gap: 0.25rem;
-  min-height: 110px;
+  gap: 0.18rem;
+  min-height: 86px;
   justify-content: space-between;
 }
 .reinv-card.locked {
@@ -1854,7 +1854,7 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
   60% { transform: translateX(-4px); }
   80% { transform: translateX(4px); }
 }
-.reinv-card-icon { font-size: 1.8rem; line-height: 1; }
+.reinv-card-icon { font-size: 1.5rem; line-height: 1; }
 .reinv-card-nombre {
   font-family: var(--f-pixel); font-size: 0.5rem; letter-spacing: 0.03em;
   color: var(--cream); line-height: 1.2;
@@ -1874,23 +1874,36 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
 /* Botón trampa "repartir entre inversores" debajo del grid, compacto */
 .reinv-trap-wrap {
   display: flex; justify-content: center;
-  margin: 0.8rem auto 0;
+  margin: 0.6rem auto 0;
   padding: 0 0.6rem;
 }
+/* botón "trampa" (repartir entre socios) · pedagógicamente queremos que la
+   gente lo toque y descubra que NO se puede repartir en una mutual.
+   Por eso es BRILLANTE y atractivo (verde dólar con bordes ámbar) */
 .reinv-trap-btn {
-  background: rgba(122, 29, 62, 0.35);
-  color: var(--cream-2);
-  border: 2px dashed #c44a72;
+  background: linear-gradient(180deg, #2fb05a, #1d6b54);
+  color: #fff5d0;
+  border: 3px solid var(--neon-amber);
   border-radius: 4px;
-  padding: 0.5rem 0.9rem;
+  padding: 0.65rem 1.1rem;
   font-family: var(--f-pixel);
-  font-size: 0.55rem;
-  letter-spacing: 0.03em;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background 0.25s, border-color 0.25s, transform 0.15s;
+  transition: background 0.25s, border-color 0.25s, transform 0.15s, box-shadow 0.25s;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.45), 0 0 16px rgba(255, 217, 122, 0.4);
+  text-shadow: 1px 1px 0 var(--ink);
+  animation: reinv-trap-tease 1.6s ease-in-out infinite;
 }
-.reinv-trap-btn:hover { background: rgba(122, 29, 62, 0.55); }
+.reinv-trap-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.55), 0 0 22px rgba(255, 217, 122, 0.65);
+}
+@keyframes reinv-trap-tease {
+  0%, 100% { box-shadow: 0 4px 0 rgba(0, 0, 0, 0.45), 0 0 14px rgba(255, 217, 122, 0.35); }
+  50%      { box-shadow: 0 4px 0 rgba(0, 0, 0, 0.45), 0 0 22px rgba(255, 217, 122, 0.7); }
+}
 .reinv-trap-btn.trap-shake { animation: trap-shake 0.5s ease-in-out; }
 @keyframes trap-shake {
   0%, 100% { transform: translateX(0); border-color: #c44a72; }
