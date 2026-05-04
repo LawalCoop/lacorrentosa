@@ -8339,7 +8339,29 @@ function setMusicForScene(name){
     startMusic().catch(()=>{});
   }
 }
-async function startMusic(){if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)();masterGain=audioCtx.createGain();masterGain.gain.value=0.2;masterGain.connect(audioCtx.destination);}if(audioCtx.state==='suspended')await audioCtx.resume();musicaRunning=true;masterGain.gain.cancelScheduledValues(audioCtx.currentTime);masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);masterGain.gain.linearRampToValueAtTime(0.2,audioCtx.currentTime+0.4);nextLoopTime=audioCtx.currentTime+0.05;musTick();refreshAudio();}
+async function startMusic(){
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0; // arranca en silencio para evitar el "click" inicial en mobile
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') await audioCtx.resume();
+  // Algunos navegadores en mobile retornan "running" pero todavía no procesan: damos un tick
+  if (audioCtx.state !== 'running') {
+    try { await audioCtx.resume(); } catch (e) {}
+  }
+  musicaRunning = true;
+  const t0 = audioCtx.currentTime;
+  masterGain.gain.cancelScheduledValues(t0);
+  masterGain.gain.setValueAtTime(0, t0);
+  masterGain.gain.linearRampToValueAtTime(0.2, t0 + 0.6); // fade-in más suave
+  // primer loop arranca DESPUÉS del comienzo del fade-in para que las notas vengan ya audibles
+  nextLoopTime = t0 + 0.18;
+  if (schedId) clearTimeout(schedId);
+  musTick();
+  refreshAudio();
+}
 function stopMusic(){musicaRunning=false;if(schedId)clearTimeout(schedId);if(masterGain){masterGain.gain.cancelScheduledValues(audioCtx.currentTime);masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.3);}refreshAudio();}
 function refreshAudio(){const b=document.getElementById('audio-toggle');if(musicaRunning){b.classList.add('playing');b.textContent='♪';}else{b.classList.remove('playing');b.textContent='🎵';}}
 document.getElementById('audio-toggle').addEventListener('click',async()=>{if(musicaRunning){stopMusic();try{localStorage.setItem(MUSIC_KEY,'off');}catch(e){}}else{await startMusic();try{localStorage.setItem(MUSIC_KEY,'on');}catch(e){}}});
