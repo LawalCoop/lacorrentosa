@@ -3875,38 +3875,27 @@ function bgPlazaCenital() {
       <polygon points="288,160 292,138 296,160"/><polygon points="330,160 334,140 338,160"/>
     </g>
 
-    <!-- veredas / pasto a los lados (verde claro, más natural) -->
-    <rect x="0" y="200" width="140" height="440" fill="#3aa55a" opacity="0.6"/>
-    <rect x="220" y="200" width="140" height="440" fill="#3aa55a" opacity="0.6"/>
-    <!-- borde donde se separa de la calle -->
-    <rect x="138" y="200" width="2" height="440" fill="#1d6b54" opacity="0.7"/>
-    <rect x="220" y="200" width="2" height="440" fill="#1d6b54" opacity="0.7"/>
+    <!-- pasto que cubre desde el horizonte hasta el bottom (ya cubierto por el rect base de pasto) -->
 
-    <!-- calle (asfalto) · termina con un fade a pasto · no se corta abruptamente -->
-    <rect x="140" y="200" width="80" height="380" fill="url(#plaza-asfalto)"/>
-    <!-- fade asfalto → pasto · transición suave al final del viewBox -->
-    <rect x="140" y="540" width="80" height="100" fill="url(#plaza-fade)"/>
-    <!-- contornos del costado de la calle se desvanecen también -->
-    <rect x="138" y="540" width="2" height="80" fill="url(#plaza-fade)"/>
-    <rect x="220" y="540" width="2" height="80" fill="url(#plaza-fade)"/>
-    <!-- líneas blancas centrales discontinuas (sólo donde la calle es sólida) -->
+    <!-- ════ CALLE EN PERSPECTIVA DE FUGA · de las montañas hacia el observador ════
+         Punto de fuga: x=180, y=160 (justo al pie de las montañas)
+         Bordes que se abren hacia el bottom (más anchos cerca del user) -->
+    <polygon points="172,160 188,160 245,640 115,640" fill="url(#plaza-asfalto)"/>
+
+    <!-- bordes de la calle (oscurecidos para definir contorno) -->
+    <polygon points="172,160 174,160 117,640 115,640" fill="#1a1432" opacity="0.6"/>
+    <polygon points="186,160 188,160 245,640 243,640" fill="#1a1432" opacity="0.6"/>
+
+    <!-- líneas blancas centrales discontinuas en perspectiva (más cortas y pegadas arriba, más largas y separadas abajo) -->
     <g fill="#fff5d0" opacity="0.85">
-      <rect x="178" y="220" width="4" height="22"/>
-      <rect x="178" y="270" width="4" height="22"/>
-      <rect x="178" y="380" width="4" height="22"/>
-      <rect x="178" y="430" width="4" height="22"/>
-      <rect x="178" y="490" width="4" height="22" opacity="0.7"/>
-      <rect x="178" y="540" width="4" height="18" opacity="0.4"/>
-    </g>
-    <!-- arbolitos al fondo cerrando la calle visualmente -->
-    <g>
-      <ellipse cx="180" cy="612" rx="60" ry="8" fill="#000" opacity="0.3"/>
-      <ellipse cx="155" cy="600" rx="14" ry="14" fill="#3a6647"/>
-      <ellipse cx="180" cy="595" rx="18" ry="18" fill="#1d6b54"/>
-      <ellipse cx="205" cy="600" rx="14" ry="14" fill="#3a6647"/>
-      <ellipse cx="148" cy="592" rx="6" ry="6" fill="#4d7d5a" opacity="0.85"/>
-      <ellipse cx="178" cy="585" rx="8" ry="8" fill="#4d7d5a" opacity="0.85"/>
-      <ellipse cx="208" cy="592" rx="6" ry="6" fill="#4d7d5a" opacity="0.85"/>
+      <polygon points="179.4,176 180.6,176 181,184 179,184"/>
+      <polygon points="178.6,200 181.4,200 182,212 178,212"/>
+      <polygon points="178,232 182,232 183,248 177,248"/>
+      <polygon points="177.2,272 182.8,272 184,294 176,294"/>
+      <polygon points="176,322 184,322 186,350 174,350"/>
+      <polygon points="174,388 186,388 188.5,420 171.5,420"/>
+      <polygon points="172,470 188,470 191,510 169,510"/>
+      <polygon points="169,570 191,570 195,615 165,615"/>
     </g>
 
     <!-- CASITAS a los costados (vista cenital, distribuidas) · más grandes -->
