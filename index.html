@@ -7952,7 +7952,24 @@ function attachHandlers() {
         saveGame();
         statsRunFinish();
         playSfx('victory');
-        setScene('victory');
+        // Si estamos en boss-redimido y hay personajes en escena, festejamos antes de pasar
+        const bossPer = document.getElementById('encuentro-boss');
+        const asocPer = document.getElementById('encuentro-asoc');
+        if (bossPer && asocPer && game.scene === 'boss-redimido') {
+          // ocultar el dialog-box para que se vea la animación
+          if (dlgBox) dlgBox.classList.add('actions-hidden');
+          // ex-villano se acerca al grupo
+          bossPer.classList.add('villano-festeja');
+          // a los 1.2s todos saltan juntos
+          setTimeout(() => {
+            bossPer.classList.add('todos-saltan');
+            asocPer.classList.add('todos-saltan');
+          }, 1100);
+          // a los 3s pasamos a victory
+          setTimeout(() => setScene('victory'), 3000);
+        } else {
+          setScene('victory');
+        }
       }
     });
   });

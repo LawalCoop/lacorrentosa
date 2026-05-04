@@ -4115,6 +4115,47 @@ body.scene-bossredimido .dialog-box.anchor .dialog {
 }
 .encuentro-asoc-grupo svg { image-rendering: pixelated; filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.4)); }
 
+/* festejo final · cuando aceptamos al ex-villano se acerca al grupo y saltan todos */
+.encuentro-personaje.villano-festeja {
+  animation: villano-festeja 1.1s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+}
+@keyframes villano-festeja {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(20vw) translateY(-10px); }
+  40%  { transform: translateX(35vw) translateY(0); }
+  60%  { transform: translateX(50vw) translateY(-12px); }
+  80%  { transform: translateX(65vw) translateY(0); }
+  100% { transform: translateX(78vw); }
+}
+@media (min-width: 640px) {
+  @keyframes villano-festeja {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(50vw); }
+  }
+}
+.encuentro-personaje.todos-saltan {
+  animation: todos-saltan 0.5s ease-in-out infinite !important;
+}
+@keyframes todos-saltan {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(-22px); }
+  60%      { transform: translateY(-15px); }
+}
+/* boss después de villano-festeja: salta sin perder el offset horizontal */
+.encuentro-personaje-boss.villano-festeja.todos-saltan {
+  animation: todos-saltan-boss 0.5s ease-in-out infinite !important;
+}
+@keyframes todos-saltan-boss {
+  0%, 100% { transform: translateX(78vw) translateY(0); }
+  40%      { transform: translateX(78vw) translateY(-22px); }
+}
+@media (min-width: 640px) {
+  @keyframes todos-saltan-boss {
+    0%, 100% { transform: translateX(50vw) translateY(0); }
+    40%      { transform: translateX(50vw) translateY(-22px); }
+  }
+}
+
 /* partículas y efectos */
 .particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .particle {
@@ -4432,6 +4473,14 @@ body.scene-bossredimido .dialog-box.anchor .dialog {
   box-shadow: 8px 8px 0 var(--sky-3);
 }
 .cta-final:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--sky-3); }
+@media (max-width: 480px) {
+  .cta-final {
+    font-size: 0.7rem;
+    padding: 0.85rem 0.9rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+}
 
 /* skip mini */
 .skip-mini {
