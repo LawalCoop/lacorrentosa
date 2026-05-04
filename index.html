@@ -4341,27 +4341,33 @@ function render() {
 
   attachHandlers();
 
-  // setup específico boss-aparece: bubble + bobeo en el villano que habla
+  // setup específico boss-aparece: bubble + bobeo en quien habla cada página
+  // (frases 1 y 3 las dice el villano principal; la 2da la dice un secuaz)
   if (game.scene === 'boss-aparece') {
     const tw = stage.querySelector('.dialog.tw');
     const villain = document.getElementById('villain-principal');
-    if (tw && villain) {
-      const limpiar = () => {
-        villain.classList.remove('talker');
-        const b = villain.querySelector('.speech-bubble');
+    const secuaz = document.getElementById('villain-secuaz-der');
+    if (tw && villain && secuaz) {
+      const limpiar = (el) => {
+        el.classList.remove('talker');
+        const b = el.querySelector('.speech-bubble');
         if (b) b.remove();
       };
-      const activar = () => {
-        villain.classList.add('talker');
-        if (!villain.querySelector('.speech-bubble')) {
+      const activar = (el) => {
+        el.classList.add('talker');
+        if (!el.querySelector('.speech-bubble')) {
           const b = document.createElement('div');
           b.className = 'speech-bubble';
           b.innerHTML = '<span class="dot">·</span><span class="dot">·</span><span class="dot">·</span>';
-          villain.appendChild(b);
+          el.appendChild(b);
         }
       };
-      tw.addEventListener('tw-page-start', activar);
-      tw.addEventListener('tw-done', limpiar, { once: true });
+      tw.addEventListener('tw-page-start', (e) => {
+        const idx = (e.detail && e.detail.pageIdx) || 0;
+        if (idx === 1) { limpiar(villain); activar(secuaz); }
+        else            { limpiar(secuaz); activar(villain); }
+      });
+      tw.addEventListener('tw-done', () => { limpiar(villain); limpiar(secuaz); }, { once: true });
     }
   }
 
@@ -6947,9 +6953,9 @@ function renderBossIntro() {
   return `
     <div class="villain-stage">
       <div class="villain-grupo">
-        <div class="villain-secuaz villain-secuaz-izq"><svg width="86" height="86"><use href="#sp-v3"/></svg></div>
+        <div class="villain-secuaz villain-secuaz-izq actor" id="villain-secuaz-izq"><svg width="86" height="86"><use href="#sp-v3"/></svg></div>
         <div class="actor villain-principal" id="villain-principal"><svg class="villain-sprite" width="144" height="144"><use href="#sp-boss"/></svg></div>
-        <div class="villain-secuaz villain-secuaz-der"><svg width="86" height="86"><use href="#sp-v1"/></svg></div>
+        <div class="villain-secuaz villain-secuaz-der actor" id="villain-secuaz-der"><svg width="86" height="86"><use href="#sp-v1"/></svg></div>
       </div>
       <div class="villain-tag">⚠ AMENAZA ⚠</div>
       <div class="villain-name">— GRUPO DE VECINOS EN DESACUERDO —</div>
