@@ -3824,6 +3824,11 @@ function bgPlazaCenital() {
         <stop offset="0%" stop-color="#4a4250"/>
         <stop offset="100%" stop-color="#2a2530"/>
       </linearGradient>
+      <!-- gradient para el fade de la calle hacia pasto -->
+      <linearGradient id="plaza-fade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3aa55a" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#1d6b54" stop-opacity="1"/>
+      </linearGradient>
     </defs>
 
     <!-- cielo arriba -->
@@ -3877,52 +3882,73 @@ function bgPlazaCenital() {
     <rect x="138" y="200" width="2" height="440" fill="#1d6b54" opacity="0.7"/>
     <rect x="220" y="200" width="2" height="440" fill="#1d6b54" opacity="0.7"/>
 
-    <!-- calle (verdosa, color tierra-musgo en vez de asfalto frío) -->
-    <rect x="140" y="200" width="80" height="440" fill="url(#plaza-asfalto)"/>
-    <!-- líneas blancas centrales discontinuas -->
+    <!-- calle (asfalto) · termina con un fade a pasto · no se corta abruptamente -->
+    <rect x="140" y="200" width="80" height="380" fill="url(#plaza-asfalto)"/>
+    <!-- fade asfalto → pasto · transición suave al final del viewBox -->
+    <rect x="140" y="540" width="80" height="100" fill="url(#plaza-fade)"/>
+    <!-- contornos del costado de la calle se desvanecen también -->
+    <rect x="138" y="540" width="2" height="80" fill="url(#plaza-fade)"/>
+    <rect x="220" y="540" width="2" height="80" fill="url(#plaza-fade)"/>
+    <!-- líneas blancas centrales discontinuas (sólo donde la calle es sólida) -->
     <g fill="#fff5d0" opacity="0.85">
       <rect x="178" y="220" width="4" height="22"/>
       <rect x="178" y="270" width="4" height="22"/>
       <rect x="178" y="380" width="4" height="22"/>
       <rect x="178" y="430" width="4" height="22"/>
-      <rect x="178" y="540" width="4" height="22"/>
-      <rect x="178" y="590" width="4" height="22"/>
+      <rect x="178" y="490" width="4" height="22" opacity="0.7"/>
+      <rect x="178" y="540" width="4" height="18" opacity="0.4"/>
+    </g>
+    <!-- arbolitos al fondo cerrando la calle visualmente -->
+    <g>
+      <ellipse cx="180" cy="612" rx="60" ry="8" fill="#000" opacity="0.3"/>
+      <ellipse cx="155" cy="600" rx="14" ry="14" fill="#3a6647"/>
+      <ellipse cx="180" cy="595" rx="18" ry="18" fill="#1d6b54"/>
+      <ellipse cx="205" cy="600" rx="14" ry="14" fill="#3a6647"/>
+      <ellipse cx="148" cy="592" rx="6" ry="6" fill="#4d7d5a" opacity="0.85"/>
+      <ellipse cx="178" cy="585" rx="8" ry="8" fill="#4d7d5a" opacity="0.85"/>
+      <ellipse cx="208" cy="592" rx="6" ry="6" fill="#4d7d5a" opacity="0.85"/>
     </g>
 
-    <!-- CASITAS a los costados (vista cenital, distribuidas) -->
+    <!-- CASITAS a los costados (vista cenital, distribuidas) · más grandes -->
     ${[
-      { cx: 60,  cy: 230, techo: '#c44a32' },
-      { cx: 290, cy: 250, techo: '#3a8ec4' },
-      { cx: 60,  cy: 380, techo: '#9c4a82' },
-      { cx: 295, cy: 400, techo: '#a8531a' },
-      { cx: 70,  cy: 540, techo: '#ffb13c' },
-      { cx: 290, cy: 560, techo: '#1a6b54' },
+      { cx: 60,  cy: 240, techo: '#c44a32' },
+      { cx: 295, cy: 260, techo: '#3a8ec4' },
+      { cx: 65,  cy: 400, techo: '#9c4a82' },
+      { cx: 295, cy: 420, techo: '#a8531a' },
+      { cx: 70,  cy: 560, techo: '#ffb13c' },
+      { cx: 290, cy: 580, techo: '#1a6b54' },
     ].map(c => `
       <g>
-        <ellipse cx="${c.cx}" cy="${c.cy + 16}" rx="22" ry="3" fill="#000" opacity="0.35"/>
+        <ellipse cx="${c.cx}" cy="${c.cy + 24}" rx="32" ry="4" fill="#000" opacity="0.35"/>
         <!-- patio/jardín -->
-        <rect x="${c.cx - 24}" y="${c.cy - 4}" width="48" height="22" fill="#2fb05a" opacity="0.4"/>
+        <rect x="${c.cx - 34}" y="${c.cy - 6}" width="68" height="32" fill="#2fb05a" opacity="0.4"/>
         <!-- pared -->
-        <rect x="${c.cx - 18}" y="${c.cy + 2}" width="36" height="14" fill="#dcd5e8"/>
-        <rect x="${c.cx - 18}" y="${c.cy + 2}" width="36" height="2" fill="#fff5d0"/>
-        <rect x="${c.cx - 18}" y="${c.cy + 14}" width="36" height="2" fill="#9b9bb8"/>
+        <rect x="${c.cx - 26}" y="${c.cy + 4}" width="52" height="20" fill="#dcd5e8"/>
+        <rect x="${c.cx - 26}" y="${c.cy + 4}" width="52" height="2" fill="#fff5d0"/>
+        <rect x="${c.cx - 26}" y="${c.cy + 22}" width="52" height="2" fill="#9b9bb8"/>
         <!-- techo a dos aguas -->
-        <polygon points="${c.cx - 20},${c.cy + 2} ${c.cx},${c.cy - 12} ${c.cx + 20},${c.cy + 2}" fill="${c.techo}"/>
-        <polygon points="${c.cx - 20},${c.cy + 2} ${c.cx},${c.cy - 12} ${c.cx},${c.cy + 2}" fill="${c.techo}" opacity="0.65"/>
-        <rect x="${c.cx - 20}" y="${c.cy + 2}" width="40" height="1.5" fill="#1a0c04" opacity="0.5"/>
-        <!-- ventanas iluminadas -->
-        <rect x="${c.cx - 13}" y="${c.cy + 6}" width="5" height="5" fill="#3a2d80"/>
-        <rect x="${c.cx - 12}" y="${c.cy + 7}" width="3" height="3" fill="#ffd97a"/>
-        <rect x="${c.cx + 8}" y="${c.cy + 6}" width="5" height="5" fill="#3a2d80"/>
-        <rect x="${c.cx + 9}" y="${c.cy + 7}" width="3" height="3" fill="#ffd97a"/>
+        <polygon points="${c.cx - 28},${c.cy + 4} ${c.cx},${c.cy - 16} ${c.cx + 28},${c.cy + 4}" fill="${c.techo}"/>
+        <polygon points="${c.cx - 28},${c.cy + 4} ${c.cx},${c.cy - 16} ${c.cx},${c.cy + 4}" fill="${c.techo}" opacity="0.65"/>
+        <rect x="${c.cx - 28}" y="${c.cy + 4}" width="56" height="2" fill="#1a0c04" opacity="0.5"/>
+        <!-- ventanas iluminadas (más grandes) -->
+        <rect x="${c.cx - 19}" y="${c.cy + 9}" width="7" height="7" fill="#3a2d80"/>
+        <rect x="${c.cx - 18}" y="${c.cy + 10}" width="5" height="5" fill="#ffd97a"/>
+        <rect x="${c.cx - 16}" y="${c.cy + 10}" width="1" height="5" fill="#3a2d80"/>
+        <rect x="${c.cx - 18}" y="${c.cy + 12}" width="5" height="1" fill="#3a2d80"/>
+        <rect x="${c.cx + 12}" y="${c.cy + 9}" width="7" height="7" fill="#3a2d80"/>
+        <rect x="${c.cx + 13}" y="${c.cy + 10}" width="5" height="5" fill="#ffd97a"/>
+        <rect x="${c.cx + 15}" y="${c.cy + 10}" width="1" height="5" fill="#3a2d80"/>
+        <rect x="${c.cx + 13}" y="${c.cy + 12}" width="5" height="1" fill="#3a2d80"/>
         <!-- puerta -->
-        <rect x="${c.cx - 3}" y="${c.cy + 8}" width="6" height="8" fill="#5a3424"/>
-        <rect x="${c.cx + 1}" y="${c.cy + 11}" width="1" height="1" fill="#ffd97a"/>
+        <rect x="${c.cx - 4}" y="${c.cy + 12}" width="8" height="12" fill="#5a3424"/>
+        <rect x="${c.cx - 4}" y="${c.cy + 12}" width="8" height="1" fill="#3a2010"/>
+        <rect x="${c.cx + 2}" y="${c.cy + 17}" width="1.5" height="1.5" fill="#ffd97a"/>
         <!-- chimenea con humo -->
-        <rect x="${c.cx + 10}" y="${c.cy - 9}" width="3" height="4" fill="#5a3424"/>
-        <ellipse cx="${c.cx + 11.5}" cy="${c.cy - 11}" rx="2" ry="1.5" fill="#dcd5e8" opacity="0.7"/>
+        <rect x="${c.cx + 14}" y="${c.cy - 13}" width="4" height="6" fill="#5a3424"/>
+        <ellipse cx="${c.cx + 16}" cy="${c.cy - 16}" rx="3" ry="2" fill="#dcd5e8" opacity="0.7"/>
+        <ellipse cx="${c.cx + 18}" cy="${c.cy - 19}" rx="2.5" ry="1.5" fill="#dcd5e8" opacity="0.5"/>
         <!-- senderito al frente -->
-        <rect x="${c.cx - 2}" y="${c.cy + 16}" width="4" height="6" fill="#cdb78a" opacity="0.7"/>
+        <rect x="${c.cx - 3}" y="${c.cy + 24}" width="6" height="8" fill="#cdb78a" opacity="0.7"/>
       </g>
     `).join('')}
 
