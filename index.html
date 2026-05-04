@@ -5126,7 +5126,7 @@ function renderCreceExcedente() {
       `).join('')}
     </div>
 
-    <div class="dialog-box anchor" id="excedente-dialog">
+    <div class="dialog-box anchor feedback" id="excedente-dialog">
       <div class="dialog-name" style="background: var(--${d.zona === 'ideal' ? 'neon-green' : d.zona === 'baja' || d.zona === 'perdida' ? 'neon-red' : 'neon-amber'}); color: var(--ink);">${d.zona === 'ideal' ? '★ ¡EQUILIBRIO!' : '★ AJUSTÁ EL PRECIO'}</div>
       <div class="dialog">${d.mensaje}</div>
       <div class="dialog-actions">
