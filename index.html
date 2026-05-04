@@ -5924,11 +5924,13 @@ function renderDespensaMunicipio() {
       <div class="dialog-name">★ NARRADOR</div>
       <div class="dialog">${dialogText}</div>
       <div class="dialog-actions" id="muni-cta">${
-        todas
-          ? '<button class="btn-arcade primary" data-next="despensa-provincia">▶ Continuar</button>'
-          : (firmado
-              ? '<button class="btn-arcade" data-muni-nav="1">▶ Siguiente documento</button>'
-              : `<button class="btn-arcade primary" data-muni-firma="${d.id}">▶ Aprobar y sellar</button>`)
+        !abierto
+          ? '' /* carpeta cerrada · el botón "Abrir expediente" está arriba en la propia carpeta */
+          : (todas
+              ? '<button class="btn-arcade primary" data-next="despensa-provincia">▶ Continuar</button>'
+              : (firmado
+                  ? '<button class="btn-arcade" data-muni-nav="1">▶ Siguiente documento</button>'
+                  : `<button class="btn-arcade primary" data-muni-firma="${d.id}">▶ Aprobar y sellar</button>`))
       }</div>
     </div>
   `;
