@@ -4116,9 +4116,11 @@ body.scene-bossredimido .dialog-box.anchor .dialog {
 .encuentro-asoc-grupo svg { image-rendering: pixelated; filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.4)); }
 
 /* festejo final · 3 fases: festeja en lugar → se acerca → saltan juntos
-   --boss-tx: distancia que camina el boss para llegar al lado del grupo */
-.encuentro-personaje { --boss-tx: 50vw; }
-@media (min-width: 640px) { .encuentro-personaje { --boss-tx: 38vw; } }
+   --boss-tx: distancia que camina el boss para quedar a la izquierda del grupo
+   (no encima ni atrás · ajustado para que haya un sprite de aire entre ambos) */
+.encuentro-personaje { --boss-tx: 32vw; }
+@media (min-width: 480px) { .encuentro-personaje { --boss-tx: 28vw; } }
+@media (min-width: 640px) { .encuentro-personaje { --boss-tx: 22vw; } }
 
 .encuentro-personaje.villano-festeja-solo {
   animation: villano-festeja-solo 0.45s ease-in-out 2;
