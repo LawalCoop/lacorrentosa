@@ -1932,14 +1932,14 @@ const SCENES = {
   prologo: {
     type: 'dialog',
     speaker: '★ NARRADOR',
-    text: 'Año 2020. Pandemia.\n\nEn Villa La Angostura, un grupo de vecinas/os se empieza a juntar a charlar cómo resolver cosas en común mientras estamos aisladas/os.',
+    text: 'Año 2020. Pandemia.\n---\nEn Villa La Angostura, un grupo de vecinas/os se empieza a juntar a charlar cómo resolver cosas en común mientras estamos aisladas/os.',
     actors: 'pandemia',
     next: 'pandemia-conv',
   },
   'pandemia-conv': {
     type: 'dialog',
     speaker: '👤 VECINA',
-    text: 'Si lo individual no nos alcanza, probemos lo comunitario.\n\nHay un montón de cosas que solas/os no podemos, pero juntas/os sí.',
+    text: 'Si lo individual no nos alcanza, probemos lo comunitario.\n---\nHay un montón de cosas que solas/os no podemos, pero juntas/os sí.',
     actors: 'pandemia',
     talker: 'vecina',
     next: 'pandemia-conv2',
@@ -1947,7 +1947,7 @@ const SCENES = {
   'pandemia-conv2': {
     type: 'dialog',
     speaker: '👤 VECINO',
-    text: '¿Y si arrancamos por algo concreto?\n\nCompras comunitarias. Lo organizamos entre todas/os y nos sirve para reconstruir vínculo en plena pandemia.',
+    text: '¿Y si arrancamos por algo concreto?\n---\nCompras comunitarias. Lo organizamos entre todas/os y nos sirve para reconstruir vínculo en plena pandemia.',
     actors: 'pandemia',
     talker: 'vecino',
     next: 'pandemia-conv3',
@@ -1955,7 +1955,7 @@ const SCENES = {
   'pandemia-conv3': {
     type: 'dialog',
     speaker: '👤 VECINA',
-    text: 'Y traemos alimento agroecológico, de cooperativas y pequeñas producciones.\n\nMás sano, más justo, y conociendo a quien lo hace.',
+    text: 'Y traemos alimento agroecológico, de cooperativas y pequeñas producciones.\n---\nMás sano, más justo, y conociendo a quien lo hace.',
     actors: 'pandemia',
     talker: 'vecina',
     choice: {
@@ -1977,7 +1977,7 @@ const SCENES = {
   'figura-charla1': {
     type: 'dialog',
     speaker: '👤 VECINA',
-    text: 'Esto creció más de lo que pensábamos.\n\nNecesitamos una figura legal que abarque lo que estamos haciendo.',
+    text: 'Esto creció más de lo que pensábamos.\n---\nNecesitamos una figura legal que abarque lo que estamos haciendo.',
     actors: 'plaza',
     talker: 'vecina',
     next: 'figura-charla2',
@@ -1985,7 +1985,7 @@ const SCENES = {
   'figura-charla2': {
     type: 'dialog',
     speaker: '👤 VECINO',
-    text: 'Sí. Pedir créditos, abrir cuenta, firmar comodatos, formalizar la articulación con productores...\n\n¿Pero qué figura?',
+    text: 'Sí. Pedir créditos, abrir cuenta, firmar comodatos, formalizar la articulación con productores...\n---\n¿Pero qué figura?',
     actors: 'plaza',
     talker: 'vecino',
     next: 'figura-charla3',
@@ -1993,7 +1993,7 @@ const SCENES = {
   'figura-charla3': {
     type: 'dialog',
     speaker: '👤 VECINA',
-    text: 'Estuve investigando estos días. Encontré tres figuras posibles.\n\nA ver cuál nos sirve.',
+    text: 'Estuve investigando estos días. Encontré tres figuras posibles.\n---\nA ver cuál nos sirve.',
     actors: 'plaza',
     talker: 'vecina',
     next: 'figura-eleccion',
@@ -2001,7 +2001,7 @@ const SCENES = {
   'figura-inscripcion': {
     type: 'dialog',
     speaker: '★ NARRADOR',
-    text: 'El 17 de octubre de 2022 nos inscribimos:\n\nAsociación Mutual La Correntosa, matrícula INAES N.° 136.\n\n¡Somos mutual!',
+    text: 'El 17 de octubre de 2022 nos inscribimos:\n---\nAsociación Mutual La Correntosa, matrícula INAES N.° 136.\n---\n¡Somos mutual!',
     actors: 'plaza',
     celebra: true,
     next: 'chapter2-intro',
@@ -2016,18 +2016,18 @@ const SCENES = {
   'figura-eleccion': {
     type: 'choice',
     speaker: '★ DECISIÓN',
-    text: '¿Qué figura legal le damos al proyecto?\n\nElegí una.',
+    text: '¿Qué figura legal le damos al proyecto?\n---\nElegí una.',
     actors: 'plaza',
     opciones: [
       {
         label: '🏢 SRL',
         mal: true,
-        feedback: 'Una SRL es una sociedad comercial: reparte ganancias entre socios inversores.\n\nAcá no hay socios inversores. Hay vecinas/os que se asocian para acceder a alimento sano. La SRL no representa lo que somos.'
+        feedback: 'Una SRL es una sociedad comercial: reparte ganancias entre socios inversores.\n---\nAcá no hay socios inversores. Hay vecinas/os que se asocian para acceder a alimento sano. La SRL no representa lo que somos.'
       },
       {
         label: '🛠 Coop. de Trabajo',
         mal: true,
-        feedback: 'Una Cooperativa de Trabajo organiza el trabajo de sus asociadas/os: las/os asociadas/os SON las/os trabajadoras/es.\n\nAcá la mayoría no son trabajadoras/es del proyecto, son CONSUMIDORAS/ES que se organizan para acceder mejor al alimento. No encaja.'
+        feedback: 'Una Cooperativa de Trabajo organiza el trabajo de sus asociadas/os: las/os asociadas/os SON las/os trabajadoras/es.\n---\nAcá la mayoría no son trabajadoras/es del proyecto, son CONSUMIDORAS/ES que se organizan para acceder mejor al alimento. No encaja.'
       },
       {
         label: '🤝 Mutual de Proveeduría',
@@ -2040,7 +2040,7 @@ const SCENES = {
   'crece-intro': {
     type: 'dialog',
     speaker: '★ NARRADOR',
-    text: 'La noticia se corre.\n\nUna vecina le cuenta a otro, otro le cuenta a otra.\n\nTocá a cada vecina/o para que invite a sumarse.',
+    text: 'La noticia se corre.\n---\nUna vecina le cuenta a otro, otro le cuenta a otra.\n---\nTocá a cada vecina/o para que invite a sumarse.',
     next: 'crece-bocaenboca',
   },
   'crece-bocaenboca': {
@@ -2080,7 +2080,7 @@ const SCENES = {
   'amenaza-intro': {
     type: 'dialog',
     speaker: '★ NARRADOR',
-    text: 'Pero entonces...\n\nUna sombra apareció sobre el pueblo.',
+    text: 'Pero entonces...\n---\nUna sombra apareció sobre el pueblo.',
     flicker: true,
     next: 'chapter4-intro',
   },
@@ -2185,7 +2185,7 @@ const PRODUCTOS = [
       nombre: 'Frutillas convencionales',
       desc: 'Frutillas idénticas, producción a gran escala con agrotóxicos.',
     },
-    feedback: 'Las frutillas convencionales son una de las frutas con MÁS residuos de agrotóxicos: producción intensiva a gran escala.\n\nLas de Plottier (Neuquén) están acá nomás: cadena corta, productores agroecológicos, sin agrotóxicos. Las formas son distintas porque la naturaleza es diversa. Esas son las que sumamos.',
+    feedback: 'Las frutillas convencionales son una de las frutas con MÁS residuos de agrotóxicos: producción intensiva a gran escala.\n---\nLas de Plottier (Neuquén) están acá nomás: cadena corta, productores agroecológicos, sin agrotóxicos. Las formas son distintas porque la naturaleza es diversa. Esas son las que sumamos.',
   },
 ];
 
@@ -2398,7 +2398,7 @@ function mostrarComprasContinuar() {
   const txt = stage.querySelector('#mapa-dialog .dialog');
   if (name) name.textContent = '★ NARRADOR';
   if (txt) {
-    const cierre = 'En casi 2 años de compras comunitarias:\n\n· miles de pedidos organizados entre vecinas/os\n· decenas de toneladas de alimento agroecológico\n· cientos de familias encontrándose en estos espacios.\n\nEl proyecto pide dar un paso más...';
+    const cierre = 'En casi 2 años de compras comunitarias:\n---\n· miles de pedidos organizados entre vecinas/os\n---\n· decenas de toneladas de alimento agroecológico\n---\n· cientos de familias encontrándose en estos espacios.\n---\nEl proyecto pide dar un paso más...';
     txt.dataset.text = cierre;
     txt.removeAttribute('data-played');
     delete txt.dataset.played;
@@ -4788,7 +4788,7 @@ function renderRedCoop() {
     </div>
     <div class="dialog-box anchor" id="redcoop-dialog">
       <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog tw" data-text="Y entonces... ¿cómo hacemos?&#10;&#10;Empezar de cero parecía imposible.&#10;---&#10;Nos contactamos con la Red de Alimentos Cooperativos.&#10;&#10;Otras mutuales, cooperativas y grupos de consumo de todo el país que ya venían organizando compras agroecológicas.&#10;---&#10;Con un camino ya recorrido, nos abrieron las puertas: nos pasaron contactos de productores, prácticas, formas de organizarse.&#10;---&#10;Nos ayudaron y acompañaron a empezar a hacerlo.&#10;&#10;Así arrancamos."></div>
+      <div class="dialog tw" data-text="Y entonces... ¿cómo hacemos?&#10;---&#10;Empezar de cero parecía imposible.&#10;---&#10;Nos contactamos con la Red de Alimentos Cooperativos.&#10;---&#10;Otras mutuales, cooperativas y grupos de consumo de todo el país que ya venían organizando compras agroecológicas.&#10;---&#10;Con un camino ya recorrido, nos abrieron las puertas: nos pasaron contactos de productores, prácticas, formas de organizarse.&#10;---&#10;Nos ayudaron y acompañaron a empezar a hacerlo.&#10;---&#10;Así arrancamos."></div>
       <div class="dialog-actions">
         <button class="btn-arcade primary" data-next="compras-eleccion">▶ Continuar</button>
       </div>
@@ -4821,7 +4821,7 @@ function renderComprasEleccion() {
       ${renderAudiencia()}
       <div class="dialog-box anchor" id="eleccion-dialog">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog tw" data-text="Ya somos un grupo. Ahora hay que elegir qué alimentos vamos a traer en conjunto.&#10;&#10;De cada producto que aparezca, decidimos si lo sumamos o no a la compra comunitaria."></div>
+        <div class="dialog tw" data-text="Ya somos un grupo. Ahora hay que elegir qué alimentos vamos a traer en conjunto.&#10;---&#10;De cada producto que aparezca, decidimos si lo sumamos o no a la compra comunitaria."></div>
         <div class="dialog-actions">
           <button class="btn-arcade primary" data-eleccion-start="1">▶ Empezar</button>
         </div>
@@ -4834,7 +4834,7 @@ function renderComprasEleccion() {
       ${renderAudiencia()}
       <div class="dialog-box anchor" id="eleccion-fin">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog tw" data-text="Aciertos: ${aciertos}/${total}.&#10;&#10;Esto es lo que buscamos en la compra comunitaria: alimento agroecológico, regional, de pequeñas producciones y cooperativas. De estación, cuando se puede.&#10;---&#10;A veces, en invierno, no se consigue fruta o verdura de la región.&#10;&#10;Ahí buscamos convencional, pero apuntando a la mejor calidad posible y al precio más accesible para todas/os.&#10;---&#10;Ahora hay que repartir todo esto entre vecinas/os."></div>
+        <div class="dialog tw" data-text="Aciertos: ${aciertos}/${total}.&#10;---&#10;Esto es lo que buscamos en la compra comunitaria: alimento agroecológico, regional, de pequeñas producciones y cooperativas. De estación, cuando se puede.&#10;---&#10;A veces, en invierno, no se consigue fruta o verdura de la región.&#10;---&#10;Ahí buscamos convencional, pero apuntando a la mejor calidad posible y al precio más accesible para todas/os.&#10;---&#10;Ahora hay que repartir todo esto entre vecinas/os."></div>
         <div class="dialog-actions" id="eleccion-fin-actions"></div>
       </div>
     `;
@@ -4965,7 +4965,7 @@ function renderBocaEnBoca() {
           return `<div class="dialog tw" data-text="¡Más de 900 vecinas/os! La mutual creció de boca en boca, de mano en mano."></div>`;
         }
         if (r === 0) {
-          return `<div class="dialog tw" data-text="La noticia se corre. Una vecina le cuenta a otro, otro le cuenta a otra.&#10;&#10;Tocá a cada vecina/o para que invite a más."></div>`;
+          return `<div class="dialog tw" data-text="La noticia se corre. Una vecina le cuenta a otro, otro le cuenta a otra.&#10;---&#10;Tocá a cada vecina/o para que invite a más."></div>`;
         }
         return `<div class="dialog">¡Boca en boca! Tocá a otra/o vecina/o para que invite a más.</div>`;
       })()}
@@ -5006,7 +5006,7 @@ function getExcedenteData() {
     ok = false;
   } else if (pctExcedente <= 15) {
     zona = 'ideal';
-    mensaje = 'Así encontramos el equilibrio. Le pagábamos lo suyo a la productora, cubríamos el circuito y nos quedaba algo para crecer.\n\nVecines llegaban, pagaban buenos precios por alimentos increíbles, y el proyecto se sostenía.';
+    mensaje = 'Así encontramos el equilibrio. Le pagábamos lo suyo a la productora, cubríamos el circuito y nos quedaba algo para crecer.\n---\nVecines llegaban, pagaban buenos precios por alimentos increíbles, y el proyecto se sostenía.';
     ok = true;
   } else if (pctExcedente <= 25) {
     zona = 'alta';
@@ -5129,7 +5129,7 @@ function renderCreceExcedente() {
       </div>
       <div class="dialog-box anchor" id="excedente-intro">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog tw" data-text="Con cada compra fuimos conociendo más productoras/es. Una huerta familiar acá nomás, una cooperativa de allá, una panadería del barrio que entró por boca a boca.&#10;&#10;La red de productoras/es fue creciendo, mes a mes.&#10;---&#10;Al principio algunas/os desconfiaban: 'siempre nos pagan tarde, ¿esto va a ser distinto?'&#10;&#10;Lo más importante que aprendimos: precio justo y pagos a tiempo. La confianza se construye así.&#10;---&#10;Hoy llegan tomates, acelga, miel, manzanas, pollo, huevos.&#10;&#10;Como mutual no le vendemos a nadie: somos consumidoras/es organizadas/os que nos ponemos el precio entre todas/os.&#10;&#10;¿A cuánto lo ponemos? Buscá el equilibrio."></div>
+        <div class="dialog tw" data-text="Con cada compra fuimos conociendo más productoras/es. Una huerta familiar acá nomás, una cooperativa de allá, una panadería del barrio que entró por boca a boca.&#10;---&#10;La red de productoras/es fue creciendo, mes a mes.&#10;---&#10;Al principio algunas/os desconfiaban: 'siempre nos pagan tarde, ¿esto va a ser distinto?'&#10;---&#10;Lo más importante que aprendimos: precio justo y pagos a tiempo. La confianza se construye así.&#10;---&#10;Hoy llegan tomates, acelga, miel, manzanas, pollo, huevos.&#10;---&#10;Como mutual no le vendemos a nadie: somos consumidoras/es organizadas/os que nos ponemos el precio entre todas/os.&#10;---&#10;¿A cuánto lo ponemos? Buscá el equilibrio."></div>
         <div class="dialog-actions">
           <button class="btn-arcade primary" data-excedente-start="1">▶ Empezar</button>
         </div>
@@ -5364,7 +5364,7 @@ function renderCreceReinversion() {
       </div>
       <div class="dialog-box anchor" id="reinv-intro">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog tw" data-text="El camión llega a Villa La Angostura cargado de tomates, acelga, miel.&#10;&#10;Vecinas/os se juntan a recibir el pedido. Mientras esperan, charlan sobre la vida, se ayudan a descargar las cajas, niñas/os corren entre las bolsas y se conocen.&#10;---&#10;A fin de mes hacemos cuenta. Pagamos a productoras/es, cubrimos los costos del circuito.&#10;&#10;Y nos queda un excedente.&#10;---&#10;Ahora viene la pregunta clave: ¿qué hacemos con esa plata?&#10;&#10;En una mutual no es 'ganancia que se reparte'. Vuelve al proyecto.&#10;&#10;Veamos qué falta."></div>
+        <div class="dialog tw" data-text="El camión llega a Villa La Angostura cargado de tomates, acelga, miel.&#10;---&#10;Vecinas/os se juntan a recibir el pedido. Mientras esperan, charlan sobre la vida, se ayudan a descargar las cajas, niñas/os corren entre las bolsas y se conocen.&#10;---&#10;A fin de mes hacemos cuenta. Pagamos a productoras/es, cubrimos los costos del circuito.&#10;---&#10;Y nos queda un excedente.&#10;---&#10;Ahora viene la pregunta clave: ¿qué hacemos con esa plata?&#10;---&#10;En una mutual no es 'ganancia que se reparte'. Vuelve al proyecto.&#10;---&#10;Veamos qué falta."></div>
         <div class="dialog-actions">
           <button class="btn-arcade primary" data-reinv-start="1">▶ Empezar</button>
         </div>
@@ -5413,7 +5413,7 @@ function renderCreceReinversion() {
     <div class="dialog-box anchor ${todoComprado ? 'feedback' : ''}" id="reinv-dialog">
       <div class="dialog-name">★ NARRADOR</div>
       ${todoComprado
-        ? `<div class="dialog tw" data-text="Mesas plegables para armar la entrega rotativa, una balanza para pesar lo justo, stock para no faltar nunca, una compu para llevar registros.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;&#10;Vecinas/os que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;&#10;Más asociadas/os, más herramientas, más asociadas/os. Así nos vamos haciendo más grandes."></div>`
+        ? `<div class="dialog tw" data-text="Mesas plegables para armar la entrega rotativa, una balanza para pesar lo justo, stock para no faltar nunca, una compu para llevar registros.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;---&#10;Vecinas/os que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;---&#10;Más asociadas/os, más herramientas, más asociadas/os. Así nos vamos haciendo más grandes."></div>`
         : `<div class="dialog">Sumá asociadas/os para acumular más excedente. Después invertí en lo que necesitamos.</div>`}
       <div class="dialog-actions" id="reinv-cta"></div>
     </div>`;
@@ -5620,7 +5620,7 @@ function renderDespensaRespaldo() {
     </div>
     <div class="dialog-box anchor" id="respaldo-dialog">
       <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog tw" data-text="Hacer compras rotativas era titánico: en un mismo día, coordinar la llegada de muches productores a una escuela que nos prestaba el espacio por unas pocas horas.&#10;---&#10;Necesitábamos un lugar propio. Algo que aliviane la logística y que nos permitiera recibir todo en un mismo lugar, todos los días.&#10;---&#10;Y eso requería del apoyo de los tres niveles del Estado: Nación, Provincia y Municipio.&#10;&#10;Cada uno aportó algo distinto e indispensable. Veamos cómo."></div>
+      <div class="dialog tw" data-text="Hacer compras rotativas era titánico: en un mismo día, coordinar la llegada de muches productores a una escuela que nos prestaba el espacio por unas pocas horas.&#10;---&#10;Necesitábamos un lugar propio. Algo que aliviane la logística y que nos permitiera recibir todo en un mismo lugar, todos los días.&#10;---&#10;Y eso requería del apoyo de los tres niveles del Estado: Nación, Provincia y Municipio.&#10;---&#10;Cada uno aportó algo distinto e indispensable. Veamos cómo."></div>
       <div class="dialog-actions">
         <button class="btn-arcade primary" data-next="despensa-nacion">▶ Continuar</button>
       </div>
@@ -5710,7 +5710,7 @@ function renderDespensaNacion() {
     </div>
     <div class="dialog-box anchor" id="nacion-dialog">
       <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog tw" data-text="2023. La mutual venía creciendo y necesitaba un lugar propio.&#10;&#10;El Ministerio de Obras Públicas de la Nación abrió una convocatoria: el Programa de Infraestructura de Entramados Productivos Regionales.&#10;---&#10;El programa acompañaba a organizaciones sociales que venían trabajando con compras comunitarias —muchas surgidas en pandemia, como la nuestra—.&#10;---&#10;De todo el país eligieron 59 sitios. La experiencia que veníamos haciendo en La Angostura se destacó a nivel nacional, y entramos en ese programa.&#10;&#10;Llegaron dos containers que se convirtieron en nuestra despensa modular. La primera pata del triple respaldo."></div>
+      <div class="dialog tw" data-text="2023. La mutual venía creciendo y necesitaba un lugar propio.&#10;---&#10;El Ministerio de Obras Públicas de la Nación abrió una convocatoria: el Programa de Infraestructura de Entramados Productivos Regionales.&#10;---&#10;El programa acompañaba a organizaciones sociales que venían trabajando con compras comunitarias —muchas surgidas en pandemia, como la nuestra—.&#10;---&#10;De todo el país eligieron 59 sitios. La experiencia que veníamos haciendo en La Angostura se destacó a nivel nacional, y entramos en ese programa.&#10;---&#10;Llegaron dos containers que se convirtieron en nuestra despensa modular. La primera pata del triple respaldo."></div>
       <div class="dialog-actions">
         <button class="btn-arcade primary" data-next="despensa-municipio">▶ Continuar</button>
       </div>
@@ -7039,7 +7039,7 @@ function renderProductores() {
     </div>
     <div class="dialog-box anchor">
       <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog tw" data-text="Llegan las y los productores: 27 en total. Cada uno con lo suyo: tomates, miel, harina, verduras de hoja.\n\nAcortamos la distancia entre quien produce y quien come. Eso también es mutualismo."></div>
+      <div class="dialog tw" data-text="Llegan las y los productores: 27 en total. Cada uno con lo suyo: tomates, miel, harina, verduras de hoja.\n---\nAcortamos la distancia entre quien produce y quien come. Eso también es mutualismo."></div>
       <div class="dialog-actions">
         <button class="btn-arcade primary" data-next="chapter3-intro">▶ Continuar</button>
       </div>
@@ -7231,7 +7231,7 @@ function renderBossRedimido() {
 
     <div class="dialog-box anchor">
       <div class="dialog-name">★ LA RONDA</div>
-      <div class="dialog tw" data-text="EX-VILLANA/O:&#10;...mmm... ¡pero qué rico mate!&#10;&#10;Y encima no me da acidez...&#10;---&#10;ASOCIADAS/OS:&#10;¡Porque la yerba es agroecológica!&#10;---&#10;EX-VILLANA/O:&#10;...¿y dónde la consigo? ¿en la despensa?&#10;---&#10;ASOCIADAS/OS:&#10;¡Sí! Sumate, dale.&#10;---&#10;ASOCIADAS/OS:&#10;Che... y si ven que hay algo que se puede corregir para cumplir mejor con ciertas formalidades, estamos para hacerlo.&#10;&#10;Pero invitar a desmantelar un proceso colectivo con tanto esfuerzo, los excedentes que juntamos entre asociadas/os, los créditos que aportó Provincia y miles y miles de horas de trabajo voluntario... no tiene sentido.&#10;---&#10;EX-VILLANA/O:&#10;...si me das otro matecito... quizááás...&#10;&#10;por ahííí te digo que puede ser. Jijiji.&#10;---&#10;EX-VILLANA/O:&#10;Yo... yo también quiero ser parte.&#10;&#10;¿Puedo asociarme?"></div>
+      <div class="dialog tw" data-text="EX-VILLANA/O:&#10;...mmm... ¡pero qué rico mate!&#10;---&#10;Y encima no me da acidez...&#10;---&#10;ASOCIADAS/OS:&#10;¡Porque la yerba es agroecológica!&#10;---&#10;EX-VILLANA/O:&#10;...¿y dónde la consigo? ¿en la despensa?&#10;---&#10;ASOCIADAS/OS:&#10;¡Sí! Sumate, dale.&#10;---&#10;ASOCIADAS/OS:&#10;Che... y si ven que hay algo que se puede corregir para cumplir mejor con ciertas formalidades, estamos para hacerlo.&#10;---&#10;Pero invitar a desmantelar un proceso colectivo con tanto esfuerzo, los excedentes que juntamos entre asociadas/os, los créditos que aportó Provincia y miles y miles de horas de trabajo voluntario... no tiene sentido.&#10;---&#10;EX-VILLANA/O:&#10;...si me das otro matecito... quizááás...&#10;---&#10;por ahííí te digo que puede ser. Jijiji.&#10;---&#10;EX-VILLANA/O:&#10;Yo... yo también quiero ser parte.&#10;---&#10;¿Puedo asociarme?"></div>
       <div class="dialog-actions ronda-actions actions-hidden" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
         <button class="btn-arcade primary" data-final="si">✓ Sí, bienvenida/o</button>
         <button class="btn-arcade" data-final="no">✗ No, sos peligrosa/o</button>
