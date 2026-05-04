@@ -3722,7 +3722,6 @@ body::after {
   body { font-size: 16px; }
   .title-arcade { font-size: 1.4rem !important; }
   .subtitle-mono { font-size: 1.1rem; }
-  .dialog { font-size: 1.3rem; height: 8em; min-height: 8em; max-height: 8em; }
   .panel { padding: 1.1rem 0.9rem; }
   .villain-sprite { width: 110px; height: 110px; }
   .sprite { width: 56px; height: 56px; }
