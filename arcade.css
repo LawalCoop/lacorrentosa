@@ -4467,16 +4467,17 @@ body.scene-bossredimido::before { display: none !important; }
 /* logo de La Correntosa en la pantalla de título · "logo bit.png" 800×800 con transparencia real */
 .title-logo {
   display: block;
-  margin: 1rem auto 0.75rem;
-  width: 230px;
-  height: 230px;
+  margin: 0.5rem auto 1rem;
+  width: min(85vw, 340px);
+  height: auto;
+  aspect-ratio: 1 / 1;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  filter: drop-shadow(0 5px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 0 18px rgba(255, 217, 122, 0.3));
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.55)) drop-shadow(0 0 22px rgba(255, 217, 122, 0.35));
   animation: title-logo-bob 3s ease-in-out infinite;
 }
-@media (min-width: 640px) { .title-logo { width: 280px; height: 280px; } }
-@media (min-width: 1024px) { .title-logo { width: 340px; height: 340px; } }
+@media (min-width: 640px) { .title-logo { width: min(70vw, 420px); } }
+@media (min-width: 1024px) { .title-logo { width: 480px; } }
 @keyframes title-logo-bob {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-4px); }
