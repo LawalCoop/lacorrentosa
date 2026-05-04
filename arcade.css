@@ -4244,9 +4244,9 @@ body.scene-bossredimido .dialog-box.anchor .dialog {
   left: 0;
   bottom: 0;
   width: 100%;
-  background: linear-gradient(180deg, rgba(255, 217, 122, 0.25), rgba(255, 217, 122, 0.55));
+  background: linear-gradient(180deg, rgba(88, 232, 126, 0.55), rgba(47, 176, 90, 0.85));
   transition: height 0.5s steps(8);
-  box-shadow: 0 -1px 0 var(--neon-amber);
+  box-shadow: 0 -2px 0 var(--neon-green), 0 0 12px rgba(88, 232, 126, 0.45);
 }
 /* desbloqueado · listo para usar */
 .paper-btn.paper-super.paper-super-ready {
