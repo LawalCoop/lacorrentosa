@@ -1932,7 +1932,7 @@ const SCENES = {
   prologo: {
     type: 'dialog',
     speaker: '★ NARRADOR',
-    text: 'Año 2020. Pandemia.\n\nEn Villa La Angostura, un grupo de vecines se empieza a juntar a charlar cómo resolver cosas en común mientras estamos aislades.',
+    text: 'Año 2020. Pandemia.\n\nEn Villa La Angostura, un grupo de vecinas/os se empieza a juntar a charlar cómo resolver cosas en común mientras estamos aisladas/os.',
     actors: 'pandemia',
     next: 'pandemia-conv',
   },
@@ -1947,7 +1947,7 @@ const SCENES = {
   'pandemia-conv2': {
     type: 'dialog',
     speaker: '👤 VECINO',
-    text: '¿Y si arrancamos por algo concreto?\n\nCompras comunitarias. Lo organizamos entre todes y nos sirve para reconstruir vínculo en plena pandemia.',
+    text: '¿Y si arrancamos por algo concreto?\n\nCompras comunitarias. Lo organizamos entre todas/os y nos sirve para reconstruir vínculo en plena pandemia.',
     actors: 'pandemia',
     talker: 'vecino',
     next: 'pandemia-conv3',
@@ -2010,7 +2010,7 @@ const SCENES = {
     type: 'chapter',
     numero: 'CAPÍTULO 2',
     titulo: 'El Crecimiento',
-    subtitulo: 'Más asociadxs · más alimento · más comunidad',
+    subtitulo: 'Más asociadas/os · más alimento · más comunidad',
     next: 'crece-bocaenboca',
   },
   'figura-eleccion': {
@@ -2022,12 +2022,12 @@ const SCENES = {
       {
         label: '🏢 SRL',
         mal: true,
-        feedback: 'Una SRL es una sociedad comercial: reparte ganancias entre socios inversores.\n\nAcá no hay socios inversores. Hay vecines que se asocian para acceder a alimento sano. La SRL no representa lo que somos.'
+        feedback: 'Una SRL es una sociedad comercial: reparte ganancias entre socios inversores.\n\nAcá no hay socios inversores. Hay vecinas/os que se asocian para acceder a alimento sano. La SRL no representa lo que somos.'
       },
       {
         label: '🛠 Coop. de Trabajo',
         mal: true,
-        feedback: 'Una Cooperativa de Trabajo organiza el trabajo de sus asociadxs: lxs asociadxs SON lxs trabajadores.\n\nAcá la mayoría no son trabajadores del proyecto, son CONSUMIDORES que se organizan para acceder mejor al alimento. No encaja.'
+        feedback: 'Una Cooperativa de Trabajo organiza el trabajo de sus asociadas/os: las/os asociadas/os SON las/os trabajadoras/es.\n\nAcá la mayoría no son trabajadoras/es del proyecto, son CONSUMIDORAS/ES que se organizan para acceder mejor al alimento. No encaja.'
       },
       {
         label: '🤝 Mutual de Proveeduría',
@@ -2235,7 +2235,7 @@ const PAPELES = [
   { id: 'decreto',  short: 'DECRETO',  edu: 'Decreto 911/2024 · firmado por Murer',
     relato: '¡Y va el Decreto 911! ¡Firmado por el intendente! ¡Acá no se zafa nadie!' },
   { id: 'permiso',  short: 'PERMISO',  edu: 'NOTA 090/2025 · obra autorizada',
-    relato: '¡La NOTA 090! ¡La obra está habilitada y todo en regla, señorxs!' },
+    relato: '¡La NOTA 090! ¡La obra está habilitada y todo en regla, señoras/es!' },
   { id: 'ley',      short: 'LEY 20.321', edu: 'régimen legal de mutuales · sin fines de lucro',
     relato: '¡BOMBAZO! ¡Ley nacional 20.321! Las mutuales son sin fines de lucro, ¡ahí no hay vuelta!' },
   { id: 'carta',    short: 'CARTA ORG.', edu: 'art. 22 · el municipio fomenta mutuales',
@@ -2243,8 +2243,8 @@ const PAPELES = [
 ];
 
 const RELATOS_INICIO = [
-  '¡Bienvenidxs a esta pelea histórica!',
-  '¡Atentxs! Ya vienen los papeles del Estado de Derecho.',
+  '¡Bienvenidas/os a esta pelea histórica!',
+  '¡Atentas/os! Ya vienen los papeles del Estado de Derecho.',
   'La gente está esperando ver volar documentación.',
 ];
 const RELATOS_OLEADA = [
@@ -2252,11 +2252,11 @@ const RELATOS_OLEADA = [
   '¡La marea mutualista! ¡Esto se está dando vuelta!',
 ];
 const RELATOS_KO = [
-  '¡Ay no! ¡El boss está temblando!',
-  '¡Casi listx! ¡Ya casi no le queda HP!',
+  '¡Ay no! ¡La/el boss está temblando!',
+  '¡Casi lista/o! ¡Ya casi no le queda HP!',
 ];
 const RELATOS_MATE = [
-  '¡AHHH BUE! ¡Sacaron el ARMA SECRETA, señorxs!',
+  '¡AHHH BUE! ¡Sacaron el ARMA SECRETA, señoras/es!',
   '¡EL MATECITO con yerba agroecológica! ¡Esto cambia TODO!',
   '¡INCREÍBLE! ¡Le convidan un mate, no se lo tiran! ¡La mutual no derrota: incluye!',
 ];
@@ -2398,7 +2398,7 @@ function mostrarComprasContinuar() {
   const txt = stage.querySelector('#mapa-dialog .dialog');
   if (name) name.textContent = '★ NARRADOR';
   if (txt) {
-    const cierre = 'En casi 2 años de compras comunitarias:\n\n· miles de pedidos organizados entre vecines\n· decenas de toneladas de alimento agroecológico\n· cientos de familias encontrándose en estos espacios.\n\nEl proyecto pide dar un paso más...';
+    const cierre = 'En casi 2 años de compras comunitarias:\n\n· miles de pedidos organizados entre vecinas/os\n· decenas de toneladas de alimento agroecológico\n· cientos de familias encontrándose en estos espacios.\n\nEl proyecto pide dar un paso más...';
     txt.dataset.text = cierre;
     txt.removeAttribute('data-played');
     delete txt.dataset.played;
@@ -4468,8 +4468,8 @@ function render() {
       };
       tw.addEventListener('tw-page-start', (e) => {
         const txt = (e.detail && e.detail.text) || '';
-        if (txt.startsWith('EX-VILLANX')) { limpiar(asoc); activar(boss); }
-        else if (txt.startsWith('ASOCIADXS')) { limpiar(boss); activar(asoc); }
+        if (txt.startsWith('EX-VILLAN')) { limpiar(asoc); activar(boss); }
+        else if (txt.startsWith('ASOCIAD')) { limpiar(boss); activar(asoc); }
       });
       tw.addEventListener('tw-done', () => {
         limpiar(boss); limpiar(asoc);
@@ -4834,7 +4834,7 @@ function renderComprasEleccion() {
       ${renderAudiencia()}
       <div class="dialog-box anchor" id="eleccion-fin">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog tw" data-text="Aciertos: ${aciertos}/${total}.&#10;&#10;Esto es lo que buscamos en la compra comunitaria: alimento agroecológico, regional, de pequeñas producciones y cooperativas. De estación, cuando se puede.&#10;---&#10;A veces, en invierno, no se consigue fruta o verdura de la región.&#10;&#10;Ahí buscamos convencional, pero apuntando a la mejor calidad posible y al precio más accesible para todes.&#10;---&#10;Ahora hay que repartir todo esto entre vecines."></div>
+        <div class="dialog tw" data-text="Aciertos: ${aciertos}/${total}.&#10;&#10;Esto es lo que buscamos en la compra comunitaria: alimento agroecológico, regional, de pequeñas producciones y cooperativas. De estación, cuando se puede.&#10;---&#10;A veces, en invierno, no se consigue fruta o verdura de la región.&#10;&#10;Ahí buscamos convencional, pero apuntando a la mejor calidad posible y al precio más accesible para todas/os.&#10;---&#10;Ahora hay que repartir todo esto entre vecinas/os."></div>
         <div class="dialog-actions" id="eleccion-fin-actions"></div>
       </div>
     `;
@@ -4953,14 +4953,14 @@ function renderBocaEnBoca() {
   }
   return `
     <div class="mapa-stats-floating">
-      <span class="stat-pill amber"><b class="boca-counter">${total}</b> asociadxs</span>
+      <span class="stat-pill amber"><b class="boca-counter">${total}</b> asociadas/os</span>
     </div>
     <div class="boca-stage" id="boca-stage">${sprites}${arrow}</div>
     <div class="dialog-box anchor" id="boca-dialog">
       <div class="dialog-name">★ NARRADOR</div>
       ${(() => {
         if (completo) {
-          return `<div class="dialog tw" data-text="¡Más de 900 vecines! La mutual creció de boca en boca, de mano en mano."></div>`;
+          return `<div class="dialog tw" data-text="¡Más de 900 vecinas/os! La mutual creció de boca en boca, de mano en mano."></div>`;
         }
         if (r === 0) {
           return `<div class="dialog tw" data-text="La noticia se corre. Una vecina le cuenta a otrx, otrx le cuenta a otra.&#10;&#10;Tocá a un vecine para que invite a más."></div>`;
@@ -5000,7 +5000,7 @@ function getExcedenteData() {
     ok = false;
   } else if (pctExcedente < 5) {
     zona = 'baja';
-    mensaje = 'Llegamos justito a cubrir todo. No queda nada para arreglar la despensa, sumar más asociadxs ni para los meses flojos. Cualquier imprevisto y nos atrasamos.';
+    mensaje = 'Llegamos justito a cubrir todo. No queda nada para arreglar la despensa, sumar más asociadas/os ni para los meses flojos. Cualquier imprevisto y nos atrasamos.';
     ok = false;
   } else if (pctExcedente <= 15) {
     zona = 'ideal';
@@ -5008,7 +5008,7 @@ function getExcedenteData() {
     ok = true;
   } else if (pctExcedente <= 25) {
     zona = 'alta';
-    mensaje = 'Los precios subieron de más. Algunes vecines empiezan a preguntar: "¿no es caro acá?". El alimento debería ser para acercarlo a la gente, no para alejarlo.';
+    mensaje = 'Los precios subieron de más. Algunas/os vecinas/os empiezan a preguntar: "¿no es caro acá?". El alimento debería ser para acercarlo a la gente, no para alejarlo.';
     ok = false;
   } else {
     zona = 'muy-alta';
@@ -5127,7 +5127,7 @@ function renderCreceExcedente() {
       </div>
       <div class="dialog-box anchor" id="excedente-intro">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog tw" data-text="Con cada compra fuimos conociendo más productores. Una huerta familiar acá nomás, una cooperativa de allá, una panadería del barrio que entró por boca a boca.&#10;&#10;La red de productores fue creciendo, mes a mes.&#10;---&#10;Al principio algunes desconfiaban: 'siempre nos pagan tarde, ¿esto va a ser distinto?'&#10;&#10;Lo más importante que aprendimos: precio justo y pagos a tiempo. La confianza se construye así.&#10;---&#10;Hoy llegan tomates, acelga, miel, manzanas, pollo, huevos.&#10;&#10;Como mutual no le vendemos a nadie: somos consumidores organizados que nos ponemos el precio entre todes.&#10;&#10;¿A cuánto lo ponemos? Buscá el equilibrio."></div>
+        <div class="dialog tw" data-text="Con cada compra fuimos conociendo más productoras/es. Una huerta familiar acá nomás, una cooperativa de allá, una panadería del barrio que entró por boca a boca.&#10;&#10;La red de productoras/es fue creciendo, mes a mes.&#10;---&#10;Al principio algunas/os desconfiaban: 'siempre nos pagan tarde, ¿esto va a ser distinto?'&#10;&#10;Lo más importante que aprendimos: precio justo y pagos a tiempo. La confianza se construye así.&#10;---&#10;Hoy llegan tomates, acelga, miel, manzanas, pollo, huevos.&#10;&#10;Como mutual no le vendemos a nadie: somos consumidoras/es organizadas/os que nos ponemos el precio entre todas/os.&#10;&#10;¿A cuánto lo ponemos? Buscá el equilibrio."></div>
         <div class="dialog-actions">
           <button class="btn-arcade primary" data-excedente-start="1">▶ Empezar</button>
         </div>
@@ -5362,7 +5362,7 @@ function renderCreceReinversion() {
       </div>
       <div class="dialog-box anchor" id="reinv-intro">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog tw" data-text="El camión llega a Villa La Angostura cargado de tomates, acelga, miel.&#10;&#10;Vecines se juntan a recibir el pedido. Mientras esperan, charlan sobre la vida, se ayudan a descargar las cajas, niñes corren entre las bolsas y se conocen.&#10;---&#10;A fin de mes hacemos cuenta. Pagamos a productores, cubrimos los costos del circuito.&#10;&#10;Y nos queda un excedente.&#10;---&#10;Ahora viene la pregunta clave: ¿qué hacemos con esa plata?&#10;&#10;En una mutual no es 'ganancia que se reparte'. Vuelve al proyecto.&#10;&#10;Veamos qué falta."></div>
+        <div class="dialog tw" data-text="El camión llega a Villa La Angostura cargado de tomates, acelga, miel.&#10;&#10;Vecinas/os se juntan a recibir el pedido. Mientras esperan, charlan sobre la vida, se ayudan a descargar las cajas, niñas/os corren entre las bolsas y se conocen.&#10;---&#10;A fin de mes hacemos cuenta. Pagamos a productoras/es, cubrimos los costos del circuito.&#10;&#10;Y nos queda un excedente.&#10;---&#10;Ahora viene la pregunta clave: ¿qué hacemos con esa plata?&#10;&#10;En una mutual no es 'ganancia que se reparte'. Vuelve al proyecto.&#10;&#10;Veamos qué falta."></div>
         <div class="dialog-actions">
           <button class="btn-arcade primary" data-reinv-start="1">▶ Empezar</button>
         </div>
@@ -5373,12 +5373,12 @@ function renderCreceReinversion() {
   return `
     <div class="reinv-top">
       <div class="reinv-stats-floating">
-        <div class="reinv-pill"><b>${asoc}</b> asociadxs</div>
+        <div class="reinv-pill"><b>${asoc}</b> asociadas/os</div>
       </div>
       <div class="reinv-sumar-wrap">
         <button class="btn-arcade primary reinv-btn-sumar" data-reinv-action="sumar">
           <span class="reinv-sumar-emoji">👥</span>
-          <span>+ Sumar ${REINV_ASOC_PASO} asociadxs<br><span class="reinv-sumar-aporte">(+${fmt(REINV_APORTE_POR_GRUPO)})</span></span>
+          <span>+ Sumar ${REINV_ASOC_PASO} asociadas/os<br><span class="reinv-sumar-aporte">(+${fmt(REINV_APORTE_POR_GRUPO)})</span></span>
         </button>
         ${asoc <= 200 ? '<div class="tap-arrow tap-arrow-sumar"><svg viewBox="-14 -22 28 42"><ellipse cx="0" cy="6" rx="10" ry="2" fill="#ffd97a" opacity="0.55"/><circle class="tap-wave" cx="0" cy="6" r="4" fill="none" stroke="#ffd97a" stroke-width="1.5"/><polygon points="-5,-16 5,-16 5,0 11,0 0,16 -11,0 -5,0" fill="#1a1432"/><polygon points="-4,-15 4,-15 4,1 9,1 0,14 -9,1 -4,1" fill="#ffd97a"/><rect x="-4" y="-15" width="8" height="2" fill="#fff5d0"/><rect x="-4" y="-15" width="2" height="14" fill="#fff5d0" opacity="0.85"/><polygon points="4,1 9,1 0,14 0,12 6,2 4,2" fill="#c08842"/></svg></div>' : ''}
       </div>
@@ -5411,8 +5411,8 @@ function renderCreceReinversion() {
     <div class="dialog-box anchor ${todoComprado ? 'feedback' : ''}" id="reinv-dialog">
       <div class="dialog-name">★ NARRADOR</div>
       ${todoComprado
-        ? `<div class="dialog tw" data-text="Mesas plegables para armar la entrega rotativa, una balanza para pesar lo justo, stock para no faltar nunca, una compu para llevar registros.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;&#10;Vecines que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;&#10;Más asociadxs, más herramientas, más asociadxs. Así nos vamos haciendo más grandes."></div>`
-        : `<div class="dialog">Sumá asociadxs para acumular más excedente. Después invertí en lo que necesitamos.</div>`}
+        ? `<div class="dialog tw" data-text="Mesas plegables para armar la entrega rotativa, una balanza para pesar lo justo, stock para no faltar nunca, una compu para llevar registros.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;&#10;Vecinas/os que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;&#10;Más asociadas/os, más herramientas, más asociadas/os. Así nos vamos haciendo más grandes."></div>`
+        : `<div class="dialog">Sumá asociadas/os para acumular más excedente. Después invertí en lo que necesitamos.</div>`}
       <div class="dialog-actions" id="reinv-cta"></div>
     </div>`;
 }
@@ -6029,11 +6029,11 @@ const PROV_ETAPAS = [
     id: 'inicio',
     titulo: 'Las dos despensas, solas',
     sub: 'Dos despensas sobre tierra',
-    breve: 'Con el permiso de Planeamiento aprobado, arranca la construcción. Las dos despensas quedan sobre tierra: incómodo para les asociades cuando llueve.',
+    breve: 'Con el permiso de Planeamiento aprobado, arranca la construcción. Las dos despensas quedan sobre tierra: incómodo para las/os asociadas/os cuando llueve.',
     recurso: {
       icono: '💰',
       nombre: 'Excedentes mutuales',
-      detalle: 'Generados entre asociadxs',
+      detalle: 'Generados entre asociadas/os',
       cta: '▶ APLICAR Y CONSTRUIR DECK',
     },
   },
@@ -6082,7 +6082,7 @@ const PROV_ETAPAS = [
     id: 'devolucion',
     titulo: 'Compromisos asumidos',
     sub: 'Devolución de los créditos IADEP',
-    breve: 'Nos comprometemos a devolver los créditos en 4 años con los excedentes mutuales, porque confiamos en el proyecto colectivo. Garantía: prendas sobre autos de asociadxs.',
+    breve: 'Nos comprometemos a devolver los créditos en 4 años con los excedentes mutuales, porque confiamos en el proyecto colectivo. Garantía: prendas sobre autos de asociadas/os.',
     recurso: null,
     cta: '▶ Continuar',
   },
@@ -6496,14 +6496,14 @@ function renderDespensaProvincia() {
             <text x="60" y="178" font-family="monospace" font-size="6" text-anchor="middle" fill="#fff5d0">EXCEDENTE</text>
             <text x="105" y="154" font-family="monospace" font-size="9" font-weight="bold" fill="#1a0c04">CON QUÉ</text>
             <text x="105" y="170" font-family="monospace" font-size="8" fill="#3a2010">Excedentes generados entre</text>
-            <text x="105" y="183" font-family="monospace" font-size="8" fill="#3a2010">asociadxs · sin fines de lucro.</text>
+            <text x="105" y="183" font-family="monospace" font-size="8" fill="#3a2010">asociadas/os · sin fines de lucro.</text>
           </g>
           <!-- ítem 3: prendas -->
           <g>
             <rect x="30" y="198" width="60" height="36" fill="#7a1d3e" stroke="#3a0d18" stroke-width="2"/>
             <text x="60" y="220" font-family="monospace" font-size="14" text-anchor="middle" fill="#fff5d0">🚗</text>
             <text x="105" y="212" font-family="monospace" font-size="9" font-weight="bold" fill="#1a0c04">GARANTÍA</text>
-            <text x="105" y="228" font-family="monospace" font-size="8" fill="#3a2010">Prendas sobre autos de asociadxs.</text>
+            <text x="105" y="228" font-family="monospace" font-size="8" fill="#3a2010">Prendas sobre autos de asociadas/os.</text>
           </g>
         </svg>
       </div>
@@ -7154,7 +7154,7 @@ function renderBossFight() {
 
       <!-- ═══ Barra de vida grande arriba ═══ -->
       <div class="boss-hp-top">
-        <div class="boss-hp-label">⚔ JEFE BUROCRÁTICX · HP ${hpPct}/100</div>
+        <div class="boss-hp-label">⚔ JEFA/E BUROCRÁTICA/O · HP ${hpPct}/100</div>
         <div class="boss-hp-bar"><div class="boss-hp-fill${lowCls}" style="width:${hpPct}%;"></div></div>
       </div>
 
@@ -7173,7 +7173,7 @@ function renderBossFight() {
     <!-- ═══ Panel de acción abajo (donde va el dialog box) ═══ -->
     <div class="boss-panel">
       ${mostrarLlamado ? `
-        <button class="call-btn" id="call-btn">📢 LLAMAR A LXS ASOCIADXS</button>
+        <button class="call-btn" id="call-btn">📢 LLAMAR A LAS/OS ASOCIADAS/OS</button>
       ` : ''}
       <div class="paper-inventory" id="paper-inv">
         ${PAPELES.map(p => `
@@ -7229,10 +7229,10 @@ function renderBossRedimido() {
 
     <div class="dialog-box anchor">
       <div class="dialog-name">★ LA RONDA</div>
-      <div class="dialog tw" data-text="EX-VILLANX:&#10;...mmm... ¡pero qué rico mate!&#10;&#10;Y encima no me da acidez...&#10;---&#10;ASOCIADXS:&#10;¡Porque la yerba es agroecológica!&#10;---&#10;EX-VILLANX:&#10;...¿y dónde la consigo? ¿en la despensa?&#10;---&#10;ASOCIADXS:&#10;¡Sí! Sumate, dale.&#10;---&#10;ASOCIADXS:&#10;Che... y si ven que hay algo que se puede corregir para cumplir mejor con ciertas formalidades, estamos para hacerlo.&#10;&#10;Pero invitar a desmantelar un proceso colectivo con tanto esfuerzo, los excedentes que juntamos entre asociadxs, los créditos que aportó Provincia y miles y miles de horas de trabajo voluntario... no tiene sentido.&#10;---&#10;EX-VILLANX:&#10;...si me das otro matecito... quizááás...&#10;&#10;por ahííí te digo que puede ser. Jijiji.&#10;---&#10;EX-VILLANX:&#10;Yo... yo también quiero ser parte.&#10;&#10;¿Puedo asociarme?"></div>
+      <div class="dialog tw" data-text="EX-VILLANA/O:&#10;...mmm... ¡pero qué rico mate!&#10;&#10;Y encima no me da acidez...&#10;---&#10;ASOCIADAS/OS:&#10;¡Porque la yerba es agroecológica!&#10;---&#10;EX-VILLANA/O:&#10;...¿y dónde la consigo? ¿en la despensa?&#10;---&#10;ASOCIADAS/OS:&#10;¡Sí! Sumate, dale.&#10;---&#10;ASOCIADAS/OS:&#10;Che... y si ven que hay algo que se puede corregir para cumplir mejor con ciertas formalidades, estamos para hacerlo.&#10;&#10;Pero invitar a desmantelar un proceso colectivo con tanto esfuerzo, los excedentes que juntamos entre asociadas/os, los créditos que aportó Provincia y miles y miles de horas de trabajo voluntario... no tiene sentido.&#10;---&#10;EX-VILLANA/O:&#10;...si me das otro matecito... quizááás...&#10;&#10;por ahííí te digo que puede ser. Jijiji.&#10;---&#10;EX-VILLANA/O:&#10;Yo... yo también quiero ser parte.&#10;&#10;¿Puedo asociarme?"></div>
       <div class="dialog-actions ronda-actions actions-hidden" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
-        <button class="btn-arcade primary" data-final="si">✓ Sí, bienvenidx</button>
-        <button class="btn-arcade" data-final="no">✗ No, sos peligrosx</button>
+        <button class="btn-arcade primary" data-final="si">✓ Sí, bienvenida/o</button>
+        <button class="btn-arcade" data-final="no">✗ No, sos peligrosa/o</button>
       </div>
     </div>
   `;
@@ -7243,7 +7243,7 @@ function renderVictory() {
   // Si llegaste directo desde el cierre de la despensa (sin cap 4), grupo SIN ex-villano.
   const baseGroup = ['sp-mesa', 'sp-instit', 'sp-comu', 'sp-terr', ...VECINES, 'sp-prod-tomate', 'sp-prod-miel', 'sp-prod-hoja', 'sp-nino'];
   const todxs = game.bossRedimido ? [...baseGroup, 'sp-boss-good'] : baseGroup;
-  const headline = game.bossRedimido ? 'LA MUTUAL NO DERROTA: INCLUYE' : 'UNA MUTUAL DE VECINXS';
+  const headline = game.bossRedimido ? 'LA MUTUAL NO DERROTA: INCLUYE' : 'UNA MUTUAL DE VECINAS/OS';
   return `
     <div class="chapter-label" style="color: var(--neon-green);">★ ★ ★ ${game.bossRedimido ? 'VICTORY' : 'GRACIAS'} ★ ★ ★</div>
 
@@ -7257,8 +7257,8 @@ function renderVictory() {
       <div class="dialog-name">★ FIN</div>
       <div class="dialog">
         Lo que jugaste es real. <strong style="color: var(--neon-green);">La Correntosa existe.</strong><br><br>
-        ★ <strong>900+</strong> asociadas y asociados<br>
-        ★ <strong>27</strong> productoras y productores<br>
+        ★ <strong>900+</strong> asociadas/os<br>
+        ★ <strong>27</strong> productoras/es<br>
         ★ <strong>5</strong> toneladas de alimento por mes<br>
         ★ <strong>4</strong> años de trabajo colectivo<br><br>
         Es una mutual. Sin fines de lucro. Matrícula INAES #136.<br>
@@ -7267,7 +7267,7 @@ function renderVictory() {
     </div>
 
     <a href="https://instagram.com/la_correntosa" target="_blank" class="cta-final">
-      🌱 SUMATE COMO ASOCIADX →
+      🌱 SUMATE COMO ASOCIADA/O →
     </a>
 
     <div class="dialog-box feedback">
@@ -7430,7 +7430,7 @@ function tirarPapel(papelId) {
       const fill = document.querySelector('.boss-hp-fill');
       if (fill) fill.style.width = game.bossHp + '%';
       const lbl = document.querySelector('.boss-hp-label');
-      if (lbl) lbl.textContent = `⚔ JEFE BUROCRÁTICX · HP ${game.bossHp}/100`;
+      if (lbl) lbl.textContent = `⚔ JEFA/E BUROCRÁTICA/O · HP ${game.bossHp}/100`;
       // subir la barra de carga del super item
       const superFill = document.querySelector('.paper-super-charge-fill');
       if (superFill) {
