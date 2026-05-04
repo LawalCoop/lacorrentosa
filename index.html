@@ -8025,7 +8025,17 @@ document.addEventListener('keydown', (e) => {
   // SHIFT + flechas son atajos de dev, no avanzar UI
   if (e.shiftKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) return;
 
-  if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+  // ArrowRight: SOLO skipear/avanzar el texto del typewriter (no avanza de escena)
+  if (e.key === 'ArrowRight') {
+    const tw = document.querySelector('.dialog.tw');
+    if (tw && tw.offsetParent !== null) {
+      e.preventDefault();
+      tw.click();
+    }
+    return;
+  }
+
+  if (e.key === 'Enter' || e.key === ' ') {
     e.preventDefault();
     // 1) press-start si está activo
     const ps = document.getElementById('press-start');
