@@ -4788,3 +4788,45 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 .dialog-box.anchor { cursor: pointer; }
 /* las choice no tienen typewriter activo, no son cursor pointer en el container */
 .dialog-box.anchor.choice { cursor: default; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE FIT · achicar UI global en pantallas chicas para que entre todo
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  .chapter-title { font-size: clamp(1.1rem, 6.5vw, 1.8rem); }
+  .chapter-num { font-size: 0.85rem; letter-spacing: 0.3em; }
+  .chapter-subtitle { font-size: 0.95rem; }
+  .chapter-label { font-size: 0.55rem; }
+  .btn-arcade { font-size: 0.65rem; padding: 0.6rem 1rem; min-height: 40px; border-width: 3px; box-shadow: 3px 3px 0 var(--sky-3), 3px 3px 0 3px var(--cream); }
+  .stat-pill { font-size: 0.5rem; padding: 0.25rem 0.5rem; }
+  .stat-pill b { font-size: 0.62rem; }
+  .big-counter { font-size: 2.1rem; }
+  .counter-label { font-size: 0.7rem; }
+  .muni-doc-card { padding: 0.7rem 0.7rem 0.85rem; gap: 0.4rem; transform: rotate(-0.3deg); }
+  .muni-doc-card::after { left: 18px; top: 0.7rem; bottom: 0.85rem; }
+  .muni-doc-titulo { font-size: 0.82rem; padding: 0.3rem 0; }
+  .muni-doc-detalle { font-size: 0.78rem; line-height: 1.35; }
+  .muni-doc-cuerpo p { font-size: 0.72rem; line-height: 1.4; }
+  .muni-doc-num, .muni-doc-organo { font-size: 0.46rem; }
+  .muni-doc-fecha-block { padding: 0.22rem 0.4rem; }
+  .muni-doc-fecha-label { font-size: 0.38rem; }
+  .muni-doc-fecha { font-size: 0.52rem; }
+  .muni-doc-expte { font-size: 0.44rem; }
+  .mapa-stats-floating { top: 0.5rem; gap: 0.4rem; }
+}
+@media (max-width: 380px) {
+  body { font-size: 14px; }
+  .chapter-title { font-size: clamp(1rem, 6vw, 1.5rem); }
+  .chapter-num { font-size: 0.78rem; }
+  .chapter-subtitle { font-size: 0.85rem; }
+  .chapter-label { font-size: 0.5rem; }
+  .btn-arcade { font-size: 0.58rem; padding: 0.5rem 0.85rem; min-height: 36px; }
+  .stat-pill { font-size: 0.46rem; padding: 0.2rem 0.4rem; }
+  .stat-pill b { font-size: 0.55rem; }
+  .big-counter { font-size: 1.85rem; }
+  .counter-label { font-size: 0.62rem; }
+  .muni-doc-titulo { font-size: 0.74rem; }
+  .muni-doc-detalle { font-size: 0.72rem; }
+  .muni-doc-cuerpo p { font-size: 0.66rem; }
+}
