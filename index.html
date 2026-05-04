@@ -4848,8 +4848,10 @@ function renderBocaEnBoca() {
     const sp = BOCA_SPRITES[i % BOCA_SPRITES.length];
     const activated = activados.includes(i);
     const newPop = i >= BOCA_RONDAS[Math.max(0, r - 1)].hasta;
+    // en la primera ronda los vecines quedan tw-locked (el narrador da la instrucción primero)
+    const lockCls = (r === 0) ? ' tw-locked' : '';
     sprites += `
-      <button class="boca-vec ${activated ? 'activated' : ''} ${newPop ? 'just-popped' : ''}" data-boca-idx="${i}" style="left:${x}%; top:${y}%;" aria-label="vecine ${i+1}">
+      <button class="boca-vec${lockCls} ${activated ? 'activated' : ''} ${newPop ? 'just-popped' : ''}" data-boca-idx="${i}" style="left:${x}%; top:${y}%;" aria-label="vecine ${i+1}">
         <svg width="64" height="64"><use href="#${sp}"/></svg>
         <span class="grita-bubble" aria-hidden="true">¡VENÍ!</span>
       </button>
