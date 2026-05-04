@@ -4307,7 +4307,6 @@ function render() {
   document.body.classList.toggle('scene-mapa', game.scene === 'compras-mapa');
   document.body.classList.toggle('scene-bossfight', game.scene === 'boss-fight');
   document.body.classList.toggle('scene-bossredimido', game.scene === 'boss-redimido');
-  if (game.scene !== 'boss-redimido') document.body.classList.remove('ronda-show-actions');
   document.body.classList.toggle('scene-municipio', game.scene === 'despensa-municipio');
   document.body.classList.toggle('scene-cosecha', game.scene === 'crece-excedente' && !game.excedenteStarted);
   document.body.classList.toggle('scene-llegada', game.scene === 'crece-reinversion' && !game.reinvStarted);
@@ -4401,8 +4400,6 @@ function render() {
         // mostrar los botones SI/NO recién al terminar la ronda completa
         const actions = stage.querySelector('.ronda-actions');
         if (actions) actions.classList.remove('actions-hidden');
-        // el dialog crece con los 2 botones · subimos los personajes para que no queden tapados
-        document.body.classList.add('ronda-show-actions');
       }, { once: true });
     }
   }

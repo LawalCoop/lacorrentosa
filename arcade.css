@@ -4055,11 +4055,15 @@ body.scene-bossfight #world-bg { display: none !important; }
    otras escenas. Acá sólo posicionamos los personajes "parados sobre el pasto"
    (encima del dialog-box anchor). */
 body.scene-bossredimido::before { display: none !important; }
+/* personajes anchored al límite superior del pasto del SVG bg-bosque-dia.
+   El bottom es lo SUFICIENTEMENTE ALTO como para que el dialog (incluso con
+   los 2 botones SÍ/NO) NO los tape. Quedan fijos: no se mueven cuando aparecen
+   los botones porque ya estaban arriba desde el principio. */
 .encuentro-personajes {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 380px;
+  bottom: 460px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -4068,18 +4072,10 @@ body.scene-bossredimido::before { display: none !important; }
   pointer-events: none;
 }
 @media (min-width: 640px) {
-  .encuentro-personajes { bottom: 440px; padding: 0 2rem; }
+  .encuentro-personajes { bottom: 520px; padding: 0 2rem; }
 }
 @media (max-width: 480px) {
-  .encuentro-personajes { bottom: 300px; padding: 0 0.6rem; }
-}
-/* cuando aparecen los 2 botones SI/NO, el dialog crece · subimos los personajes para que no queden tapados */
-body.ronda-show-actions .encuentro-personajes { bottom: 460px; transition: bottom 0.4s ease; }
-@media (min-width: 640px) {
-  body.ronda-show-actions .encuentro-personajes { bottom: 520px; }
-}
-@media (max-width: 480px) {
-  body.ronda-show-actions .encuentro-personajes { bottom: 380px; }
+  .encuentro-personajes { bottom: 380px; padding: 0 0.6rem; }
 }
 
 .encuentro-personaje {
