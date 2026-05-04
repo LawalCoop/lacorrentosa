@@ -8365,7 +8365,22 @@ async function startMusic(){
 function stopMusic(){musicaRunning=false;if(schedId)clearTimeout(schedId);if(masterGain){masterGain.gain.cancelScheduledValues(audioCtx.currentTime);masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.3);}refreshAudio();}
 function refreshAudio(){const b=document.getElementById('audio-toggle');if(musicaRunning){b.classList.add('playing');b.textContent='♪';}else{b.classList.remove('playing');b.textContent='🎵';}}
 document.getElementById('audio-toggle').addEventListener('click',async()=>{if(musicaRunning){stopMusic();try{localStorage.setItem(MUSIC_KEY,'off');}catch(e){}}else{await startMusic();try{localStorage.setItem(MUSIC_KEY,'on');}catch(e){}}});
-(function(){let pref=null;try{pref=localStorage.getItem(MUSIC_KEY);}catch(e){}if(pref!=='on')return;const trigger=async()=>{document.removeEventListener('click',trigger,true);document.removeEventListener('keydown',trigger,true);try{await startMusic();}catch(e){}};document.addEventListener('click',trigger,true);document.addEventListener('keydown',trigger,true);})();
+// Auto-iniciar música si la preferencia anterior era 'on', SOLO si el primer click NO
+// es sobre el botón de música (porque ese ya tiene su propio handler que pisaría el resultado).
+(function(){
+  let pref = null;
+  try { pref = localStorage.getItem(MUSIC_KEY); } catch (e) {}
+  if (pref !== 'on') return;
+  const trigger = async (e) => {
+    // si el primer gesto es sobre el botón de audio, dejamos que su handler dedicado lo maneje
+    if (e && e.target && e.target.closest && e.target.closest('#audio-toggle')) return;
+    document.removeEventListener('click', trigger, true);
+    document.removeEventListener('keydown', trigger, true);
+    try { await startMusic(); } catch (e) {}
+  };
+  document.addEventListener('click', trigger, true);
+  document.addEventListener('keydown', trigger, true);
+})();
 
 /* SFX cortos */
 let sfxCtx = null;
