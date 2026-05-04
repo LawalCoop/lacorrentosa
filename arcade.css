@@ -516,13 +516,10 @@ body.scene-llegada .dialog-box.anchor .dialog {
   font-size: 1rem;
 }
 body.scene-cosecha .intro-camion { bottom: 48%; }
-/* en la llegada al pueblo, el camión + humanitos van arriba del dialog (cielo achicado) */
-body.scene-llegada .intro-camion-llega { bottom: 42%; }
-body.scene-llegada .intro-vecines { bottom: 36%; }
-body.scene-llegada .intro-svg {
-  /* shifteo el SVG para que las casas y la ruta queden más arriba en el viewport */
-  object-position: 50% 70%;
-}
+/* en la llegada al pueblo: el camión va por la calle (no encima de las casas)
+   y los vecinitos en primer plano sobre el pasto */
+body.scene-llegada .intro-camion-llega { bottom: 30%; }
+body.scene-llegada .intro-vecines { bottom: 22%; }
 .muni-titulo {
   font-family: var(--f-pixel);
   font-size: clamp(0.72rem, 1.8vw, 0.92rem);
@@ -1569,6 +1566,11 @@ body.scene-llegada .intro-svg {
   .prov-titulo-sub { font-size: 1rem; }
 }
 .prov-avanzar { min-width: 240px; }
+@media (max-width: 480px) {
+  .prov-avanzar { min-width: 0; padding: 0.5rem 0.7rem; font-size: 0.6rem; }
+  .prov-recurso-cta { font-size: 0.52rem; padding: 0.5rem 0.3rem; line-height: 1.25; }
+  .prov-recurso-icono { font-size: 1.5rem; }
+}
 /* Chip-recurso · botón vertical compacto (icono+nombre arriba, CTA abajo) */
 .prov-recurso-chip {
   display: flex;
