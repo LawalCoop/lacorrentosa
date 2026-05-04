@@ -478,10 +478,10 @@ body::before {
   pointer-events: auto;
   max-width: 720px;
   margin: 0 auto;
-  padding: clamp(70px, 10vh, 110px) 0.8rem 220px;
+  padding: clamp(70px, 10vh, 110px) 0.8rem 270px;
   text-align: center;
 }
-@media (min-width: 1024px) { .muni-slider-wrap { padding-bottom: 260px; } }
+@media (min-width: 1024px) { .muni-slider-wrap { padding-bottom: 300px; } }
 
 body.scene-cosecha .intro-camion { bottom: 48%; }
 /* en la llegada al pueblo: el camión va por la calle (no encima de las casas)
