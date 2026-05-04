@@ -4041,7 +4041,7 @@ body.scene-bossredimido::before { display: none !important; }
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 320px;
+  bottom: 380px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -4050,11 +4050,10 @@ body.scene-bossredimido::before { display: none !important; }
   pointer-events: none;
 }
 @media (min-width: 640px) {
-  .encuentro-personajes { bottom: 380px; padding: 0 2rem; }
+  .encuentro-personajes { bottom: 440px; padding: 0 2rem; }
 }
-/* en celus chicos los personajes deben ir sobre el pasto del SVG (no flotando) */
 @media (max-width: 480px) {
-  .encuentro-personajes { bottom: 230px; padding: 0 0.6rem; }
+  .encuentro-personajes { bottom: 300px; padding: 0 0.6rem; }
 }
 
 /* dialog-box anchor más compacto en boss-redimido para que los personajes pisen el pasto */
