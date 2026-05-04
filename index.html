@@ -7588,8 +7588,23 @@ function attachHandlers() {
       playSfx('correct');
       saveGame();
       setTimeout(() => {
-        // avanzar al siguiente no firmado
         const total = MUNI_DOCS.length;
+        const todasFirmadas = MUNI_DOCS.every(doc => game.despensaMuniFirmas.includes(doc.id));
+        if (todasFirmadas) {
+          // todos firmados · NO re-renderizar (sino el sello vuelve a aparecer animado).
+          // Solo actualizar el botón de acción a "Continuar" y el pip actual a check.
+          const muniCta = document.getElementById('muni-cta');
+          if (muniCta) {
+            muniCta.innerHTML = '<button class="btn-arcade primary" data-next="despensa-provincia">▶ Continuar</button>';
+            attachHandlers();
+          }
+          stage.querySelectorAll('.muni-pip').forEach((pip, i) => {
+            const f = game.despensaMuniFirmas.includes(MUNI_DOCS[i].id);
+            if (f) { pip.classList.add('firmado'); pip.textContent = '✓'; }
+          });
+          return;
+        }
+        // hay docs sin firmar, avanzar al siguiente
         let next = (game.despensaMuniIdx || 0);
         for (let k = 1; k <= total; k++) {
           const j = (next + k) % total;
