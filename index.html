@@ -4409,24 +4409,30 @@ function render() {
   // typewriter en escenas con texto
   document.querySelectorAll('.tw').forEach(el => runTypewriter(el));
 
-  // ═══ DIALOG SYSTEM v2 · paso 1 · comportamiento estándar para todos los dialog-box con typewriter ═══
+  // ═══ DIALOG SYSTEM v2 · comportamiento estándar para todos los dialog-box con typewriter ═══
   // 1) tap en cualquier parte del cuadro skipea/avanza el typewriter
-  // 2) los botones quedan ocultos (.actions-hidden) hasta que termine el texto
+  // 2) los botones (.dialog-actions y .tw-locked en cualquier parte del stage) quedan ocultos hasta tw-done
   document.querySelectorAll('.dialog-box').forEach(box => {
     const tw = box.querySelector('.dialog.tw');
     if (!tw) return;
     const actions = box.querySelector('.dialog-actions');
-    // los botones aparecen recién al terminar el typewriter (a menos que ya estén ocultos por otra lógica)
     if (actions) {
       actions.classList.add('actions-hidden');
       tw.addEventListener('tw-done', () => actions.classList.remove('actions-hidden'), { once: true });
     }
-    // tap en el cuadro entero (no sobre botones) = skipea/avanza el typewriter
     box.addEventListener('click', (e) => {
       if (e.target.closest('button, a, input, textarea')) return;
       tw.click();
     });
   });
+  // botones del stage marcados con .tw-locked → se desbloquean al primer tw-done de la escena
+  const firstTw = stage.querySelector('.dialog.tw');
+  const lockedEls = stage.querySelectorAll('.tw-locked');
+  if (firstTw && lockedEls.length) {
+    firstTw.addEventListener('tw-done', () => {
+      lockedEls.forEach(el => el.classList.remove('tw-locked'));
+    }, { once: true });
+  }
 
   // setup cierre reinversión: el botón Continuar aparece al terminar el typewriter
   if (game.scene === 'crece-reinversion') {
@@ -6458,7 +6464,7 @@ function renderDespensaProvincia() {
              </div>`
           : (esSlideDevolucion
               ? ''
-              : `<button class="btn-arcade primary prov-avanzar" data-prov-avanzar>${etapa.cta}</button>`)}
+              : `<button class="btn-arcade primary prov-avanzar tw-locked" data-prov-avanzar>${etapa.cta}</button>`)}
       </div>
     </div>
 

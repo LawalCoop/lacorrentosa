@@ -3021,6 +3021,8 @@ body::after {
   justify-content: flex-end;
 }
 .dialog-actions.actions-hidden { display: none !important; }
+/* botones marcados como dependientes del typewriter de la escena · ocultos hasta tw-done */
+.tw-locked { visibility: hidden !important; pointer-events: none !important; }
 
 .dialog-actions .btn-arcade {
   font-size: 0.6rem;
