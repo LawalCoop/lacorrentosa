@@ -2905,13 +2905,24 @@ body::after {
   min-height: 0;
   overflow: hidden;
 }
-/* en el choice (sin flecha) que tiene botones abajo, el dialog se adapta al contenido para no dejar hueco */
-.dialog-box.no-arrow:not(.feedback-mode) .dialog {
-  height: auto !important;
-  max-height: none !important;
-  min-height: 0 !important;
-  overflow: visible !important;
+/* dialog v2 · variantes choice (decisión) y feedback (info final): el dialog se
+   adapta al contenido (sin altura forzada) y el cuadro tampoco fuerza altura */
+.dialog-box.choice .dialog,
+.dialog-box.feedback .dialog,
+.dialog-box.no-arrow:not(.feedback) .dialog {
+  flex: 0 0 auto;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
 }
+.dialog-box.choice,
+.dialog-box.feedback {
+  min-height: 0;
+}
+/* las choices y feedback no usan la flecha indicadora del Continuar */
+.dialog-box.choice::after,
+.dialog-box.feedback::after { display: none; }
 
 /* botones bloqueados hasta que termine de escribirse el typewriter */
 .btn-arcade.locked-until-tw,

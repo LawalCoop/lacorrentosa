@@ -4632,7 +4632,7 @@ function plazaActor(spriteId, idleCls, sc, role) {
 
 function renderChoiceInline(choice) {
   return `
-    <div class="dialog-box no-arrow">
+    <div class="dialog-box choice">
       <div class="dialog-name">★ TU TURNO</div>
       <div class="dialog">${choice.pregunta}</div>
     </div>
@@ -5326,7 +5326,7 @@ function renderCreceReinversion() {
       </button>
     </div>
 
-    <div class="dialog-box anchor ${todoComprado ? 'feedback-mode' : ''}" id="reinv-dialog">
+    <div class="dialog-box anchor ${todoComprado ? 'feedback' : ''}" id="reinv-dialog">
       <div class="dialog-name">★ NARRADOR</div>
       ${todoComprado
         ? `<div class="dialog tw" data-text="La despensa cambió.&#10;&#10;Stock de alimentos para no faltar nunca, balanzas para pesar lo justo, compostera para que los residuos vuelvan a la tierra, deck afuera para encontrarse.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;&#10;Vecines que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;&#10;Más asociadxs, mejor despensa, más asociadxs. Así nos vamos haciendo más grandes."></div>`
@@ -6904,7 +6904,7 @@ function renderDespensaCierre() {
 
 function renderCrecimiento() {
   return `
-    <div class="dialog-box no-arrow">
+    <div class="dialog-box feedback">
       <div class="dialog-name">★ NARRADOR</div>
       <div class="dialog">Mirá cómo se suman...</div>
     </div>
@@ -6924,7 +6924,7 @@ function renderChoice(sc) {
     ${sc.actors === 'pandemia' ? renderPandemia(sc) : ''}
     ${sc.actors === 'plaza' ? renderPlaza(sc) : ''}
     <div id="choice-feedback"></div>
-    <div class="dialog-box anchor no-arrow">
+    <div class="dialog-box anchor choice">
       <div class="dialog-name">${sc.speaker}</div>
       <div class="dialog tw" data-text="${escAttr(sc.text)}" style="min-height: 0;"></div>
       <div class="dialog-actions" style="flex-direction: column; align-items: stretch; gap: 0.4rem; margin-top: 0.6rem;">
@@ -7153,9 +7153,9 @@ function renderVictory() {
       ${todxs.map((s, i) => `<div class="actor idle" style="animation-delay: ${(i*0.07).toFixed(2)}s;"><svg><use href="#${s}"/></svg></div>`).join('')}
     </div>
 
-    <div class="dialog-box no-arrow">
+    <div class="dialog-box feedback">
       <div class="dialog-name">★ FIN</div>
-      <div class="dialog" style="height: auto; max-height: none; min-height: 0; overflow: visible;">
+      <div class="dialog">
         Lo que jugaste es real. <strong style="color: var(--neon-green);">La Correntosa existe.</strong><br><br>
         ★ <strong>900+</strong> asociadas y asociados<br>
         ★ <strong>27</strong> productoras y productores<br>
@@ -7170,7 +7170,7 @@ function renderVictory() {
       🌱 SUMATE COMO ASOCIADX →
     </a>
 
-    <div class="dialog-box no-arrow">
+    <div class="dialog-box feedback">
       <div class="dialog-name">★ DESPENSA COMUNITARIA</div>
       <div class="dialog">
         📍 Millaqueo 124, Villa La Angostura<br>
@@ -7909,7 +7909,7 @@ function attachHandlers() {
       if (!dlgBox) return;
 
       const feedbackText = op.feedback || (op.bueno ? '¡Eso!' : '');
-      dlgBox.classList.add('feedback-mode');
+      dlgBox.classList.add('feedback');
       if (op.bueno) {
         dlgBox.style.borderColor = 'var(--neon-green)';
         dlgBox.style.background = 'rgba(15, 13, 35, 0.95)';
