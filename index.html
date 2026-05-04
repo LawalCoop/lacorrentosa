@@ -4923,9 +4923,11 @@ function renderBocaEnBoca() {
     const activated = activados.includes(i);
     const newPop = i >= BOCA_RONDAS[Math.max(0, r - 1)].hasta;
     // en la primera ronda los vecines quedan tw-locked (el narrador da la instrucción primero)
+    // cuando ya llegamos a 900 asociadas/os (completo), se deshabilita el tap
     const lockCls = (r === 0) ? ' tw-locked' : '';
+    const disabledAttr = completo ? ' disabled' : '';
     sprites += `
-      <button class="boca-vec${lockCls} ${activated ? 'activated' : ''} ${newPop ? 'just-popped' : ''}" data-boca-idx="${i}" style="left:${x}%; top:${y}%;" aria-label="vecine ${i+1}">
+      <button class="boca-vec${lockCls} ${activated ? 'activated' : ''} ${newPop ? 'just-popped' : ''}" data-boca-idx="${i}"${disabledAttr} style="left:${x}%; top:${y}%;" aria-label="vecine ${i+1}">
         <svg width="64" height="64"><use href="#${sp}"/></svg>
         <span class="grita-bubble" aria-hidden="true">¡VENÍ!</span>
       </button>
