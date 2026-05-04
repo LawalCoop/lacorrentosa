@@ -499,6 +499,22 @@ body.scene-municipio .dialog-box.anchor .dialog {
 @media (min-width: 1024px) {
   body.scene-municipio .dialog-box.anchor .dialog { font-size: 1.2rem; }
 }
+
+/* en la intro de cosecha (crece-excedente) achicamos el dialog-box para que se
+   vean el camión y los humanitos del paisaje arriba */
+body.scene-cosecha .dialog-box.anchor {
+  min-height: 0;
+  padding: 0.7rem 1rem 0.85rem;
+}
+body.scene-cosecha .dialog-box.anchor .dialog {
+  height: auto;
+  min-height: 0;
+  max-height: 28vh;
+  overflow-y: auto;
+  font-size: 1rem;
+}
+/* y subimos el camión y la huerta para que queden bien por arriba del dialog */
+body.scene-cosecha .intro-camion { bottom: 48%; }
 .muni-titulo {
   font-family: var(--f-pixel);
   font-size: clamp(0.72rem, 1.8vw, 0.92rem);
