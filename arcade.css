@@ -4690,21 +4690,22 @@ body.ronda-fadeout::after {
 /* firma del desarrollo · home y final · sin copyright */
 .dev-credit {
   font-family: var(--f-mono);
-  font-size: 0.85rem;
-  color: var(--cream-2);
+  font-size: 1rem;
+  color: var(--cream);
   text-align: center;
   letter-spacing: 0.04em;
-  line-height: 1.45;
-  opacity: 0.8;
+  line-height: 1.5;
+  opacity: 1;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }
 .dev-credit a {
   color: var(--neon-green);
   text-decoration: none;
-  border-bottom: 1px dashed rgba(88, 232, 126, 0.5);
+  border-bottom: 1px dashed rgba(88, 232, 126, 0.7);
   font-weight: 600;
 }
 .dev-credit a:hover { color: var(--neon-amber); border-bottom-color: var(--neon-amber); }
-.dev-credit-title { margin: 1.25rem auto 0; opacity: 0.7; }
+.dev-credit-title { margin: 1.5rem auto 1rem; }
 .dev-credit-end { margin: 1.5rem auto 0.5rem; }
 
 /* prevenir scroll horizontal accidental en cualquier viewport */
