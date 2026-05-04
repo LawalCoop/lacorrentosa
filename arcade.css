@@ -3124,9 +3124,12 @@ body::after {
     overflow: visible;
   }
   /* typewriter en mobile chico: max-height fuerza paginación más corta
-     (sin maxHeight, splitTextIntoPages no pagina automáticamente). */
+     (sin maxHeight, splitTextIntoPages no pagina automáticamente).
+     Alineado a múltiplos exactos de line-height (1.4) para que no corte
+     una línea por la mitad. */
   .dialog-box.anchor .dialog.tw {
-    max-height: 4.5em;
+    line-height: 1.4;
+    max-height: 4.2em; /* 3 líneas */
     overflow: hidden;
   }
   .dialog-box.anchor .dialog-actions { margin-top: 0.5rem; }
@@ -3144,7 +3147,7 @@ body::after {
     padding: 0.55rem 0.7rem 0.75rem;
   }
   .dialog-box.anchor .dialog.tw {
-    max-height: 3.6em;
+    max-height: 2.8em; /* 2 líneas */
   }
   .dialog-name {
     font-size: 0.58rem;
