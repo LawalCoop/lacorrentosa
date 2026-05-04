@@ -1939,7 +1939,7 @@ const SCENES = {
   'pandemia-conv': {
     type: 'dialog',
     speaker: '👤 VECINA',
-    text: 'Si lo individual no nos alcanza, probemos lo comunitario.\n\nHay un montón de cosas que solxs no podemos, pero juntes sí.',
+    text: 'Si lo individual no nos alcanza, probemos lo comunitario.\n\nHay un montón de cosas que solas/os no podemos, pero juntas/os sí.',
     actors: 'pandemia',
     talker: 'vecina',
     next: 'pandemia-conv2',
@@ -2040,7 +2040,7 @@ const SCENES = {
   'crece-intro': {
     type: 'dialog',
     speaker: '★ NARRADOR',
-    text: 'La noticia se corre.\n\nUna vecina le cuenta a otrx, otrx le cuenta a otra.\n\nTocá a cada vecine para que invite a sumarse.',
+    text: 'La noticia se corre.\n\nUna vecina le cuenta a otro, otro le cuenta a otra.\n\nTocá a cada vecina/o para que invite a sumarse.',
     next: 'crece-bocaenboca',
   },
   'crece-bocaenboca': {
@@ -4965,9 +4965,9 @@ function renderBocaEnBoca() {
           return `<div class="dialog tw" data-text="¡Más de 900 vecinas/os! La mutual creció de boca en boca, de mano en mano."></div>`;
         }
         if (r === 0) {
-          return `<div class="dialog tw" data-text="La noticia se corre. Una vecina le cuenta a otrx, otrx le cuenta a otra.&#10;&#10;Tocá a un vecine para que invite a más."></div>`;
+          return `<div class="dialog tw" data-text="La noticia se corre. Una vecina le cuenta a otro, otro le cuenta a otra.&#10;&#10;Tocá a cada vecina/o para que invite a más."></div>`;
         }
-        return `<div class="dialog">¡Boca en boca! Tocá a otrx vecine para que invite a más.</div>`;
+        return `<div class="dialog">¡Boca en boca! Tocá a otra/o vecina/o para que invite a más.</div>`;
       })()}
       <div class="dialog-actions" id="boca-cta">${completo ? '<button class="btn-arcade primary" data-next="crece-excedente">▶ Continuar</button>' : ''}</div>
     </div>
@@ -7006,7 +7006,7 @@ function renderCrecimiento() {
     </div>
     <div class="counter-block">
       <div class="big-counter pop" id="contador">2</div>
-      <div class="counter-label">asociadxs</div>
+      <div class="counter-label">asociadas/os</div>
     </div>
     <div class="asociadxs-stage" id="asoc-stage"></div>
     <div class="btn-row" id="crece-next" hidden>
@@ -7814,7 +7814,7 @@ function attachHandlers() {
         const dlg = document.getElementById('reinv-dialog');
         if (dlg) {
           const txt = dlg.querySelector('.dialog');
-          if (txt) txt.textContent = 'No alcanza el excedente para esto. Sumá más asociadxs primero.';
+          if (txt) txt.textContent = 'No alcanza el excedente para esto. Sumá más asociadas/os primero.';
         }
         return;
       }
@@ -7849,7 +7849,7 @@ function attachHandlers() {
           name.style.color = '';
           name.textContent = '★ NARRADOR';
         }
-        if (txt) txt.textContent = 'Sumá asociadxs para acumular más excedente. Después invertí en lo que necesitamos.';
+        if (txt) txt.textContent = 'Sumá asociadas/os para acumular más excedente. Después invertí en lo que necesitamos.';
       }, 4000);
     });
   });
