@@ -1135,6 +1135,14 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
 @media (min-width: 1024px) {
   .prov-devolucion-wrap { padding: 170px 1.5rem 360px; }
 }
+@media (max-width: 480px) {
+  .prov-devolucion-wrap { padding: 130px 0.6rem 180px; }
+  .prov-devolucion-svg { max-width: 320px; }
+}
+@media (max-width: 380px) {
+  .prov-devolucion-wrap { padding: 110px 0.5rem 150px; }
+  .prov-devolucion-svg { max-width: 280px; }
+}
 
 /* ═══════════════════════════════════════════════════════════════════════
    CIERRE DEL CAPÍTULO · zoom out de la despensa al pueblo + corazón latiendo
