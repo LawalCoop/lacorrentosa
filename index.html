@@ -4446,9 +4446,8 @@ function renderTitle() {
     <!-- hint apuntando al botón de música arriba a la derecha · solo si la música está apagada -->
     ${musicaRunning ? '' : `
       <div class="audio-hint" id="audio-hint">
-        <div class="audio-hint-text">¡prendé<br>la música!</div>
         <svg class="audio-hint-arrow" width="32" height="32" viewBox="-16 -16 32 32" aria-hidden="true">
-          <g transform="rotate(-135)">
+          <g transform="rotate(180)">
             <polygon points="-5,-16 5,-16 5,0 11,0 0,16 -11,0 -5,0" fill="#1a1432"/>
             <polygon points="-4,-15 4,-15 4,1 9,1 0,14 -9,1 -4,1" fill="#ffd97a"/>
             <rect x="-4" y="-15" width="8" height="2" fill="#fff5d0"/>
@@ -4458,6 +4457,7 @@ function renderTitle() {
             <rect x="-1" y="-2" width="2" height="2" fill="#ff8fb1"/>
           </g>
         </svg>
+        <div class="audio-hint-text">¡prendé<br>la música!</div>
       </div>
     `}
     <div style="text-align:center;">
