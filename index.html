@@ -1799,7 +1799,10 @@
 </div>
 
 <button class="audio-mute" id="audio-toggle" aria-label="Música" title="Música">🎵</button>
-<button class="skip-mini restart-top" id="restart-btn" hidden>↺ DE NUEVO</button>
+<button class="skip-mini restart-top" id="restart-btn" aria-label="Empezar de nuevo" hidden>
+  <span class="restart-collapsed">▾</span>
+  <span class="restart-expanded">↺ DE NUEVO</span>
+</button>
 
 <main class="stage" id="stage"></main>
 
@@ -7981,12 +7984,38 @@ async function share() {
   }
 }
 
-document.getElementById('restart-btn').addEventListener('click', () => {
-  if (!confirm('¿Empezar de nuevo? Se borra tu progreso.')) return;
-  resetGameState();
-  saveGame();
-  setScene('title');
-});
+// El restart-btn arranca colapsado (sólo chevron ▾). Primer tap → expandido (▾ → "↺ DE NUEVO").
+// Segundo tap mientras está expandido → confirmación + restart.
+// Si pasan 4s sin tocar de nuevo, vuelve a colapsado.
+(function setupRestartBtn(){
+  const btn = document.getElementById('restart-btn');
+  if (!btn) return;
+  let collapseTimer = null;
+  const collapse = () => {
+    btn.classList.remove('expanded');
+    if (collapseTimer) { clearTimeout(collapseTimer); collapseTimer = null; }
+  };
+  const expand = () => {
+    btn.classList.add('expanded');
+    if (collapseTimer) clearTimeout(collapseTimer);
+    collapseTimer = setTimeout(collapse, 4000);
+  };
+  btn.addEventListener('click', () => {
+    if (!btn.classList.contains('expanded')) {
+      expand();
+      return;
+    }
+    // expandido: confirmar y restartear
+    if (!confirm('¿Empezar de nuevo? Se borra tu progreso.')) {
+      collapse();
+      return;
+    }
+    collapse();
+    resetGameState();
+    saveGame();
+    setScene('title');
+  });
+})();
 
 /* atajos de teclado: Enter / Espacio / → avanzan al botón primario visible */
 /* dev shortcut: SHIFT + ←/→ avanza/retrocede de escena saltando la mecánica */
