@@ -4341,6 +4341,30 @@ function render() {
 
   attachHandlers();
 
+  // setup específico boss-aparece: bubble + bobeo en el villano que habla
+  if (game.scene === 'boss-aparece') {
+    const tw = stage.querySelector('.dialog.tw');
+    const villain = document.getElementById('villain-principal');
+    if (tw && villain) {
+      const limpiar = () => {
+        villain.classList.remove('talker');
+        const b = villain.querySelector('.speech-bubble');
+        if (b) b.remove();
+      };
+      const activar = () => {
+        villain.classList.add('talker');
+        if (!villain.querySelector('.speech-bubble')) {
+          const b = document.createElement('div');
+          b.className = 'speech-bubble';
+          b.innerHTML = '<span class="dot">·</span><span class="dot">·</span><span class="dot">·</span>';
+          villain.appendChild(b);
+        }
+      };
+      tw.addEventListener('tw-page-start', activar);
+      tw.addEventListener('tw-done', limpiar, { once: true });
+    }
+  }
+
   // setup específico boss-redimido: bubble + bobeo al que está hablando en cada página
   // (debe registrarse ANTES de runTypewriter para captar el evento de la primera página)
   if (game.scene === 'boss-redimido') {
@@ -6924,7 +6948,7 @@ function renderBossIntro() {
     <div class="villain-stage">
       <div class="villain-grupo">
         <div class="villain-secuaz villain-secuaz-izq"><svg width="86" height="86"><use href="#sp-v3"/></svg></div>
-        <div class="actor villain-principal"><svg class="villain-sprite" width="144" height="144"><use href="#sp-boss"/></svg></div>
+        <div class="actor villain-principal" id="villain-principal"><svg class="villain-sprite" width="144" height="144"><use href="#sp-boss"/></svg></div>
         <div class="villain-secuaz villain-secuaz-der"><svg width="86" height="86"><use href="#sp-v1"/></svg></div>
       </div>
       <div class="villain-tag">⚠ AMENAZA ⚠</div>
