@@ -3071,7 +3071,16 @@ body::after {
     bottom: 0.5rem;
     padding: 0.7rem 0.9rem 0.9rem;
     border-width: 3px;
+    min-height: 0;
   }
+  /* en mobile el dialog se adapta al contenido (sin altura fija) para que
+     no quede una caja gigante con un texto corto */
+  .dialog-box.anchor .dialog {
+    flex: 0 0 auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .dialog-box.anchor .dialog-actions { margin-top: 0.5rem; }
   .dialog-box.anchor::after { bottom: 4px; right: 8px; font-size: 0.85rem; }
   .dialog-name {
     font-size: 0.62rem;
