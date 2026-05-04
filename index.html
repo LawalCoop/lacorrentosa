@@ -8504,7 +8504,12 @@ function setMusicForScene(name){
   if (name === 'boss-fight') id = 'batalla';
 
   // ═══ Post boss-redimido · mate, decisión final, victory · música mágica ═══
-  if (name === 'boss-redimido' || name === 'victory') id = 'redimido';
+  if (name === 'boss-redimido') id = 'redimido';
+  if (name === 'victory') {
+    // si pasaste por el boss y lo redimiste → música mágica
+    // si llegaste directo desde el cierre de la despensa → continúa la música del cierre
+    id = game.bossRedimido ? 'redimido' : 'cierre';
+  }
   if (id === currentMusicId) {
     if (id !== 'default' && !musicaRunning && typeof startMusic === 'function') startMusic().catch(()=>{});
     return;
