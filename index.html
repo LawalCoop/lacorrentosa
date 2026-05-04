@@ -7254,12 +7254,12 @@ function tirarPapel(papelId) {
   stage.appendChild(fly);
   setTimeout(() => fly.remove(), 700);
 
-  // boss reacciona al impacto: se ladea hacia el lado contrario del golpe
+  // boss reacciona al impacto: shake con rotación + saltito (siempre el mismo movimiento)
   setTimeout(() => {
     boss.classList.remove('boss-hit-izq', 'boss-hit-der');
     void boss.offsetWidth;
-    boss.classList.add(lado === 'izq' ? 'boss-hit-der' : 'boss-hit-izq');
-    setTimeout(() => boss.classList.remove('boss-hit-izq', 'boss-hit-der'), 450);
+    boss.classList.add('boss-hit-izq');
+    setTimeout(() => boss.classList.remove('boss-hit-izq'), 450);
   }, 600);
 
   // popup educativo
@@ -7295,10 +7295,10 @@ function tirarPapel(papelId) {
       }, 500);
     } else {
       // actualizar HP visualmente sin re-render completo
-      const fill = document.querySelector('.hp-boss-fill');
+      const fill = document.querySelector('.boss-hp-fill');
       if (fill) fill.style.width = game.bossHp + '%';
-      const lbl = document.querySelector('.hp-boss-label');
-      if (lbl) lbl.textContent = `JEFE BUROCRÁTICX · HP ${game.bossHp}/100`;
+      const lbl = document.querySelector('.boss-hp-label');
+      if (lbl) lbl.textContent = `⚔ JEFE BUROCRÁTICX · HP ${game.bossHp}/100`;
       // subir la barra de carga del super item
       const superFill = document.querySelector('.paper-super-charge-fill');
       if (superFill) {
