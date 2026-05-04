@@ -483,38 +483,6 @@ body::before {
 }
 @media (min-width: 1024px) { .muni-slider-wrap { padding-bottom: 260px; } }
 
-/* en municipio achicamos el dialog-box anchor para que el botón Aprobar
-   del documento no quede tapado en celus comunes (~430-650px de alto útil) */
-body.scene-municipio .dialog-box.anchor {
-  min-height: 0;
-  padding: 0.7rem 1rem 0.85rem;
-}
-body.scene-municipio .dialog-box.anchor .dialog {
-  height: auto;
-  min-height: 0;
-  max-height: 30vh;
-  overflow-y: auto;
-  font-size: 1.05rem;
-}
-@media (min-width: 1024px) {
-  body.scene-municipio .dialog-box.anchor .dialog { font-size: 1.2rem; }
-}
-
-/* en la intro de cosecha (crece-excedente) achicamos el dialog-box para que se
-   vean el camión y los humanitos del paisaje arriba */
-body.scene-cosecha .dialog-box.anchor,
-body.scene-llegada .dialog-box.anchor {
-  min-height: 0;
-  padding: 0.7rem 1rem 0.85rem;
-}
-body.scene-cosecha .dialog-box.anchor .dialog,
-body.scene-llegada .dialog-box.anchor .dialog {
-  height: auto;
-  min-height: 0;
-  max-height: 28vh;
-  overflow-y: auto;
-  font-size: 1rem;
-}
 body.scene-cosecha .intro-camion { bottom: 48%; }
 /* en la llegada al pueblo: el camión va por la calle (no encima de las casas)
    y los vecinitos en primer plano sobre el pasto */
@@ -2928,13 +2896,13 @@ body::after {
 .dialog {
   font-family: var(--f-mono);
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: var(--dialog-text);
   line-height: 1.4;
   color: var(--cream);
   letter-spacing: 0.02em;
-  height: 7.5em;
-  min-height: 7.5em;
-  max-height: 7.5em;
+  /* el dialog ocupa el espacio disponible del anchor menos el footer reservado */
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: hidden;
 }
 /* en el choice (sin flecha) que tiene botones abajo, el dialog se adapta al contenido para no dejar hueco */
@@ -3001,7 +2969,8 @@ body::after {
   flex-direction: column;
 }
 
-/* dialog box anclado al bottom (estilo RPG clásico, con aire abajo) */
+/* dialog box anclado al bottom (estilo RPG clásico, con aire abajo)
+   altura única estandarizada con --dialog-h (paso 2 del dialog system v2) */
 .dialog-box.anchor {
   position: fixed;
   left: 1rem;
@@ -3014,8 +2983,7 @@ body::after {
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
   box-shadow: inset 0 0 0 2px var(--sky-2), 0 8px 0 rgba(0, 0, 0, 0.35), 0 16px 32px rgba(0, 0, 0, 0.5);
-  /* alto fijo para que no cambie de tamaño al aparecer/desaparecer botones */
-  min-height: 290px;
+  min-height: var(--dialog-h);
   display: flex;
   flex-direction: column;
 }
@@ -3027,7 +2995,6 @@ body::after {
     left: 1.5rem;
     right: 1.5rem;
     padding: 1.25rem 1.75rem 1.5rem;
-    min-height: 320px;
   }
 }
 
@@ -4056,21 +4023,6 @@ body.scene-bossredimido::before { display: none !important; }
   .encuentro-personajes { bottom: 300px; padding: 0 0.6rem; }
 }
 
-/* dialog-box anchor más compacto en boss-redimido para que los personajes pisen el pasto */
-body.scene-bossredimido .dialog-box.anchor {
-  min-height: 0;
-  padding: 0.7rem 1rem 0.85rem;
-}
-body.scene-bossredimido .dialog-box.anchor .dialog {
-  height: auto;
-  min-height: 0;
-  max-height: 24vh;
-  overflow-y: auto;
-  font-size: 1rem;
-}
-@media (min-width: 1024px) {
-  body.scene-bossredimido .dialog-box.anchor .dialog { font-size: 1.15rem; }
-}
 .encuentro-personaje {
   position: relative;
   display: flex;
@@ -4525,14 +4477,12 @@ body.scene-bossredimido .dialog-box.anchor .dialog {
 
 /* mobile chico: aliviar paddings y bajar fuentes para que entre todo */
 @media (max-width: 359px) {
-  .dialog { font-size: 1.2rem; }
   .dialog-name { font-size: 0.78rem; padding: 0.4rem 0.6rem; }
   .dialog-box.anchor {
     left: 0.5rem;
     right: 0.5rem;
     bottom: 0.5rem;
     padding: 0.7rem 0.85rem 0.85rem;
-    min-height: 260px;
   }
   .boss-hp-label { font-size: 0.68rem; }
   .boss-hp-bar { height: 22px; }
