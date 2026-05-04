@@ -4367,7 +4367,12 @@ function render() {
         if (txt.startsWith('EX-VILLANX')) { limpiar(asoc); activar(boss); }
         else if (txt.startsWith('ASOCIADXS')) { limpiar(boss); activar(asoc); }
       });
-      tw.addEventListener('tw-done', () => { limpiar(boss); limpiar(asoc); }, { once: true });
+      tw.addEventListener('tw-done', () => {
+        limpiar(boss); limpiar(asoc);
+        // mostrar los botones SI/NO recién al terminar la ronda completa
+        const actions = stage.querySelector('.ronda-actions');
+        if (actions) actions.style.display = 'flex';
+      }, { once: true });
     }
   }
 
@@ -7097,7 +7102,7 @@ function renderBossRedimido() {
     <div class="dialog-box anchor">
       <div class="dialog-name">★ LA RONDA</div>
       <div class="dialog tw" data-text="EX-VILLANX:&#10;...mmm... ¡pero qué rico mate!&#10;&#10;Y encima no me da acidez...&#10;---&#10;ASOCIADXS:&#10;¡Porque la yerba es agroecológica!&#10;---&#10;EX-VILLANX:&#10;...¿y dónde la consigo? ¿en la despensa?&#10;---&#10;ASOCIADXS:&#10;¡Sí! Sumate, dale.&#10;---&#10;ASOCIADXS:&#10;Che... y si ven que hay algo que se puede corregir para cumplir mejor con ciertas formalidades, estamos para hacerlo.&#10;&#10;Pero invitar a desmantelar un proceso colectivo con tanto esfuerzo, los excedentes que juntamos entre asociadxs, los créditos que aportó Provincia y miles y miles de horas de trabajo voluntario... no tiene sentido.&#10;---&#10;EX-VILLANX:&#10;...si me das otro matecito... quizááás...&#10;&#10;por ahííí te digo que puede ser. Jijiji.&#10;---&#10;EX-VILLANX:&#10;Yo... yo también quiero ser parte.&#10;&#10;¿Puedo asociarme?"></div>
-      <div class="dialog-actions" style="flex-direction: column; align-items: stretch; gap: 0.5rem;">
+      <div class="dialog-actions ronda-actions" style="flex-direction: column; align-items: stretch; gap: 0.5rem; display: none;">
         <button class="btn-arcade primary" data-final="si">✓ Sí, bienvenidx</button>
         <button class="btn-arcade" data-final="no">✗ No, sos peligrosx</button>
       </div>

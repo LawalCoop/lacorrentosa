@@ -3205,7 +3205,12 @@ body::after {
   font-size: 0.9rem;
   text-shadow: 2px 2px 0 #5c0a18;
   letter-spacing: 0.04em;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 90%;
+  margin: 0 auto;
 }
+@media (max-width: 480px) { .villain-name { font-size: 0.72rem; } }
 
 .villain-tag {
   font-family: var(--f-mono);
@@ -4035,7 +4040,7 @@ body.scene-bossredimido::before { display: none !important; }
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 380px;
+  bottom: 320px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -4044,7 +4049,27 @@ body.scene-bossredimido::before { display: none !important; }
   pointer-events: none;
 }
 @media (min-width: 640px) {
-  .encuentro-personajes { bottom: 420px; padding: 0 2rem; }
+  .encuentro-personajes { bottom: 380px; padding: 0 2rem; }
+}
+/* en celus chicos los personajes deben ir sobre el pasto del SVG (no flotando) */
+@media (max-width: 480px) {
+  .encuentro-personajes { bottom: 230px; padding: 0 0.6rem; }
+}
+
+/* dialog-box anchor más compacto en boss-redimido para que los personajes pisen el pasto */
+body.scene-bossredimido .dialog-box.anchor {
+  min-height: 0;
+  padding: 0.7rem 1rem 0.85rem;
+}
+body.scene-bossredimido .dialog-box.anchor .dialog {
+  height: auto;
+  min-height: 0;
+  max-height: 24vh;
+  overflow-y: auto;
+  font-size: 1rem;
+}
+@media (min-width: 1024px) {
+  body.scene-bossredimido .dialog-box.anchor .dialog { font-size: 1.15rem; }
 }
 .encuentro-personaje {
   position: relative;
