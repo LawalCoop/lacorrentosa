@@ -3107,6 +3107,12 @@ body::after {
     min-height: 0;
     overflow: visible;
   }
+  /* typewriter en mobile chico: max-height fuerza paginación más corta
+     (sin maxHeight, splitTextIntoPages no pagina automáticamente). */
+  .dialog-box.anchor .dialog.tw {
+    max-height: 4.5em;
+    overflow: hidden;
+  }
   .dialog-box.anchor .dialog-actions { margin-top: 0.5rem; }
   .dialog-box.anchor::after { bottom: 4px; right: 8px; font-size: 0.85rem; }
   .dialog-name {
@@ -3120,6 +3126,9 @@ body::after {
 @media (max-width: 380px) {
   .dialog-box.anchor {
     padding: 0.55rem 0.7rem 0.75rem;
+  }
+  .dialog-box.anchor .dialog.tw {
+    max-height: 3.6em;
   }
   .dialog-name {
     font-size: 0.58rem;
