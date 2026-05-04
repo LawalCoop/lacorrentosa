@@ -5906,9 +5906,7 @@ function renderDespensaMunicipio() {
                 <small>MVLA</small>
               </div>
             </footer>
-            ${firmado
-              ? '<div class="muni-doc-sello-grande visible">★ APROBADO</div>'
-              : `<button class="muni-aprobar btn-arcade primary" data-muni-firma="${d.id}">▶ Aprobar y sellar</button>`}
+            ${firmado ? '<div class="muni-doc-sello-grande visible">★ APROBADO</div>' : ''}
           </article>
           <button class="muni-nav muni-next" data-muni-nav="1" ${idx === MUNI_DOCS.length - 1 ? 'disabled' : ''} aria-label="Siguiente">›</button>
         </div>
@@ -5925,7 +5923,13 @@ function renderDespensaMunicipio() {
     <div class="dialog-box anchor" id="muni-dialog">
       <div class="dialog-name">★ NARRADOR</div>
       <div class="dialog">${dialogText}</div>
-      <div class="dialog-actions" id="muni-cta">${todas ? '<button class="btn-arcade primary" data-next="despensa-provincia">▶ Continuar</button>' : ''}</div>
+      <div class="dialog-actions" id="muni-cta">${
+        todas
+          ? '<button class="btn-arcade primary" data-next="despensa-provincia">▶ Continuar</button>'
+          : (firmado
+              ? '<button class="btn-arcade" data-muni-nav="1">▶ Siguiente documento</button>'
+              : `<button class="btn-arcade primary" data-muni-firma="${d.id}">▶ Aprobar y sellar</button>`)
+      }</div>
     </div>
   `;
 }
@@ -7563,11 +7567,9 @@ function attachHandlers() {
       if (game.despensaMuniFirmas.includes(id)) return;
       game.despensaMuniFirmas.push(id);
       // sello dramático: animación pum + auto-avanza al siguiente no firmado
-      const card = el.closest('.muni-doc-card');
+      const card = stage.querySelector('.muni-doc-card');
       if (card) {
         card.classList.add('firmado');
-        const btn = card.querySelector('.muni-aprobar');
-        if (btn) btn.remove();
         const sello = document.createElement('div');
         sello.className = 'muni-doc-sello-grande visible';
         sello.textContent = '★ APROBADO';
