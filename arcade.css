@@ -4725,6 +4725,18 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   --dialog-h-tall: 230px;
   --dialog-text: 1.05rem;
 }
+@media (max-width: 480px) {
+  :root {
+    --dialog-h: 150px;
+    --dialog-text: 0.95rem;
+  }
+}
+@media (max-width: 359px) {
+  :root {
+    --dialog-h: 130px;
+    --dialog-text: 0.88rem;
+  }
+}
 @media (min-width: 1024px) {
   :root {
     --dialog-h: 230px;
