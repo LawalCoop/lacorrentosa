@@ -1804,6 +1804,23 @@
 // El iframe (que carga la misma URL con ?frame=1) corre toda la lógica adentro.
 if (window._MOBILE_FRAME_MODE) { /* noop */ } else {
 
+// ═══════════════════════════════════════════════════════════════════════
+// BOSS UNLOCK · el capítulo 4 (boss-aparece, boss-fight, boss-redimido)
+// sólo se activa si la URL trae ?boss=1 Y el usuario sabe la password.
+// Sino, el flujo termina en la pantalla de victory directo desde el cierre
+// de la despensa, sin mostrar el conflicto.
+// ═══════════════════════════════════════════════════════════════════════
+window._BOSS_UNLOCKED = (function(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('boss') !== '1') return false;
+    const pwd = prompt('Capítulo 4 protegido. Ingresá la frase para continuar:');
+    if (pwd === 'la-correntosa-se-defiende') return true;
+    if (pwd !== null) alert('Frase incorrecta. El capítulo 4 queda bloqueado.');
+    return false;
+  } catch (e) { return false; }
+})();
+
 /* ═══════════════════════════════════════════════════════════════════════
    ESTADO DEL JUEGO
    ═══════════════════════════════════════════════════════════════════════ */
@@ -6020,7 +6037,7 @@ const PROV_ETAPAS = [
       cta: '▶ APLICAR Y CONSTRUIR DECK',
     },
   },
-  // paso 1: deck construido · hay que aplicar crédito IADEP $12M para el techo
+  // paso 1: deck construido · hay que aplicar crédito IADEP para el techo
   {
     id: 'deck',
     titulo: 'Deck',
@@ -6028,20 +6045,20 @@ const PROV_ETAPAS = [
     breve: 'Construimos el deck con excedentes mutuales propios. Piso firme entre las despensas: mejor circulación, sin barro cuando llueve.',
     recurso: {
       icono: '🏦',
-      nombre: 'Crédito IADEP $12M',
+      nombre: 'Crédito IADEP',
       detalle: 'Sec. Producción · Neuquén',
       cta: '▶ APLICAR Y CONSTRUIR TECHO',
     },
   },
-  // paso 2: techo construido · hay que aplicar crédito IADEP $30M para cerramiento
+  // paso 2: techo construido · hay que aplicar otro crédito IADEP para cerramiento
   {
     id: 'techo',
     titulo: 'Techo',
     sub: 'Cubre todo · protege del clima',
-    breve: 'Crédito IADEP $12M (Sec. Producción · Neuquén). El techo cubre toda la L: protege del clima y permite hacer compras comunitarias adentro cuando llueve.',
+    breve: 'Crédito IADEP (Sec. Producción · Neuquén). El techo cubre toda la L: protege del clima y permite hacer compras comunitarias adentro cuando llueve.',
     recurso: {
       icono: '🏦',
-      nombre: 'Crédito IADEP $30M',
+      nombre: 'Crédito IADEP',
       detalle: 'Sec. Producción · Neuquén',
       cta: '▶ APLICAR Y CERRAR PAREDES',
     },
@@ -6051,7 +6068,7 @@ const PROV_ETAPAS = [
     id: 'cerramiento',
     titulo: 'Cerramiento',
     sub: 'Paredes cierran · usable todo el año',
-    breve: 'Otro crédito IADEP $30M cierra las paredes. En VLA hay más de 6 meses de invierno: ahora la despensa se usa todo el año, no sólo en verano.',
+    breve: 'Otro crédito IADEP cierra las paredes. En VLA hay más de 6 meses de invierno: ahora la despensa se usa todo el año, no sólo en verano.',
     recurso: {
       icono: '📋',
       nombre: 'Compromisos asumidos',
@@ -7222,11 +7239,15 @@ function renderBossRedimido() {
 }
 
 function renderVictory() {
-  const todxs = ['sp-mesa', 'sp-instit', 'sp-comu', 'sp-terr', ...VECINES, 'sp-prod-tomate', 'sp-prod-miel', 'sp-prod-hoja', 'sp-nino', 'sp-boss-good'];
+  // Si pasaste por el cap 4 y aceptaste al ex-villano, sumalo al grupo (con bigote redimido).
+  // Si llegaste directo desde el cierre de la despensa (sin cap 4), grupo SIN ex-villano.
+  const baseGroup = ['sp-mesa', 'sp-instit', 'sp-comu', 'sp-terr', ...VECINES, 'sp-prod-tomate', 'sp-prod-miel', 'sp-prod-hoja', 'sp-nino'];
+  const todxs = game.bossRedimido ? [...baseGroup, 'sp-boss-good'] : baseGroup;
+  const headline = game.bossRedimido ? 'LA MUTUAL NO DERROTA: INCLUYE' : 'UNA MUTUAL DE VECINXS';
   return `
-    <div class="chapter-label" style="color: var(--neon-green);">★ ★ ★ VICTORY ★ ★ ★</div>
+    <div class="chapter-label" style="color: var(--neon-green);">★ ★ ★ ${game.bossRedimido ? 'VICTORY' : 'GRACIAS'} ★ ★ ★</div>
 
-    <h1 class="title-arcade" style="font-size: 1.6rem; text-align:center; margin: 1.5rem 0 0.5rem;">LA MUTUAL NO DERROTA: INCLUYE</h1>
+    <h1 class="title-arcade" style="font-size: 1.6rem; text-align:center; margin: 1.5rem 0 0.5rem;">${headline}</h1>
 
     <div class="group-photo">
       ${todxs.map((s, i) => `<div class="actor idle" style="animation-delay: ${(i*0.07).toFixed(2)}s;"><svg><use href="#${s}"/></svg></div>`).join('')}
@@ -7742,10 +7763,14 @@ function attachHandlers() {
     });
   });
 
-  // cierre del capítulo: al tocar Continuar, alborotar la multitud antes de cambiar de escena
+  // cierre del capítulo: al tocar Continuar, alborotar la multitud antes de cambiar de escena.
+  // El cap 4 (boss) sólo se activa con ?boss=1 + password · sino salta directo a victory.
   stage.querySelectorAll('[data-cierre-continuar]').forEach(el => {
     el.addEventListener('click', () => {
-      const next = el.dataset.cierreContinuar;
+      let next = el.dataset.cierreContinuar;
+      if (next === 'amenaza-intro' && !window._BOSS_UNLOCKED) {
+        next = 'victory';
+      }
       const stageEl = document.querySelector('.cierre-stage');
       if (stageEl) stageEl.classList.add('cierre-festejando');
       el.disabled = true;
