@@ -3242,7 +3242,7 @@ function bgInteriorCocina() {
 /* Bosque de día · escena del mate · cielo abundante arriba, montañas, suelo de pasto abajo */
 function bgBosqueDia() {
   return `
-  <svg viewBox="0 0 360 480" preserveAspectRatio="xMidYMax slice">
+  <svg viewBox="0 0 360 600" preserveAspectRatio="xMidYMax slice">
     <defs>
       <linearGradient id="bg-bd-cielo" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#bfe8ff"/>
@@ -3291,17 +3291,17 @@ function bgBosqueDia() {
       }
       return arbs.join('');
     })()}
-    <!-- pasto verde claro adelante · 305 → 480 -->
-    <rect x="0" y="305" width="360" height="175" fill="#a4cc78"/>
-    <!-- camino de tierra cruzando -->
-    <path d="M -10 410 Q 180 390 370 420 L 370 480 L -10 480 Z" fill="#d8b97e" opacity="0.55"/>
+    <!-- pasto verde claro adelante · 305 → 600 (más alto: zona de personajes) -->
+    <rect x="0" y="305" width="360" height="295" fill="#a4cc78"/>
+    <!-- camino de tierra cruzando, más cerca del bottom -->
+    <path d="M -10 510 Q 180 490 370 520 L 370 600 L -10 600 Z" fill="#d8b97e" opacity="0.55"/>
     <!-- arbolitos del bosquecito a los costados (más cerca) -->
     ${(()=>{
       const arbs=[];
-      // izquierda
+      // izquierda · arbolitos en el pasto, distribuidos en altura para dar profundidad
       for(let i=0;i<5;i++){
         const x=15+i*22+((i*5)%4);
-        const y=330+(i%2)*12;
+        const y=380+(i%2)*20;
         const h=22+(i%3)*5;
         arbs.push(`
           <ellipse cx="${x}" cy="${y+h+2}" rx="${h*0.55}" ry="${h*0.18}" fill="#000" opacity="0.25"/>
@@ -3313,7 +3313,7 @@ function bgBosqueDia() {
       // derecha
       for(let i=0;i<5;i++){
         const x=255+i*22+((i*5)%4);
-        const y=330+((i+1)%2)*12;
+        const y=380+((i+1)%2)*20;
         const h=22+(i%3)*5;
         arbs.push(`
           <ellipse cx="${x}" cy="${y+h+2}" rx="${h*0.55}" ry="${h*0.18}" fill="#000" opacity="0.25"/>
@@ -3324,12 +3324,12 @@ function bgBosqueDia() {
       }
       return arbs.join('');
     })()}
-    <!-- florecitas en el pasto -->
+    <!-- florecitas dispersas por todo el pasto (340-580) -->
     ${(()=>{
       const fls=[];
-      for(let i=0;i<14;i++){
+      for(let i=0;i<22;i++){
         const x=30+(i*32+11)%320;
-        const y=350+(i*13+5)%110;
+        const y=340+(i*17+5)%230;
         const c=['#ff6b9a','#ffd97a','#fff'][i%3];
         fls.push(`<circle cx="${x}" cy="${y}" r="2.2" fill="${c}"/><circle cx="${x}" cy="${y}" r="1" fill="#ffd97a"/>`);
       }
