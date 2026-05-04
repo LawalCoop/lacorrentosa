@@ -4372,16 +4372,25 @@ function render() {
   // typewriter en escenas con texto
   document.querySelectorAll('.tw').forEach(el => runTypewriter(el));
 
-  // lock automático: los botones del mismo dialog-box quedan deshabilitados hasta que termine el typewriter
+  // Si el dialog-box tiene un typewriter, el botón "Continuar" hace doble función:
+  // mientras el texto no terminó, hace click() en el typewriter (skipea/avanza página);
+  // sólo cuando el texto está completo, el click cambia de escena. Así ambos comportamientos
+  // (clickear el texto o clickear "Continuar") avanzan el diálogo.
   document.querySelectorAll('.dialog-box').forEach(box => {
     const tw = box.querySelector('.dialog.tw');
     if (!tw) return;
     const buttons = box.querySelectorAll('.btn-arcade, .reinv-trap-btn');
     if (!buttons.length) return;
-    buttons.forEach(b => b.classList.add('locked-until-tw'));
-    tw.addEventListener('tw-done', () => {
-      buttons.forEach(b => b.classList.remove('locked-until-tw'));
-    }, { once: true });
+    let twDone = false;
+    tw.addEventListener('tw-done', () => { twDone = true; }, { once: true });
+    buttons.forEach(b => {
+      b.addEventListener('click', (e) => {
+        if (twDone) return; // dejar pasar el click real
+        e.preventDefault();
+        e.stopPropagation();
+        tw.click();
+      }, true); // capture phase: corremos antes que el handler del data-next
+    });
   });
 
   // setup cierre reinversión: el botón Continuar aparece al terminar el typewriter
