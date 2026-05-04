@@ -4307,6 +4307,7 @@ function render() {
   document.body.classList.toggle('scene-mapa', game.scene === 'compras-mapa');
   document.body.classList.toggle('scene-bossfight', game.scene === 'boss-fight');
   document.body.classList.toggle('scene-bossredimido', game.scene === 'boss-redimido');
+  if (game.scene !== 'boss-redimido') document.body.classList.remove('ronda-fadeout');
   document.body.classList.toggle('scene-municipio', game.scene === 'despensa-municipio');
   document.body.classList.toggle('scene-cosecha', game.scene === 'crece-excedente' && !game.excedenteStarted);
   document.body.classList.toggle('scene-llegada', game.scene === 'crece-reinversion' && !game.reinvStarted);
@@ -8026,7 +8027,9 @@ function attachHandlers() {
             bossPer.classList.add('todos-saltan-juntos');
             asocPer.classList.add('todos-saltan-juntos');
           }, 1800);
-          setTimeout(() => setScene('victory'), 3300);
+          // fade-out mientras saltan, antes de cambiar a victory
+          setTimeout(() => document.body.classList.add('ronda-fadeout'), 2700);
+          setTimeout(() => setScene('victory'), 3600);
         } else {
           setScene('victory');
         }

@@ -4122,6 +4122,22 @@ body.scene-bossredimido::before { display: none !important; }
 }
 .encuentro-asoc-grupo svg { image-rendering: pixelated; filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.4)); }
 
+/* fade-out al final de la ronda · antes de pasar a victory */
+body.ronda-fadeout::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: #1a1432;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  animation: ronda-fadeout 0.9s ease-out forwards;
+}
+@keyframes ronda-fadeout {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 /* festejo final · 3 fases: festeja en lugar → se acerca → saltan juntos
    --boss-tx: distancia que camina el boss para quedar a la izquierda del grupo
    (no encima ni atrás · ajustado para que haya un sprite de aire entre ambos) */
