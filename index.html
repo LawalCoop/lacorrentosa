@@ -8538,15 +8538,21 @@ function setMusicForScene(name){
     startMusic().catch(()=>{});
   }
 }
-async function startMusic(){
+// crea y resume el AudioContext SINCRÓNICAMENTE dentro del user gesture
+// (iOS Safari pierde el "gesture flag" si hay un await antes del .resume).
+function ensureAudioCtxSync(){
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0; // arranca en silencio para evitar el "click" inicial en mobile
+    masterGain.gain.value = 0;
     masterGain.connect(audioCtx.destination);
   }
-  if (audioCtx.state === 'suspended') await audioCtx.resume();
-  // Algunos navegadores en mobile retornan "running" pero todavía no procesan: damos un tick
+  if (audioCtx.state === 'suspended') {
+    try { audioCtx.resume(); } catch (e) {}
+  }
+}
+async function startMusic(){
+  ensureAudioCtxSync();
   if (audioCtx.state !== 'running') {
     try { await audioCtx.resume(); } catch (e) {}
   }
@@ -8563,19 +8569,31 @@ async function startMusic(){
 }
 function stopMusic(){musicaRunning=false;if(schedId)clearTimeout(schedId);if(masterGain){masterGain.gain.cancelScheduledValues(audioCtx.currentTime);masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.3);}refreshAudio();}
 function refreshAudio(){const b=document.getElementById('audio-toggle');if(musicaRunning){b.classList.add('playing');b.textContent='♪';}else{b.classList.remove('playing');b.textContent='🎵';}}
-document.getElementById('audio-toggle').addEventListener('click',async()=>{if(musicaRunning){stopMusic();try{localStorage.setItem(MUSIC_KEY,'off');}catch(e){}}else{await startMusic();try{localStorage.setItem(MUSIC_KEY,'on');}catch(e){}}});
+document.getElementById('audio-toggle').addEventListener('click',(e)=>{
+  if(musicaRunning){
+    stopMusic();
+    try{localStorage.setItem(MUSIC_KEY,'off');}catch(e){}
+  } else {
+    // iOS: creamos/resumimos el contexto SINCRÓNICAMENTE dentro del gesture
+    ensureAudioCtxSync();
+    try{localStorage.setItem(MUSIC_KEY,'on');}catch(e){}
+    startMusic().catch(()=>{});
+  }
+});
 // Auto-iniciar música si la preferencia anterior era 'on', SOLO si el primer click NO
 // es sobre el botón de música (porque ese ya tiene su propio handler que pisaría el resultado).
 (function(){
   let pref = null;
   try { pref = localStorage.getItem(MUSIC_KEY); } catch (e) {}
   if (pref !== 'on') return;
-  const trigger = async (e) => {
+  const trigger = (e) => {
     // si el primer gesto es sobre el botón de audio, dejamos que su handler dedicado lo maneje
     if (e && e.target && e.target.closest && e.target.closest('#audio-toggle')) return;
     document.removeEventListener('click', trigger, true);
     document.removeEventListener('keydown', trigger, true);
-    try { await startMusic(); } catch (e) {}
+    // iOS: contexto creado/resumido sincrónicamente dentro del gesture
+    ensureAudioCtxSync();
+    startMusic().catch(()=>{});
   };
   document.addEventListener('click', trigger, true);
   document.addEventListener('keydown', trigger, true);
