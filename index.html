@@ -1838,7 +1838,7 @@ const game = {
   excedenteStarted: false,
   reinvExcedente: 50000,
   reinvAsociados: 200,
-  reinvCompras: { stock: false, balanzas: false, compostera: false, deck: false },
+  reinvCompras: { mesas: false, balanzas: false, stock: false, computadora: false },
   reinvStarted: false,
   despensaMuniFirmas: [],
   despensaMuniIdx: 0,
@@ -1861,7 +1861,7 @@ function resetGameState() {
     excedenteStarted: false,
     reinvExcedente: 50000,
     reinvAsociados: 200,
-    reinvCompras: { stock: false, balanzas: false, compostera: false, deck: false },
+    reinvCompras: { mesas: false, balanzas: false, stock: false, computadora: false },
     reinvStarted: false,
     despensaMuniFirmas: [],
     despensaProvinciaPaso: 0,
@@ -4277,7 +4277,7 @@ function setScene(name) {
     const excedentePorKg = Math.max(0, (game.precioFinal || 10000) - COSTO_PRODUCTOR - COSTO_OPERATIVO);
     game.reinvExcedente = excedentePorKg * 50;
     game.reinvAsociados = 200;
-    game.reinvCompras = { stock: false, balanzas: false, compostera: false, deck: false };
+    game.reinvCompras = { mesas: false, balanzas: false, stock: false, computadora: false };
     game.reinvStarted = false;
   }
   // si estoy saliendo de un chapter y la música estaba sonando antes, retomarla
@@ -5138,10 +5138,10 @@ function renderCreceExcedente() {
 
 /* ═══ Reinversión: sumá asociadxs y comprá items para la despensa ═══ */
 const REINV_ITEMS = [
-  { id: 'balanzas',   icono: '⚖️', nombre: 'Balanzas',           precio: 50000,  desc: 'Pesar con precisión.' },
-  { id: 'compostera', icono: '♻️', nombre: 'Compostera',         precio: 100000, desc: 'Los residuos vuelven a la tierra.' },
-  { id: 'stock',      icono: '📦', nombre: 'Stock de alimentos', precio: 150000, desc: 'Comprar volumen, mejores precios.' },
-  { id: 'deck',       icono: '🪵', nombre: 'Deck',               precio: 300000, desc: 'Espacio exterior para encontrarse.' },
+  { id: 'mesas',       icono: '🪑', nombre: 'Mesas plegables',     precio: 30000,  desc: 'Para armar la entrega rotativa donde haga falta.' },
+  { id: 'balanzas',    icono: '⚖️',  nombre: 'Balanza',             precio: 80000,  desc: 'Pesar con precisión cada pedido.' },
+  { id: 'stock',       icono: '📦', nombre: 'Stock de alimentos',  precio: 150000, desc: 'Comprar volumen, mejores precios.' },
+  { id: 'computadora', icono: '💻', nombre: 'Computadora',          precio: 600000, desc: 'Llevar registros, gestionar pedidos.' },
 ];
 const REINV_ASOC_PASO = 200;
 const REINV_APORTE_POR_GRUPO = 200000;
@@ -5337,7 +5337,7 @@ function renderCreceReinversion() {
     <div class="dialog-box anchor ${todoComprado ? 'feedback' : ''}" id="reinv-dialog">
       <div class="dialog-name">★ NARRADOR</div>
       ${todoComprado
-        ? `<div class="dialog tw" data-text="La despensa cambió.&#10;&#10;Stock de alimentos para no faltar nunca, balanzas para pesar lo justo, compostera para que los residuos vuelvan a la tierra, deck afuera para encontrarse.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;&#10;Vecines que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;&#10;Más asociadxs, mejor despensa, más asociadxs. Así nos vamos haciendo más grandes."></div>`
+        ? `<div class="dialog tw" data-text="Mesas plegables para armar la entrega rotativa, una balanza para pesar lo justo, stock para no faltar nunca, una compu para llevar registros.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;&#10;Vecines que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;&#10;Más asociadxs, más herramientas, más asociadxs. Así nos vamos haciendo más grandes."></div>`
         : `<div class="dialog">Sumá asociadxs para acumular más excedente. Después invertí en lo que necesitamos.</div>`}
       <div class="dialog-actions" id="reinv-cta"></div>
     </div>`;
