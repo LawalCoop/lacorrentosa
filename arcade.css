@@ -1135,12 +1135,16 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
 @media (min-width: 1024px) {
   .prov-devolucion-wrap { padding: 170px 1.5rem 360px; }
 }
+@media (max-width: 640px) {
+  .prov-devolucion-wrap { padding: 140px 0.7rem 220px; }
+  .prov-devolucion-svg { max-width: 360px; }
+}
 @media (max-width: 480px) {
-  .prov-devolucion-wrap { padding: 130px 0.6rem 180px; }
+  .prov-devolucion-wrap { padding: 120px 0.6rem 170px; }
   .prov-devolucion-svg { max-width: 320px; }
 }
 @media (max-width: 380px) {
-  .prov-devolucion-wrap { padding: 110px 0.5rem 150px; }
+  .prov-devolucion-wrap { padding: 100px 0.5rem 140px; }
   .prov-devolucion-svg { max-width: 280px; }
 }
 
@@ -1559,12 +1563,16 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
   .prov-titulo-sub { font-size: 1rem; }
 }
 .prov-avanzar { min-width: 240px; }
+@media (max-width: 640px) {
+  /* el icono del chip ocupa mucho en pantallas chicas — lo escondemos */
+  .prov-recurso-icono { display: none; }
+  .prov-recurso-info { padding-top: 0.6rem; }
+}
 @media (max-width: 480px) {
   .prov-avanzar { min-width: 0; padding: 0.45rem 0.6rem; font-size: 0.55rem; }
   .prov-recurso-chip { max-width: 260px; }
   .prov-recurso-cta { font-size: 0.46rem; padding: 0.4rem 0.25rem; line-height: 1.2; }
-  .prov-recurso-icono { font-size: 1.25rem; padding: 0.6rem 0 0.35rem; }
-  .prov-recurso-info { padding: 0 0.5rem 0.4rem; gap: 0.15rem; }
+  .prov-recurso-info { padding: 0.5rem 0.5rem 0.4rem; gap: 0.15rem; }
   .prov-recurso-nombre { font-size: 0.52rem; white-space: normal; }
   .prov-recurso-detalle { font-size: 0.6rem; }
 }
