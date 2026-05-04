@@ -107,9 +107,13 @@ body::before {
 @media (min-width: 1024px) {
   .audiencia { bottom: 240px; gap: 1rem; }
 }
-@media (max-width: 360px) {
-  .audiencia { bottom: 290px; gap: 0.3rem; }
-  .audiencia svg { width: 60px !important; height: 60px !important; }
+@media (max-width: 480px) {
+  .audiencia { bottom: 200px; gap: 0.4rem; }
+  .audiencia svg { width: 64px !important; height: 64px !important; }
+}
+@media (max-width: 380px) {
+  .audiencia { bottom: 170px; gap: 0.3rem; }
+  .audiencia svg { width: 54px !important; height: 54px !important; }
 }
 .veci-back {
   display: block;
@@ -174,6 +178,19 @@ body::before {
   animation: producto-slide 0.4s ease-out both;
 }
 @media (min-width: 1024px) { .producto-card { max-width: 460px; padding: 1.5rem 1.4rem; margin-top: 2rem; } }
+@media (max-width: 480px) {
+  .producto-card { margin: 0.75rem auto 0.5rem; padding: 0.75rem 0.75rem 0.75rem; max-width: 280px; }
+  .producto-card .producto-sprite svg { width: 88px !important; height: 88px !important; }
+  .producto-card .producto-sprite { margin-bottom: 0.45rem; }
+  .producto-card .producto-nombre { font-size: 0.72rem; margin-bottom: 0.35rem; }
+  .producto-card .producto-desc { font-size: 0.85rem; line-height: 1.3; }
+}
+@media (max-width: 380px) {
+  .producto-card { margin: 0.5rem auto 0.4rem; max-width: 240px; padding: 0.6rem; }
+  .producto-card .producto-sprite svg { width: 72px !important; height: 72px !important; }
+  .producto-card .producto-nombre { font-size: 0.65rem; }
+  .producto-card .producto-desc { font-size: 0.78rem; }
+}
 .producto-card .producto-sprite svg { width: 140px; height: 140px; }
 @media (min-width: 1024px) { .producto-card .producto-sprite svg { width: 160px; height: 160px; } }
 @keyframes producto-slide {
