@@ -478,9 +478,10 @@ body::before {
   pointer-events: auto;
   max-width: 720px;
   margin: 0 auto;
-  padding: clamp(70px, 10vh, 110px) 0.8rem 1rem;
+  padding: clamp(70px, 10vh, 110px) 0.8rem 320px; /* espacio para que el dialog-box no tape el botón de aprobar */
   text-align: center;
 }
+@media (min-width: 1024px) { .muni-slider-wrap { padding-bottom: 360px; } }
 .muni-titulo {
   font-family: var(--f-pixel);
   font-size: clamp(0.72rem, 1.8vw, 0.92rem);
