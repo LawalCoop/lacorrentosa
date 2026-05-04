@@ -1552,9 +1552,20 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
 }
 .prov-avanzar { min-width: 240px; }
 @media (max-width: 480px) {
-  .prov-avanzar { min-width: 0; padding: 0.5rem 0.7rem; font-size: 0.6rem; }
-  .prov-recurso-cta { font-size: 0.52rem; padding: 0.5rem 0.3rem; line-height: 1.25; }
-  .prov-recurso-icono { font-size: 1.5rem; }
+  .prov-avanzar { min-width: 0; padding: 0.45rem 0.6rem; font-size: 0.55rem; }
+  .prov-recurso-chip { max-width: 260px; }
+  .prov-recurso-cta { font-size: 0.46rem; padding: 0.4rem 0.25rem; line-height: 1.2; }
+  .prov-recurso-icono { font-size: 1.25rem; padding: 0.6rem 0 0.35rem; }
+  .prov-recurso-info { padding: 0 0.5rem 0.4rem; gap: 0.15rem; }
+  .prov-recurso-nombre { font-size: 0.52rem; white-space: normal; }
+  .prov-recurso-detalle { font-size: 0.6rem; }
+}
+@media (max-width: 380px) {
+  .prov-recurso-chip { max-width: 220px; }
+  .prov-recurso-cta { font-size: 0.42rem; padding: 0.32rem 0.2rem; }
+  .prov-recurso-icono { font-size: 1.05rem; padding: 0.45rem 0 0.25rem; }
+  .prov-recurso-nombre { font-size: 0.46rem; }
+  .prov-recurso-detalle { font-size: 0.54rem; }
 }
 /* Chip-recurso · botón vertical compacto (icono+nombre arriba, CTA abajo) */
 .prov-recurso-chip {
@@ -2445,6 +2456,20 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
   .producto-versus .versus-card .producto-desc   { font-size: 1rem; }
   .versus-vs { font-size: 1.4rem; }
 }
+@media (max-width: 480px) {
+  .producto-versus { margin: 0.6rem auto 0.4rem; gap: 0.4rem; padding: 0 0.25rem; }
+  .producto-versus .versus-card { padding: 0.5rem 0.35rem; min-width: 0; }
+  .producto-versus .versus-card .producto-sprite svg { width: 60px !important; height: 60px !important; }
+  .producto-versus .versus-card .producto-nombre { font-size: 0.55rem; margin-bottom: 0.3rem; }
+  .producto-versus .versus-card .producto-desc   { font-size: 0.7rem; line-height: 1.25; }
+  .producto-versus .versus-pick { font-size: 0.48rem; padding: 0.3rem 0.45rem; margin-top: 0.35rem; }
+  .versus-vs { font-size: 0.75rem; }
+}
+@media (max-width: 380px) {
+  .producto-versus .versus-card .producto-sprite svg { width: 50px !important; height: 50px !important; }
+  .producto-versus .versus-card .producto-nombre { font-size: 0.5rem; }
+  .producto-versus .versus-card .producto-desc   { font-size: 0.62rem; }
+}
 
 /* ═══ Boca en boca · flecha hint sobre el primer vecine ═══ */
 .boca-arrow {
@@ -3071,11 +3096,13 @@ body::after {
     bottom: 0.5rem;
     padding: 0.7rem 0.9rem 0.9rem;
     border-width: 3px;
+  }
+  /* dialogs SIN typewriter (choice/feedback/text corto) se adaptan al contenido,
+     no usan min-height fijo. Los typewriter siguen con altura para que pagine. */
+  .dialog-box.anchor:not(:has(.dialog.tw)) {
     min-height: 0;
   }
-  /* en mobile el dialog se adapta al contenido (sin altura fija) para que
-     no quede una caja gigante con un texto corto */
-  .dialog-box.anchor .dialog {
+  .dialog-box.anchor .dialog:not(.tw) {
     flex: 0 0 auto;
     min-height: 0;
     overflow: visible;
