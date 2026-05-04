@@ -4467,7 +4467,7 @@ body.scene-bossredimido::before { display: none !important; }
 /* logo de La Correntosa en la pantalla de título · "logo bit.png" 800×800 con transparencia real */
 .title-logo {
   display: block;
-  margin: 0.5rem auto 1rem;
+  margin: 0.25rem auto 0.25rem;
   width: min(85vw, 340px);
   height: auto;
   aspect-ratio: 1 / 1;
