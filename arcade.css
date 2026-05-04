@@ -4131,7 +4131,7 @@ body.ronda-fadeout::after {
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  animation: ronda-fadeout 0.9s ease-out forwards;
+  animation: ronda-fadeout 1.6s ease-in-out forwards;
 }
 @keyframes ronda-fadeout {
   0%   { opacity: 0; }
@@ -4166,7 +4166,7 @@ body.ronda-fadeout::after {
 
 /* salto colectivo · tres saltitos sincronizados */
 .encuentro-personaje.todos-saltan-juntos {
-  animation: todos-saltan-juntos 0.5s ease-in-out 3 !important;
+  animation: todos-saltan-juntos 0.5s ease-in-out 4 !important;
 }
 @keyframes todos-saltan-juntos {
   0%, 100% { transform: translateY(0); }
@@ -4174,7 +4174,7 @@ body.ronda-fadeout::after {
 }
 /* el boss ya llegado mantiene el translateX al saltar */
 .encuentro-personaje-boss.villano-llegado.todos-saltan-juntos {
-  animation: todos-saltan-juntos-boss 0.5s ease-in-out 3 !important;
+  animation: todos-saltan-juntos-boss 0.5s ease-in-out 4 !important;
 }
 @keyframes todos-saltan-juntos-boss {
   0%, 100% { transform: translateX(var(--boss-tx)) translateY(0); }

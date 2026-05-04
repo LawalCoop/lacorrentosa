@@ -8027,9 +8027,9 @@ function attachHandlers() {
             bossPer.classList.add('todos-saltan-juntos');
             asocPer.classList.add('todos-saltan-juntos');
           }, 1800);
-          // fade-out mientras saltan, antes de cambiar a victory
-          setTimeout(() => document.body.classList.add('ronda-fadeout'), 2700);
-          setTimeout(() => setScene('victory'), 3600);
+          // fade-out lento mientras saltan, antes de cambiar a victory
+          setTimeout(() => document.body.classList.add('ronda-fadeout'), 3000);
+          setTimeout(() => setScene('victory'), 4500);
         } else {
           setScene('victory');
         }
