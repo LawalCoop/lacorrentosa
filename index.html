@@ -7984,9 +7984,12 @@ function attachHandlers() {
   // boca en boca: click en un vecine activa y trae a más
   stage.querySelectorAll('.boca-vec').forEach(el => {
     el.addEventListener('click', () => {
+      if (el.disabled) return;
       if (el.classList.contains('activated')) return;
       const idx = parseInt(el.dataset.bocaIdx);
       const r = game.bocaTaps || 0;
+      // si ya estamos en la última ronda (900), no hacer nada
+      if (r >= BOCA_RONDAS.length - 1) return;
       const visibles = BOCA_RONDAS[r].hasta;
       if (idx >= visibles) return;
       if (!Array.isArray(game.bocaActivados)) game.bocaActivados = [];

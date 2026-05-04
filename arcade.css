@@ -2482,6 +2482,12 @@ body.scene-llegada .intro-vecines { bottom: 22%; }
   filter: grayscale(0) brightness(1.15) drop-shadow(0 0 8px #ffd97a);
   cursor: default;
 }
+/* al llegar a 900: sin pointer-events para evitar más tappings */
+.boca-vec:disabled {
+  pointer-events: none;
+  cursor: default;
+}
+.boca-vec:disabled::after { display: none; }
 .boca-vec:not(.activated):hover {
   filter: grayscale(0.4) brightness(0.95);
   transform: translate(-50%, -50%) scale(1.05);
