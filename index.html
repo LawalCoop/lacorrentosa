@@ -2032,7 +2032,7 @@ const SCENES = {
       {
         label: '🤝 Mutual de Proveeduría',
         bueno: true,
-        feedback: 'Encaja perfecto.\n\nUna mutual NO es un comercio. Es una organización sin fines de lucro de vecinas y vecinos que se asocian para ayudarse entre sí.\n---\nTe asociás automáticamente con tu consumo. La participación es voluntaria.\n\nLo que sobra al final del mes no se reparte entre nadie: vuelve al proyecto colectivo.\n---\nLas mutuales están reguladas por la Ley nacional 20.321 y matriculadas por INAES (Instituto Nacional de Asociativismo y Economía Social).\n---\nLa proveeduría mutual es nuestro caso: una despensa donde el fin es mantener precios justos para quien consume, sin desvalorizar a quien produce.',
+        feedback: 'Encaja perfecto.\n---\nUna mutual NO es un comercio.\n---\nEs una organización sin fines de lucro de vecinas y vecinos que se asocian para ayudarse entre sí.\n---\nTe asociás automáticamente con tu consumo. La participación es voluntaria.\n---\nLo que sobra al final del mes no se reparte entre nadie: vuelve al proyecto colectivo.\n---\nLas mutuales están reguladas por la Ley nacional 20.321 y matriculadas por INAES.\n---\nLa proveeduría mutual es nuestro caso: una despensa donde el fin es mantener precios justos para quien consume, sin desvalorizar a quien produce.',
         next: 'figura-inscripcion',
       },
     ],
@@ -7508,6 +7508,11 @@ function splitTextIntoPages(el, text) {
   const heightLimited = (overflow === 'hidden' || overflow === 'auto' || overflow === 'scroll') && hasMaxHeight;
   if (!heightLimited || el.clientHeight < 60) return [text];
 
+  // usar el mismo white-space del .dialog (puede ser pre-line por feedback)
+  // para que la medición coincida con el rendering real
+  const ws = cs.whiteSpace && cs.whiteSpace !== 'normal' && cs.whiteSpace !== 'nowrap'
+    ? cs.whiteSpace
+    : 'pre-wrap';
   const measure = document.createElement('div');
   measure.style.cssText = `
     position: absolute; left: -9999px; top: 0;
@@ -7521,7 +7526,7 @@ function splitTextIntoPages(el, text) {
     line-height: ${cs.lineHeight};
     letter-spacing: ${cs.letterSpacing};
     word-spacing: ${cs.wordSpacing};
-    white-space: pre-wrap;
+    white-space: ${ws};
     word-break: break-word;
   `;
   document.body.appendChild(measure);
