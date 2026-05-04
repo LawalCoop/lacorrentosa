@@ -17,7 +17,7 @@ La Asociación Mutual La Correntosa nació durante la pandemia (2020-2021), desd
 Es una organización **sin fines de lucro**, regida por la **Ley nacional 20.321**, matrícula INAES N.° 136. Los excedentes no se reparten: vuelven al proyecto colectivo.
 
 - 📷 Instagram: [@la_correntosa](https://instagram.com/la_correntosa)
-- 🏪 Despensa comunitaria: Cerro Inacayal 333 · lunes, miércoles y viernes 12 a 18 hs
+- 🏪 Despensa comunitaria: Millaqueo 124 · de lunes a sábado
 - 📨 Contacto: lacorrentosa@gmail.com
 
 ## Créditos
