@@ -3038,8 +3038,14 @@ body::after {
   justify-content: flex-end;
 }
 .dialog-actions.actions-hidden { display: none !important; }
-/* botones marcados como dependientes del typewriter de la escena · ocultos hasta tw-done */
-.tw-locked { visibility: hidden !important; pointer-events: none !important; }
+/* elementos dependientes del typewriter de la escena · visibles pero no tappeables
+   hasta tw-done. Opacidad reducida para indicar que aún no están activos. */
+.tw-locked {
+  pointer-events: none !important;
+  opacity: 0.55;
+  filter: saturate(0.7);
+  transition: opacity 0.4s, filter 0.4s;
+}
 
 .dialog-actions .btn-arcade {
   font-size: 0.6rem;
