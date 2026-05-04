@@ -4073,6 +4073,14 @@ body.scene-bossredimido::before { display: none !important; }
 @media (max-width: 480px) {
   .encuentro-personajes { bottom: 300px; padding: 0 0.6rem; }
 }
+/* cuando aparecen los 2 botones SI/NO, el dialog crece · subimos los personajes para que no queden tapados */
+body.ronda-show-actions .encuentro-personajes { bottom: 460px; transition: bottom 0.4s ease; }
+@media (min-width: 640px) {
+  body.ronda-show-actions .encuentro-personajes { bottom: 520px; }
+}
+@media (max-width: 480px) {
+  body.ronda-show-actions .encuentro-personajes { bottom: 380px; }
+}
 
 .encuentro-personaje {
   position: relative;
