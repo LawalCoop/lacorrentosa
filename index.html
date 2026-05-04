@@ -2484,25 +2484,29 @@ function bgAldeaNoche() {
       <polygon points="308,94 348,118 312,108"/>
     </g>
 
-    <!-- bosque (silueta densa de pinos) -->
-    <g fill="#0a1f1c">
-      <polygon points="0,168 4,156 8,168"/><polygon points="6,168 11,150 16,168"/>
-      <polygon points="14,168 18,158 22,168"/><polygon points="20,168 26,144 32,168"/>
-      <polygon points="30,168 34,158 38,168"/><polygon points="36,168 42,148 48,168"/>
-      <polygon points="46,168 50,158 54,168"/><polygon points="52,168 58,150 64,168"/>
-      <polygon points="62,168 66,160 70,168"/>
-      <polygon points="280,168 284,158 288,168"/><polygon points="286,168 292,148 298,168"/>
-      <polygon points="296,168 300,158 304,168"/><polygon points="302,168 308,144 314,168"/>
-      <polygon points="312,168 316,156 320,168"/><polygon points="318,168 324,148 330,168"/>
-      <polygon points="328,168 332,158 336,168"/><polygon points="334,168 340,150 346,168"/>
-      <polygon points="344,168 348,160 352,168"/><polygon points="350,168 356,154 360,166 360,168"/>
-    </g>
-    <!-- copa con tono medio (depth) -->
-    <g fill="#163b35" opacity="0.85">
-      <polygon points="2,168 6,158 10,168"/><polygon points="22,168 28,148 34,168"/>
-      <polygon points="38,168 44,150 50,168"/><polygon points="284,168 290,148 296,168"/>
-      <polygon points="304,168 310,146 316,168"/><polygon points="320,168 326,150 332,168"/>
-    </g>
+    <!-- bosque (silueta densa de árboles redondos · masa irregular, no pinos) -->
+    <rect x="0" y="160" width="72" height="10" fill="#0a1f1c"/>
+    <rect x="278" y="160" width="82" height="10" fill="#0a1f1c"/>
+    ${(()=>{
+      const arbs=[];
+      // izquierda
+      for(let i=0;i<8;i++){
+        const x=2+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#0a1f1c"/>`);
+        arbs.push(`<ellipse cx="${x-r*0.3}" cy="${y-r*0.4}" rx="${r*0.5}" ry="${r*0.4}" fill="#163b35" opacity="0.85"/>`);
+      }
+      // derecha
+      for(let i=0;i<10;i++){
+        const x=280+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#0a1f1c"/>`);
+        arbs.push(`<ellipse cx="${x-r*0.3}" cy="${y-r*0.4}" rx="${r*0.5}" ry="${r*0.4}" fill="#163b35" opacity="0.85"/>`);
+      }
+      return arbs.join('');
+    })()}
 
     <!-- lago (Nahuel Huapi) -->
     <rect x="0" y="160" width="360" height="22" fill="url(#bg-noche-lago)"/>
@@ -3377,23 +3381,29 @@ function bgAldeaAmanecer() {
     <polygon points="236,66 240,62 246,74 242,76" fill="#fff5d0" opacity="0.8"/>
     <!-- montañas medias -->
     <polygon points="0,140 26,108 56,128 88,92 122,118 158,96 196,124 232,100 268,126 308,104 348,128 360,124 360,160 0,160" fill="#3a1c50"/>
-    <!-- bosque en la base -->
-    <g fill="#0d4838">
-      <polygon points="0,168 4,156 8,168"/><polygon points="6,168 11,150 16,168"/>
-      <polygon points="14,168 18,158 22,168"/><polygon points="20,168 26,144 32,168"/>
-      <polygon points="30,168 34,158 38,168"/><polygon points="36,168 42,148 48,168"/>
-      <polygon points="46,168 50,158 54,168"/><polygon points="52,168 58,150 64,168"/>
-      <polygon points="280,168 284,158 288,168"/><polygon points="286,168 292,148 298,168"/>
-      <polygon points="296,168 300,158 304,168"/><polygon points="302,168 308,144 314,168"/>
-      <polygon points="312,168 316,156 320,168"/><polygon points="318,168 324,148 330,168"/>
-      <polygon points="328,168 332,158 336,168"/><polygon points="334,168 340,150 346,168"/>
-      <polygon points="344,168 348,160 352,168"/>
-    </g>
-    <g fill="#1d6b54" opacity="0.85">
-      <polygon points="2,168 6,158 10,168"/><polygon points="22,168 28,148 34,168"/>
-      <polygon points="38,168 44,150 50,168"/><polygon points="284,168 290,148 296,168"/>
-      <polygon points="304,168 310,146 316,168"/><polygon points="320,168 326,150 332,168"/>
-    </g>
+    <!-- bosque en la base · árboles redondos irregulares (no pinos) -->
+    <rect x="0" y="160" width="68" height="10" fill="#0d4838"/>
+    <rect x="278" y="160" width="82" height="10" fill="#0d4838"/>
+    ${(()=>{
+      const arbs=[];
+      // izquierda
+      for(let i=0;i<8;i++){
+        const x=2+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#0d4838"/>`);
+        arbs.push(`<ellipse cx="${x-r*0.3}" cy="${y-r*0.4}" rx="${r*0.5}" ry="${r*0.4}" fill="#1d6b54"/>`);
+      }
+      // derecha
+      for(let i=0;i<10;i++){
+        const x=280+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#0d4838"/>`);
+        arbs.push(`<ellipse cx="${x-r*0.3}" cy="${y-r*0.4}" rx="${r*0.5}" ry="${r*0.4}" fill="#1d6b54"/>`);
+      }
+      return arbs.join('');
+    })()}
     <!-- lago rosado -->
     <rect x="0" y="160" width="360" height="22" fill="url(#bg-amanecer-lago)"/>
     <g fill="#fff5d0" opacity="0.55">
@@ -3511,23 +3521,29 @@ function bgAldeaDia() {
     </g>
     <!-- montañas medias -->
     <polygon points="0,140 26,98 56,118 88,82 122,108 158,86 196,114 232,90 268,116 308,94 348,118 360,114 360,160 0,160" fill="#4a5a78"/>
-    <!-- bosque verde vivo -->
-    <g fill="#1d6b54">
-      <polygon points="0,168 4,154 8,168"/><polygon points="6,168 11,148 16,168"/>
-      <polygon points="14,168 18,156 22,168"/><polygon points="20,168 26,142 32,168"/>
-      <polygon points="30,168 34,156 38,168"/><polygon points="36,168 42,146 48,168"/>
-      <polygon points="46,168 50,158 54,168"/><polygon points="52,168 58,148 64,168"/>
-      <polygon points="280,168 284,158 288,168"/><polygon points="286,168 292,146 298,168"/>
-      <polygon points="296,168 300,158 304,168"/><polygon points="302,168 308,142 314,168"/>
-      <polygon points="312,168 316,156 320,168"/><polygon points="318,168 324,146 330,168"/>
-      <polygon points="328,168 332,158 336,168"/><polygon points="334,168 340,148 346,168"/>
-      <polygon points="344,168 348,160 352,168"/>
-    </g>
-    <g fill="#2fb05a" opacity="0.85">
-      <polygon points="2,168 6,158 10,168"/><polygon points="22,168 28,148 34,168"/>
-      <polygon points="38,168 44,150 50,168"/><polygon points="284,168 290,148 296,168"/>
-      <polygon points="304,168 310,146 316,168"/><polygon points="320,168 326,150 332,168"/>
-    </g>
+    <!-- bosque verde vivo · árboles redondos irregulares (no pinos) -->
+    <rect x="0" y="160" width="68" height="10" fill="#1d6b54"/>
+    <rect x="278" y="160" width="82" height="10" fill="#1d6b54"/>
+    ${(()=>{
+      const arbs=[];
+      // izquierda
+      for(let i=0;i<8;i++){
+        const x=2+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#1d6b54"/>`);
+        arbs.push(`<ellipse cx="${x-r*0.3}" cy="${y-r*0.4}" rx="${r*0.5}" ry="${r*0.4}" fill="#2fb05a" opacity="0.85"/>`);
+      }
+      // derecha
+      for(let i=0;i<10;i++){
+        const x=280+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#1d6b54"/>`);
+        arbs.push(`<ellipse cx="${x-r*0.3}" cy="${y-r*0.4}" rx="${r*0.5}" ry="${r*0.4}" fill="#2fb05a" opacity="0.85"/>`);
+      }
+      return arbs.join('');
+    })()}
     <!-- lago turquesa brillante -->
     <rect x="0" y="160" width="360" height="22" fill="url(#bg-dia-lago)"/>
     <g fill="#9bd4f4" opacity="0.75">
@@ -3647,15 +3663,25 @@ function bgAldeaTormenta() {
     <!-- montañas -->
     <polygon points="0,110 38,62 64,84 96,48 132,76 168,52 198,80 240,56 280,84 318,62 360,86 360,140 0,140" fill="#1a0c20"/>
     <polygon points="0,140 26,98 56,118 88,82 122,108 158,86 196,114 232,90 268,116 308,94 348,118 360,114 360,160 0,160" fill="#0a0410"/>
-    <!-- bosque silueta oscura -->
-    <g fill="#0a0410">
-      <polygon points="0,168 4,150 8,168"/><polygon points="6,168 11,144 16,168"/>
-      <polygon points="14,168 18,154 22,168"/><polygon points="20,168 26,140 32,168"/>
-      <polygon points="280,168 284,154 288,168"/><polygon points="286,168 292,144 298,168"/>
-      <polygon points="296,168 300,156 304,168"/><polygon points="302,168 308,140 314,168"/>
-      <polygon points="312,168 316,154 320,168"/><polygon points="318,168 324,146 330,168"/>
-      <polygon points="328,168 332,156 336,168"/><polygon points="334,168 340,148 346,168"/>
-    </g>
+    <!-- bosque silueta oscura · árboles redondos irregulares (no pinos) -->
+    <rect x="0" y="160" width="36" height="10" fill="#0a0410"/>
+    <rect x="278" y="160" width="82" height="10" fill="#0a0410"/>
+    ${(()=>{
+      const arbs=[];
+      for(let i=0;i<5;i++){
+        const x=2+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#0a0410"/>`);
+      }
+      for(let i=0;i<10;i++){
+        const x=280+i*9+((i*7)%4);
+        const y=158-((i*5)%4);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#0a0410"/>`);
+      }
+      return arbs.join('');
+    })()}
     <!-- lago oscuro -->
     <rect x="0" y="160" width="360" height="22" fill="url(#bg-tormenta-lago)"/>
     <g fill="#5a2848" opacity="0.5">
@@ -3854,26 +3880,43 @@ function bgPlazaCenital() {
     <!-- pasto base -->
     <rect x="0" y="120" width="360" height="520" fill="url(#plaza-pasto)"/>
 
-    <!-- bosque denso al fondo (línea de pinos detrás del muñeco) -->
-    <g fill="#0d4838">
-      <polygon points="0,160 4,140 8,160"/><polygon points="14,160 18,134 22,160"/>
-      <polygon points="28,160 32,142 36,160"/><polygon points="44,160 48,130 52,160"/>
-      <polygon points="60,160 64,142 68,160"/><polygon points="76,160 80,134 84,160"/>
-      <polygon points="92,160 96,140 100,160"/><polygon points="110,160 114,132 118,160"/>
-      <polygon points="128,160 132,140 136,160"/><polygon points="148,160 152,136 156,160"/>
-      <polygon points="170,160 174,142 178,160"/><polygon points="190,160 194,134 198,160"/>
-      <polygon points="210,160 214,142 218,160"/><polygon points="230,160 234,132 238,160"/>
-      <polygon points="252,160 256,142 260,160"/><polygon points="276,160 280,138 284,160"/>
-      <polygon points="298,160 302,142 306,160"/><polygon points="320,160 324,132 328,160"/>
-      <polygon points="342,160 346,138 352,160"/>
-    </g>
-    <g fill="#1d6b54" opacity="0.85">
-      <polygon points="6,160 10,144 14,160"/><polygon points="32,160 36,138 40,160"/>
-      <polygon points="68,160 72,140 76,160"/><polygon points="100,160 104,138 108,160"/>
-      <polygon points="138,160 142,140 146,160"/><polygon points="180,160 184,138 188,160"/>
-      <polygon points="220,160 224,140 228,160"/><polygon points="262,160 266,140 270,160"/>
-      <polygon points="288,160 292,138 296,160"/><polygon points="330,160 334,140 338,160"/>
-    </g>
+    <!-- bosque denso al fondo · masa de árboles redondos irregulares (no pinos) -->
+    <!-- franja base oscura · línea del bosque -->
+    <rect x="0" y="148" width="360" height="14" fill="#0d4838"/>
+    <!-- copas de árboles redondas en 3 capas (atrás → adelante, oscuro → claro) -->
+    ${(()=>{
+      const arbs=[];
+      // capa 1 · más al fondo, oscura, más arriba
+      for(let i=0;i<24;i++){
+        const x=4+i*15+((i*7)%5);
+        const y=146-((i*5)%4);
+        const r=8+(i%4)*2;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.85}" fill="#0d4838"/>`);
+      }
+      return arbs.join('');
+    })()}
+    ${(()=>{
+      const arbs=[];
+      // capa 2 · medio, verde más vivo
+      for(let i=0;i<22;i++){
+        const x=10+i*16+((i*11)%6);
+        const y=152-((i*7)%5);
+        const r=7+(i%3)*2.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.8}" fill="#1d6b54"/>`);
+      }
+      return arbs.join('');
+    })()}
+    ${(()=>{
+      const arbs=[];
+      // capa 3 · adelante, highlight más claro
+      for(let i=0;i<18;i++){
+        const x=14+i*18+((i*13)%7);
+        const y=156-((i*5)%6);
+        const r=5+(i%3)*1.5;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.75}" fill="#2fb05a" opacity="0.7"/>`);
+      }
+      return arbs.join('');
+    })()}
 
     <!-- pasto que cubre desde el horizonte hasta el bottom (ya cubierto por el rect base de pasto) -->
 
@@ -4087,19 +4130,19 @@ function bgMapaVLA() {
     <polygon points="334,30 336,28 342,42 338,44" fill="#fff5d0"/>
     <polygon points="0,108 22,68 48,90 78,52 110,82 140,60 174,86 208,58 240,84 274,60 306,84 332,66 360,86 360,120 0,120" fill="#3a2d80"/>
 
-    <!-- Bosque arriba (línea de pinos) -->
-    <g fill="#0d4838">
-      <polygon points="0,128 4,120 8,128"/><polygon points="14,128 18,116 22,128"/>
-      <polygon points="28,128 32,120 36,128"/><polygon points="44,128 48,114 52,128"/>
-      <polygon points="60,128 64,120 68,128"/><polygon points="76,128 80,114 84,128"/>
-      <polygon points="92,128 96,120 100,128"/><polygon points="110,128 114,114 118,128"/>
-      <polygon points="128,128 132,120 136,128"/><polygon points="148,128 152,118 156,128"/>
-      <polygon points="170,128 174,120 178,128"/><polygon points="190,128 194,114 198,128"/>
-      <polygon points="210,128 214,120 218,128"/><polygon points="230,128 234,114 238,128"/>
-      <polygon points="252,128 256,120 260,128"/><polygon points="276,128 280,118 284,128"/>
-      <polygon points="298,128 302,120 306,128"/><polygon points="320,128 324,114 328,128"/>
-      <polygon points="342,128 346,120 352,128"/>
-    </g>
+    <!-- Bosque arriba · masa de árboles redondos irregulares (no pinos) -->
+    <rect x="0" y="120" width="360" height="10" fill="#0d4838"/>
+    ${(()=>{
+      const arbs=[];
+      for(let i=0;i<22;i++){
+        const x=4+i*16+((i*7)%5);
+        const y=120-((i*5)%5);
+        const r=6+(i%4)*2;
+        arbs.push(`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*0.85}" fill="#0d4838"/>`);
+        arbs.push(`<ellipse cx="${x-r*0.3}" cy="${y-r*0.4}" rx="${r*0.5}" ry="${r*0.4}" fill="#1d6b54" opacity="0.85"/>`);
+      }
+      return arbs.join('');
+    })()}
     <g fill="#1d6b54" opacity="0.85">
       <polygon points="2,128 6,122 10,128"/><polygon points="46,128 50,118 54,128"/>
       <polygon points="112,128 116,118 120,128"/><polygon points="192,128 196,118 200,128"/>
