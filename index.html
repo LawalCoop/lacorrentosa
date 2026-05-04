@@ -4409,24 +4409,22 @@ function render() {
   // typewriter en escenas con texto
   document.querySelectorAll('.tw').forEach(el => runTypewriter(el));
 
-  // Si el dialog-box tiene un typewriter, el botón "Continuar" hace doble función:
-  // mientras el texto no terminó, hace click() en el typewriter (skipea/avanza página);
-  // sólo cuando el texto está completo, el click cambia de escena. Así ambos comportamientos
-  // (clickear el texto o clickear "Continuar") avanzan el diálogo.
+  // ═══ DIALOG SYSTEM v2 · paso 1 · comportamiento estándar para todos los dialog-box con typewriter ═══
+  // 1) tap en cualquier parte del cuadro skipea/avanza el typewriter
+  // 2) los botones quedan ocultos (.actions-hidden) hasta que termine el texto
   document.querySelectorAll('.dialog-box').forEach(box => {
     const tw = box.querySelector('.dialog.tw');
     if (!tw) return;
-    const buttons = box.querySelectorAll('.btn-arcade, .reinv-trap-btn');
-    if (!buttons.length) return;
-    let twDone = false;
-    tw.addEventListener('tw-done', () => { twDone = true; }, { once: true });
-    buttons.forEach(b => {
-      b.addEventListener('click', (e) => {
-        if (twDone) return; // dejar pasar el click real
-        e.preventDefault();
-        e.stopPropagation();
-        tw.click();
-      }, true); // capture phase: corremos antes que el handler del data-next
+    const actions = box.querySelector('.dialog-actions');
+    // los botones aparecen recién al terminar el typewriter (a menos que ya estén ocultos por otra lógica)
+    if (actions) {
+      actions.classList.add('actions-hidden');
+      tw.addEventListener('tw-done', () => actions.classList.remove('actions-hidden'), { once: true });
+    }
+    // tap en el cuadro entero (no sobre botones) = skipea/avanza el typewriter
+    box.addEventListener('click', (e) => {
+      if (e.target.closest('button, a, input, textarea')) return;
+      tw.click();
     });
   });
 

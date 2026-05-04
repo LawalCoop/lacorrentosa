@@ -4691,3 +4691,26 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   outline: 3px solid var(--neon-amber);
   outline-offset: 3px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DIALOG SYSTEM v2 · estandarización de cuadros de diálogo (paso 1)
+   Una sola variable controla la altura. Las clases canónicas son:
+     .dialog-box.anchor   → narrativa con typewriter (default)
+     .dialog-box.choice   → decisión con varios botones (texto auto-altura)
+     .dialog-box.feedback → mensaje informativo tras una elección
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  --dialog-h: 200px;
+  --dialog-h-tall: 230px;
+  --dialog-text: 1.05rem;
+}
+@media (min-width: 1024px) {
+  :root {
+    --dialog-h: 230px;
+    --dialog-text: 1.15rem;
+  }
+}
+/* todo el dialog-box anchor es área de tap para skipear/avanzar el typewriter */
+.dialog-box.anchor { cursor: pointer; }
+/* las choice no tienen typewriter activo, no son cursor pointer en el container */
+.dialog-box.anchor.choice { cursor: default; }
