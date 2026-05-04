@@ -4441,11 +4441,12 @@ function render() {
 
 function renderTitle() {
   return `
-    <!-- hint apuntando al botón de música arriba a la derecha · solo si la música está apagada -->
+    <!-- hint al costado izquierdo del botón de música · flecha apuntando a la derecha -->
     ${musicaRunning ? '' : `
       <div class="audio-hint" id="audio-hint">
+        <div class="audio-hint-text">¡prendé<br>la música!</div>
         <svg class="audio-hint-arrow" width="32" height="32" viewBox="-16 -16 32 32" aria-hidden="true">
-          <g transform="rotate(180)">
+          <g transform="rotate(-90)">
             <polygon points="-5,-16 5,-16 5,0 11,0 0,16 -11,0 -5,0" fill="#1a1432"/>
             <polygon points="-4,-15 4,-15 4,1 9,1 0,14 -9,1 -4,1" fill="#ffd97a"/>
             <rect x="-4" y="-15" width="8" height="2" fill="#fff5d0"/>
@@ -4455,7 +4456,6 @@ function renderTitle() {
             <rect x="-1" y="-2" width="2" height="2" fill="#ff8fb1"/>
           </g>
         </svg>
-        <div class="audio-hint-text">¡prendé<br>la música!</div>
       </div>
     `}
     <div style="text-align:center;">
@@ -8227,20 +8227,35 @@ let currentMusicId = 'default';
 // "bus" intermedio entre los osciladores y el masterGain. Permite cortar todos los osciladores
 // pendientes de un banco al cambiar de banco, sin que sigan sonando los anteriores.
 let bankGain = null;
-function ensureBankGain(){ if(!bankGain && audioCtx){ bankGain = audioCtx.createGain(); bankGain.gain.value = 1; bankGain.connect(masterGain); } return bankGain; }
+let bankOscs = [];
+function ensureBankGain(){
+  if(!bankGain && audioCtx){
+    bankGain = audioCtx.createGain();
+    bankGain.gain.value = 1;
+    bankGain.connect(masterGain);
+    bankOscs = [];
+  }
+  return bankGain;
+}
 function killBank(){
   if (!bankGain || !audioCtx) return;
   const old = bankGain;
-  old.gain.cancelScheduledValues(audioCtx.currentTime);
-  old.gain.setValueAtTime(old.gain.value, audioCtx.currentTime);
-  old.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.12);
-  setTimeout(()=>{ try{ old.disconnect(); }catch(e){} }, 250);
+  const oldOscs = bankOscs;
+  const now = audioCtx.currentTime;
+  // ramp suave a 0 para evitar click
+  old.gain.cancelScheduledValues(now);
+  old.gain.setValueAtTime(old.gain.value, now);
+  old.gain.linearRampToValueAtTime(0, now + 0.08);
+  // forzar stop de TODOS los osciladores/sources ya programados (sino siguen sonando hasta su stop original)
+  oldOscs.forEach(o => { try { o.stop(now + 0.1); } catch(e){} });
+  setTimeout(()=>{ try{ old.disconnect(); }catch(e){} }, 180);
   bankGain = null;
+  bankOscs = [];
 }
 
-function musN(t,f,d,type,v){const bg=ensureBankGain();if(!bg)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+0.005);g.gain.linearRampToValueAtTime(v*0.85,t+d*0.5);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g).connect(bg);o.start(t);o.stop(t+d+0.02);}
-function musK(t){const bg=ensureBankGain();if(!bg)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(40,t+0.12);g.gain.setValueAtTime(0.25,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.12);o.connect(g).connect(bg);o.start(t);o.stop(t+0.13);}
-function musH(t,vol=0.05){const bg=ensureBankGain();if(!bg)return;const buf=audioCtx.createBuffer(1,0.04*audioCtx.sampleRate,audioCtx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*0.3;const s=audioCtx.createBufferSource(),g=audioCtx.createGain();s.buffer=buf;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.04);s.connect(g).connect(bg);s.start(t);}
+function musN(t,f,d,type,v){const bg=ensureBankGain();if(!bg)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+0.005);g.gain.linearRampToValueAtTime(v*0.85,t+d*0.5);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g).connect(bg);o.start(t);o.stop(t+d+0.02);bankOscs.push(o);}
+function musK(t){const bg=ensureBankGain();if(!bg)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(40,t+0.12);g.gain.setValueAtTime(0.25,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.12);o.connect(g).connect(bg);o.start(t);o.stop(t+0.13);bankOscs.push(o);}
+function musH(t,vol=0.05){const bg=ensureBankGain();if(!bg)return;const buf=audioCtx.createBuffer(1,0.04*audioCtx.sampleRate,audioCtx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*0.3;const s=audioCtx.createBufferSource(),g=audioCtx.createGain();s.buffer=buf;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.04);s.connect(g).connect(bg);s.start(t);bankOscs.push(s);}
 function musLoop(start){
   const m = MUSIC_BANK[currentMusicId] || MUSIC_BANK.default;
   const beat = 60/m.bpm, sixteenth = beat/4, compas = beat*4;
@@ -8308,7 +8323,9 @@ function setMusicForScene(name){
   currentMusicId = id;
   if (musicaRunning && audioCtx) {
     killBank();
-    nextLoopTime = audioCtx.currentTime + 0.08;
+    // esperamos a que el bank viejo termine su ramp-down (0.08s) antes de arrancar
+    // el nuevo, para que no se superpongan los dos.
+    nextLoopTime = audioCtx.currentTime + 0.12;
     if (schedId) clearTimeout(schedId);
     musTick();
   } else if (id !== 'default' && typeof startMusic === 'function') {
