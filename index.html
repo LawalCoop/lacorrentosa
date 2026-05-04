@@ -7952,21 +7952,26 @@ function attachHandlers() {
         saveGame();
         statsRunFinish();
         playSfx('victory');
-        // Si estamos en boss-redimido y hay personajes en escena, festejamos antes de pasar
+        // Si estamos en boss-redimido, animación sutil de festejo antes de victory:
+        // 1) ex-villano festeja en su lugar (~0.9s)
+        // 2) se acerca caminando suave al grupo (~0.9s)
+        // 3) saltan todos juntos un par de veces (~1.4s)
         const bossPer = document.getElementById('encuentro-boss');
         const asocPer = document.getElementById('encuentro-asoc');
         if (bossPer && asocPer && game.scene === 'boss-redimido') {
-          // ocultar el dialog-box para que se vea la animación
           if (dlgBox) dlgBox.classList.add('actions-hidden');
-          // ex-villano se acerca al grupo
-          bossPer.classList.add('villano-festeja');
-          // a los 1.2s todos saltan juntos
+          bossPer.classList.add('villano-festeja-solo');
           setTimeout(() => {
-            bossPer.classList.add('todos-saltan');
-            asocPer.classList.add('todos-saltan');
-          }, 1100);
-          // a los 3s pasamos a victory
-          setTimeout(() => setScene('victory'), 3000);
+            bossPer.classList.remove('villano-festeja-solo');
+            bossPer.classList.add('villano-acercarse');
+          }, 900);
+          setTimeout(() => {
+            bossPer.classList.remove('villano-acercarse');
+            bossPer.classList.add('villano-llegado');
+            bossPer.classList.add('todos-saltan-juntos');
+            asocPer.classList.add('todos-saltan-juntos');
+          }, 1800);
+          setTimeout(() => setScene('victory'), 3300);
         } else {
           setScene('victory');
         }

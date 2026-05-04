@@ -4115,45 +4115,45 @@ body.scene-bossredimido .dialog-box.anchor .dialog {
 }
 .encuentro-asoc-grupo svg { image-rendering: pixelated; filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.4)); }
 
-/* festejo final · cuando aceptamos al ex-villano se acerca al grupo y saltan todos */
-.encuentro-personaje.villano-festeja {
-  animation: villano-festeja 1.1s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+/* festejo final · 3 fases: festeja en lugar → se acerca → saltan juntos
+   --boss-tx: distancia que camina el boss para llegar al lado del grupo */
+.encuentro-personaje { --boss-tx: 50vw; }
+@media (min-width: 640px) { .encuentro-personaje { --boss-tx: 38vw; } }
+
+.encuentro-personaje.villano-festeja-solo {
+  animation: villano-festeja-solo 0.45s ease-in-out 2;
 }
-@keyframes villano-festeja {
-  0%   { transform: translateX(0); }
-  20%  { transform: translateX(20vw) translateY(-10px); }
-  40%  { transform: translateX(35vw) translateY(0); }
-  60%  { transform: translateX(50vw) translateY(-12px); }
-  80%  { transform: translateX(65vw) translateY(0); }
-  100% { transform: translateX(78vw); }
-}
-@media (min-width: 640px) {
-  @keyframes villano-festeja {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(50vw); }
-  }
-}
-.encuentro-personaje.todos-saltan {
-  animation: todos-saltan 0.5s ease-in-out infinite !important;
-}
-@keyframes todos-saltan {
+@keyframes villano-festeja-solo {
   0%, 100% { transform: translateY(0); }
-  40%      { transform: translateY(-22px); }
-  60%      { transform: translateY(-15px); }
+  50%      { transform: translateY(-10px); }
 }
-/* boss después de villano-festeja: salta sin perder el offset horizontal */
-.encuentro-personaje-boss.villano-festeja.todos-saltan {
-  animation: todos-saltan-boss 0.5s ease-in-out infinite !important;
+.encuentro-personaje.villano-acercarse {
+  animation: villano-acercarse 0.9s ease-in-out forwards;
 }
-@keyframes todos-saltan-boss {
-  0%, 100% { transform: translateX(78vw) translateY(0); }
-  40%      { transform: translateX(78vw) translateY(-22px); }
+@keyframes villano-acercarse {
+  0%   { transform: translateX(0) translateY(0); }
+  25%  { transform: translateX(calc(var(--boss-tx) * 0.25)) translateY(-6px); }
+  50%  { transform: translateX(calc(var(--boss-tx) * 0.5)) translateY(0); }
+  75%  { transform: translateX(calc(var(--boss-tx) * 0.75)) translateY(-6px); }
+  100% { transform: translateX(var(--boss-tx)) translateY(0); }
 }
-@media (min-width: 640px) {
-  @keyframes todos-saltan-boss {
-    0%, 100% { transform: translateX(50vw) translateY(0); }
-    40%      { transform: translateX(50vw) translateY(-22px); }
-  }
+.encuentro-personaje.villano-llegado { transform: translateX(var(--boss-tx)); }
+
+/* salto colectivo · tres saltitos sincronizados */
+.encuentro-personaje.todos-saltan-juntos {
+  animation: todos-saltan-juntos 0.5s ease-in-out 3 !important;
+}
+@keyframes todos-saltan-juntos {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(-16px); }
+}
+/* el boss ya llegado mantiene el translateX al saltar */
+.encuentro-personaje-boss.villano-llegado.todos-saltan-juntos {
+  animation: todos-saltan-juntos-boss 0.5s ease-in-out 3 !important;
+}
+@keyframes todos-saltan-juntos-boss {
+  0%, 100% { transform: translateX(var(--boss-tx)) translateY(0); }
+  40%      { transform: translateX(var(--boss-tx)) translateY(-16px); }
 }
 
 /* partículas y efectos */
