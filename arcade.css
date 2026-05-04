@@ -3042,6 +3042,7 @@ body::after {
   flex-wrap: wrap;
   justify-content: flex-end;
 }
+.dialog-actions.actions-hidden { display: none !important; }
 
 .dialog-actions .btn-arcade {
   font-size: 0.6rem;
