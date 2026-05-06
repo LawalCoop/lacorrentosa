@@ -415,7 +415,9 @@
     document.addEventListener('DOMContentLoaded', function(){
       document.body.classList.add('mobile-frame-mode');
       var frame = document.createElement('iframe');
-      frame.src = 'index.html?frame=1';
+      // propagar ?boss=... al iframe interno (sino el cap 4 nunca se desbloquea en desktop)
+      var bossParam = url.searchParams.get('boss');
+      frame.src = 'index.html?frame=1' + (bossParam ? '&boss=' + encodeURIComponent(bossParam) : '');
       frame.title = 'La Correntosa · juego mobile';
       frame.allow = 'autoplay';
       frame.className = 'mobile-frame-iframe';
@@ -1813,7 +1815,12 @@ if (window._MOBILE_FRAME_MODE) { /* noop */ } else {
 window._BOSS_UNLOCKED = (function(){
   try {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('boss') !== '1') return false;
+    const bossParam = params.get('boss');
+    if (!bossParam) return false;
+    // ?boss=la-correntosa-se-defiende → desbloqueo directo sin prompt
+    if (bossParam === 'la-correntosa-se-defiende') return true;
+    // ?boss=1 → prompt clásico
+    if (bossParam !== '1') return false;
     const pwd = prompt('Capítulo 4 protegido. Ingresá la frase para continuar:');
     if (pwd === 'la-correntosa-se-defiende') return true;
     if (pwd !== null) alert('Frase incorrecta. El capítulo 4 queda bloqueado.');
