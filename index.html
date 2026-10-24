@@ -6571,6 +6571,18 @@ function renderDespensaProvincia() {
   `;
 }
 
+// Un <use> por cada uno de los ~170 asociadxs se repinta forma por forma en cada frame;
+// como <image> el navegador rasteriza el sprite una vez y lo reutiliza.
+const _spriteUriCache = {};
+function spriteDataUri(id) {
+  if (!_spriteUriCache[id]) {
+    const sym = document.getElementById(id);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${sym.getAttribute('viewBox')}">${sym.innerHTML}</svg>`;
+    _spriteUriCache[id] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+  return _spriteUriCache[id];
+}
+
 /* ═══ Cierre del Capítulo 3 · Despensa frontal construida → zoom out con muchos asociadxs ═══ */
 function renderDespensaCierre() {
   // generar muchos asociadxs alrededor de la despensa, en filas escalonadas (más al fondo = más chiquitos)
@@ -6896,7 +6908,6 @@ function renderDespensaCierre() {
           <!-- ═══ ASOCIADXS en filas alrededor de la despensa · vienen caminando desde los costados ═══ -->
           <g class="cierre-asociados">
             ${asociadxs.map(a => {
-              const balanceOffset = -((a.idx * 311) % 240) / 100;
               const lado = parseFloat(a.x) < 600 ? 'izq' : 'der';
               const cx = parseFloat(a.x) + a.w/2;
               const cyHeart = a.y - 6;
@@ -6905,9 +6916,9 @@ function renderDespensaCierre() {
                 ? `<path class="cierre-asoc-corazon" style="animation-delay:${heartDelay}s" d="M ${cx} ${cyHeart} c -3 -4 -10 -3 -10 3 c 0 5 10 10 10 10 c 0 0 10 -5 10 -10 c 0 -6 -7 -7 -10 -3 z" fill="#ff6b9a"/>`
                 : '';
               return `
-              <g class="cierre-asoc cierre-asoc-fila-${a.fila} cierre-asoc-lado-${lado}" style="--asoc-delay:${a.delay}s;--asoc-balance-offset:${balanceOffset.toFixed(2)}s;">
+              <g class="cierre-asoc cierre-asoc-fila-${a.fila} cierre-asoc-lado-${lado}" style="--asoc-delay:${a.delay}s;">
                 <ellipse cx="${cx}" cy="${a.y + a.w - 2}" rx="${a.w * 0.4}" ry="${a.w * 0.06}" fill="#000" opacity="0.4"/>
-                <use href="#${a.sp}" x="${a.x}" y="${a.y}" width="${a.w}" height="${a.w}"/>
+                <image href="${spriteDataUri(a.sp)}" x="${a.x}" y="${a.y}" width="${a.w}" height="${a.w}"/>
                 ${heart}
               </g>`;
             }).join('')}
