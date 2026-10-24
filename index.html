@@ -4380,6 +4380,25 @@ function setScene(name) {
   }
 }
 
+// El dialog anclado es position:fixed; el stage reserva abajo su altura real
+// (la mayor de la escena, para que no salte cuando aparecen los botones).
+let _dialogRO = null;
+function reservarEspacioDialogo(stage) {
+  if (_dialogRO) { _dialogRO.disconnect(); _dialogRO = null; }
+  stage.style.removeProperty('--dialog-reserve');
+  const box = stage.querySelector('.dialog-box.anchor');
+  if (!box) return;
+  let max = 0;
+  _dialogRO = new ResizeObserver(() => {
+    const h = box.getBoundingClientRect().height;
+    if (h <= max) return;
+    max = h;
+    const gap = parseFloat(getComputedStyle(box).bottom) || 0;
+    stage.style.setProperty('--dialog-reserve', `${Math.ceil(h + gap + 12)}px`);
+  });
+  _dialogRO.observe(box);
+}
+
 function render() {
   const stage = document.getElementById('stage');
   const sc = SCENES[game.scene];
@@ -4566,6 +4585,7 @@ function render() {
   // padding-bottom dinámico si hay dialog anclado
   if (stage.querySelector('.dialog-box.anchor')) stage.classList.add('has-anchored-dialog');
   else stage.classList.remove('has-anchored-dialog');
+  reservarEspacioDialogo(stage);
 
   if (sc.flicker) flickerScreen();
 }
