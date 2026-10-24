@@ -8611,7 +8611,7 @@ async function startMusic(){
   refreshAudio();
 }
 function stopMusic(){musicaRunning=false;if(schedId)clearTimeout(schedId);if(masterGain){masterGain.gain.cancelScheduledValues(audioCtx.currentTime);masterGain.gain.setValueAtTime(masterGain.gain.value,audioCtx.currentTime);masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.3);}refreshAudio();}
-function refreshAudio(){const b=document.getElementById('audio-toggle');if(musicaRunning){b.classList.add('playing');b.textContent='♪';}else{b.classList.remove('playing');b.textContent='🎵';}}
+function refreshAudio(){const b=document.getElementById('audio-toggle');if(musicaRunning){b.classList.add('playing');b.textContent='♪';}else{b.classList.remove('playing');b.textContent='🎵';}const h=document.getElementById('audio-hint');if(h)h.style.display=musicaRunning?'none':'';}
 document.getElementById('audio-toggle').addEventListener('click',(e)=>{
   if(musicaRunning){
     stopMusic();
@@ -8623,12 +8623,13 @@ document.getElementById('audio-toggle').addEventListener('click',(e)=>{
     startMusic().catch(()=>{});
   }
 });
-// Auto-iniciar música si la preferencia anterior era 'on', SOLO si el primer click NO
-// es sobre el botón de música (porque ese ya tiene su propio handler que pisaría el resultado).
+// Música prendida por default: arranca con el primer gesto (los navegadores no dejan
+// sonar antes), salvo que el user la haya apagado a mano. Si el primer click es sobre
+// el botón de música, su handler dedicado se encarga.
 (function(){
   let pref = null;
   try { pref = localStorage.getItem(MUSIC_KEY); } catch (e) {}
-  if (pref !== 'on') return;
+  if (pref === 'off') return;
   const trigger = (e) => {
     // si el primer gesto es sobre el botón de audio, dejamos que su handler dedicado lo maneje
     if (e && e.target && e.target.closest && e.target.closest('#audio-toggle')) return;
