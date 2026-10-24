@@ -4364,6 +4364,7 @@ function setScene(name) {
     _musicResumeOnLeave = false;
   }
   game.scene = name;
+  _twUltimo = {};
   saveGame();
   // ajustar el banco musical según la escena (himno argentino · despensa-nacion · himno neuquén · despensa-provincia)
   if (typeof setMusicForScene === 'function') setMusicForScene(name);
@@ -4521,7 +4522,8 @@ function render() {
       tw.addEventListener('tw-done', () => actions.classList.remove('actions-hidden'), { once: true });
     }
     box.addEventListener('click', (e) => {
-      if (e.target.closest('button, a, input, textarea')) return;
+      // un toque sobre el texto ya lo maneja el propio typewriter; reenviarlo avanzaba dos veces
+      if (e.target.closest('button, a, input, textarea') || tw.contains(e.target)) return;
       tw.click();
     });
   });
@@ -4540,7 +4542,8 @@ function render() {
     if (dlg) {
       const tw = dlg.querySelector('.dialog.tw');
       const slot = dlg.querySelector('#reinv-cta');
-      if (tw && slot) {
+      // solo el cierre (todo comprado → .feedback) habilita Continuar; la instrucción también tipea
+      if (tw && slot && dlg.classList.contains('feedback')) {
         tw.addEventListener('tw-done', () => {
           if (slot.querySelector('button')) return;
           slot.innerHTML = '<button class="btn-arcade primary" data-next="chapter3-intro">▶ Continuar</button>';
@@ -4741,7 +4744,7 @@ function renderChoiceInline(choice) {
   return `
     <div class="dialog-box choice">
       <div class="dialog-name">★ TU TURNO</div>
-      <div class="dialog">${choice.pregunta}</div>
+      ${twDialog('choice', choice.pregunta)}
     </div>
     <div class="choice-grid">
       ${choice.opciones.map(o => `<button class="choice-btn" data-next="${o.next || ''}">${o.label}</button>`).join('')}
@@ -4891,7 +4894,7 @@ function renderComprasEleccion() {
       </div>
       <div class="dialog-box anchor" id="eleccion-dialog">
         <div class="dialog-name">★ NARRADOR</div>
-        <div class="dialog">${p.pregunta}</div>
+        ${twDialog('eleccion', p.pregunta)}
       </div>
     `;
   }
@@ -4910,7 +4913,7 @@ function renderComprasEleccion() {
     </div>
     <div class="dialog-box anchor choice" id="eleccion-dialog">
       <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog">¿Lo sumamos a la compra comunitaria?</div>
+      ${twDialog('eleccion', '¿Lo sumamos a la compra comunitaria?')}
       <div class="dialog-actions" style="display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center;">
         <button class="btn-arcade danger" data-eleccion="no">✗ NO sumar</button>
         <button class="btn-arcade primary" data-eleccion="si">✓ SÍ sumar</button>
@@ -4994,7 +4997,7 @@ function renderBocaEnBoca() {
         if (r === 0) {
           return `<div class="dialog tw" data-text="La noticia se corre. Una vecina le cuenta a otro, otro le cuenta a otra.&#10;---&#10;Tocá a cada vecina/o para que invite a más."></div>`;
         }
-        return `<div class="dialog">¡Boca en boca! Tocá a otra/o vecina/o para que invite a más.</div>`;
+        return twDialog('boca', '¡Boca en boca! Tocá a otra/o vecina/o para que invite a más.');
       })()}
       <div class="dialog-actions" id="boca-cta">${completo ? '<button class="btn-arcade primary" data-next="crece-excedente">▶ Continuar</button>' : ''}</div>
     </div>
@@ -5231,7 +5234,7 @@ function renderCreceExcedente() {
 
     <div class="dialog-box anchor feedback" id="excedente-dialog">
       <div class="dialog-name" style="background: var(--${d.zona === 'ideal' ? 'neon-green' : d.zona === 'baja' || d.zona === 'perdida' ? 'neon-red' : 'neon-amber'}); color: var(--ink);">${d.zona === 'ideal' ? '★ ¡EQUILIBRIO!' : '★ AJUSTÁ EL PRECIO'}</div>
-      <div class="dialog">${d.mensaje}</div>
+      ${twDialog('excedente', d.mensaje)}
       <div class="dialog-actions">
         ${d.ok ? '<button class="btn-arcade primary" data-next="crece-reinversion">▶ Continuar</button>' : ''}
       </div>
@@ -5441,7 +5444,7 @@ function renderCreceReinversion() {
       <div class="dialog-name">★ NARRADOR</div>
       ${todoComprado
         ? `<div class="dialog tw" data-text="Mesas plegables para armar la entrega rotativa, una balanza para pesar lo justo, stock para no faltar nunca, una compu para llevar registros.&#10;---&#10;Lo pagó la propia mutual. El excedente fue volviendo al circuito, una mejora a la vez.&#10;---&#10;Vecinas/os que antes pasaban de largo ahora se asoman a ver qué hay.&#10;---&#10;Mientras este excedente no se fugue como ganancia, siempre queda impulso para crecer.&#10;---&#10;Más asociadas/os, más herramientas, más asociadas/os. Así nos vamos haciendo más grandes."></div>`
-        : `<div class="dialog">Sumá asociadas/os para acumular más excedente. Después invertí en lo que necesitamos.</div>`}
+        : twDialog('reinv', 'Sumá asociadas/os para acumular más excedente. Después invertí en lo que necesitamos.')}
       <div class="dialog-actions" id="reinv-cta"></div>
     </div>`;
 }
@@ -6037,7 +6040,7 @@ function renderDespensaMunicipio() {
     </div>
     <div class="dialog-box anchor" id="muni-dialog">
       <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog">${dialogText}</div>
+      ${twDialog('muni', dialogText)}
       <div class="dialog-actions" id="muni-cta">${
         !abierto
           ? '' /* carpeta cerrada · el botón "Abrir expediente" está arriba en la propia carpeta */
@@ -7040,7 +7043,7 @@ function renderCrecimiento() {
   return `
     <div class="dialog-box feedback">
       <div class="dialog-name">★ NARRADOR</div>
-      <div class="dialog">Mirá cómo se suman...</div>
+      ${twDialog('cierre', 'Mirá cómo se suman...')}
     </div>
     <div class="counter-block">
       <div class="big-counter pop" id="contador">2</div>
@@ -7588,6 +7591,26 @@ function splitTextIntoPages(el, text) {
   return pages.length > 0 ? pages : [''];
 }
 
+// Diálogos que se re-renderizan en cada toque: solo se escriben con efecto cuando
+// el texto cambia; si es el mismo de antes aparece de una (sin volver a tipear).
+let _twUltimo = {};
+function twDialog(clave, texto) {
+  const instant = _twUltimo[clave] === texto;
+  _twUltimo[clave] = texto;
+  return `<div class="dialog tw" data-text="${escAttr(texto)}"${instant ? ' data-instant="1"' : ''}></div>`;
+}
+// reemplaza el texto de un dialog ya montado por uno nuevo con typewriter
+function decirEnDialogo(dlgBox, texto, { instant = false } = {}) {
+  const viejo = dlgBox.querySelector('.dialog');
+  if (!viejo) return;
+  const nuevo = document.createElement('div');
+  nuevo.className = 'dialog tw';
+  nuevo.dataset.text = texto;
+  if (instant) nuevo.dataset.instant = '1';
+  viejo.replaceWith(nuevo);
+  runTypewriter(nuevo);
+}
+
 function runTypewriter(el) {
   if (el.dataset.played) return;
   el.dataset.played = '1';
@@ -7615,6 +7638,13 @@ function runTypewriter(el) {
       bubbles: true,
       detail: { pageIdx, text: curText },
     }));
+    if (el.dataset.instant) {
+      el.textContent = curText;
+      isWriting = false;
+      // diferido: quien escucha tw-done se suscribe después de llamar a runTypewriter
+      setTimeout(onPageDone, 0);
+      return;
+    }
     const cursor = document.createElement('span');
     cursor.className = 'tw-cursor';
     cursor.style.cssText = 'display:inline-block; width:0.5em; background:var(--neon-amber); margin-left:2px; animation: blink 0.8s steps(2) infinite;';
@@ -7855,10 +7885,7 @@ function attachHandlers() {
       if ((game.reinvExcedente || 0) < it.precio) {
         playSfx('wrong');
         const dlg = document.getElementById('reinv-dialog');
-        if (dlg) {
-          const txt = dlg.querySelector('.dialog');
-          if (txt) txt.textContent = 'No alcanza el excedente para esto. Sumá más asociadas/os primero.';
-        }
+        if (dlg) decirEnDialogo(dlg, 'No alcanza el excedente para esto. Sumá más asociadas/os primero.');
         return;
       }
       game.reinvExcedente -= it.precio;
@@ -7878,21 +7905,21 @@ function attachHandlers() {
       if (!dlg) return;
       dlg.style.borderColor = 'var(--neon-red)';
       const name = dlg.querySelector('.dialog-name');
-      const txt = dlg.querySelector('.dialog');
       if (name) {
         name.style.background = 'var(--neon-red)';
         name.style.color = 'var(--cream)';
         name.textContent = '✗ ESO NO';
       }
-      if (txt) txt.textContent = 'Una mutual NO reparte ganancias entre socios. No hay socios inversores. Los excedentes SIEMPRE se reinvierten en el proyecto.';
+      decirEnDialogo(dlg, 'Una mutual NO reparte ganancias entre socios. No hay socios inversores. Los excedentes SIEMPRE se reinvierten en el proyecto.');
       setTimeout(() => {
-        if (dlg) dlg.style.borderColor = '';
+        if (!dlg.isConnected) return;
+        dlg.style.borderColor = '';
         if (name) {
           name.style.background = '';
           name.style.color = '';
           name.textContent = '★ NARRADOR';
         }
-        if (txt) txt.textContent = 'Sumá asociadas/os para acumular más excedente. Después invertí en lo que necesitamos.';
+        decirEnDialogo(dlg, 'Sumá asociadas/os para acumular más excedente. Después invertí en lo que necesitamos.', { instant: true });
       }, 4000);
     });
   });
@@ -8138,12 +8165,16 @@ function attachHandlers() {
         dlgBox.style.borderColor = 'var(--neon-amber)';
         dlgBox.innerHTML = `
           <div class="dialog-name" style="background: var(--neon-amber); color: var(--ink);">⚠ ESPERÁ</div>
-          <div class="dialog">Una mutual no se cierra a quien quiere sumarse de buena fe. La mutual incluye, no excluye.</div>
-          <div class="dialog-actions">
+          <div class="dialog tw" data-text="Una mutual no se cierra a quien quiere sumarse de buena fe. La mutual incluye, no excluye."></div>
+          <div class="dialog-actions actions-hidden">
             <button class="btn-arcade primary" data-final="si">✓ Bueno, dale</button>
           </div>
         `;
         attachHandlers();
+        const tw = dlgBox.querySelector('.dialog.tw');
+        tw.addEventListener('tw-done', () => dlgBox.querySelector('.dialog-actions')?.classList.remove('actions-hidden'), { once: true });
+        dlgBox.addEventListener('click', (e) => { if (!e.target.closest('button') && !tw.contains(e.target)) tw.click(); });
+        runTypewriter(tw);
       } else {
         game.finalAceptado = true;
         saveGame();
